@@ -51,7 +51,7 @@ background-size:170px 40px;
 border:0;
 outline:0;
 width:160px;height:40px;
-background: url("img/nain.jpg");
+background: url("img/nain1.jpg");
 background-size:160px 40px;
  position: absolute;
     top: -161px;
@@ -186,7 +186,7 @@ width: 316px;
    border-radius: 30px;
     }
 #content{
- background-color: #BBBBBB;
+ background-color: #DDDDDD;
  }
 .relative{
 position : relative;
@@ -194,9 +194,51 @@ position : relative;
 #margin{
  margin-left: 300px;
  }
+ #menutable{
+  position: absolute;
+    top: 80px;
+    left: 1310px;
+    background-color: white;
+    border:2px solid #dddddd;
+    border-collapse: collapse;
+ }
+ #menutable th{
+ border-bottom: 2px solid #dddddd;
+ padding-bottom: 5px;
+ color:#40c700;
+  font-size:25px;
+ }
+  #menutable th:hover{
+  color:white;
+  background-color:#40c700;
+  font-size:25px;
+  }
+ #menutable tr{
+ padding-top:10px;
+ }
+  #menutable td:hover{
+  text-decoration: underline;
+  }
+ #menutable td{
+ cursor:pointer;
+ padding:8px 8px 8px 8px;
+ border-right: 1px solid #dddddd;
+ font-size: 14px;
+ align:left;
+ }
 </style>
-</head>
+<script>
+ function dismenu() {
+	var e = document.getElementById("menutable");
+	if(e.style.display=='none'){
+		e.style.display='block';
+	}else{
+		e.style.display='none';
+	}
+}
 
+</script>
+</head>
 <!--메인 배너-->
 <form>
 <div>
@@ -206,7 +248,7 @@ position : relative;
 <input type="submit" class="search" value="">
 <span id="loginset">
 <button class="login">로그인</button>
-<input type="button" class="menubar">
+<input type="button" class="menubar" onclick="dismenu()">
 </span>
 <hr style="margin-top: 20px;margin-bottom:0px;">
 </div>
@@ -261,8 +303,42 @@ position : relative;
     </video>
 <button id="pay"></button>
 </span>
-
 </div>
+
+
+<span id="menutable" style="display:none" >
+	<table>
+	<th colspan="4" align="left" height="10px" width="280px">
+	My Menu</th>
+		<tr>
+			<td>카페</td>
+			<td>블로그</td>
+			<td>메일</td>
+			<td>쇼핑</td>
+		</tr>
+		<tr>
+			<td>뉴스</td>
+			<td>지도</td>
+			<td>포스트</td>
+			<td>증권</td>
+		</tr>
+		<tr>
+			<td>웹툰</td>
+			<td>영화</td>
+			<td>사전</td>
+			<td>부동산</td>
+		</tr>
+		<tr>
+			<td>게임</td>
+			<td>날씨</td>
+			<td>책</td>
+			<td>스포츠</td>
+		</tr>
+	</table>
+</span>
+
+
+
 <footer>
 <hr>
 	<br><span id="footer" style="margin-left: 550px;font-size: 14px;">
