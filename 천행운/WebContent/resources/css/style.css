@@ -78,12 +78,14 @@ body {
     justify-content: center;
 }
 #searchBar-search{
-	height: 100px;
+	height: 50px;
 	border-bottom: 1px solid #e4e8eb;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+	margin-right: 18%;
+	margin-left: 18%;
 }
 #categoryWrap {
 	box-shadow: 0 1px 3px 0 rgba(0,0,0,.12);
@@ -108,7 +110,8 @@ body {
 	margin-left: 18%;
 	border-right: 1px solid #e4e8eb;
 	border-left: 1px solid #e4e8eb;
-	height: 1380px;
+	height: 1580px;
+	min-width: 1216px;
 }
 
 .conLeft {
@@ -154,7 +157,7 @@ body {
 	justify-content: flex-start;
 	margin-top: 10px;
 	width: 98%;
-	height: 640px;
+	height: 50%;
 	border: 1px solid #e4e8eb;
 }
 .blogWrap-search-blog {
@@ -164,7 +167,7 @@ body {
 	justify-content: flex-start;
 	margin-top: 10px;
 	width: 98%;
-	height: 1280px;
+	height: 100%;
 	border: 1px solid #e4e8eb;
 }
 .blogCategoryBar {
@@ -194,6 +197,15 @@ body {
 	height: 30px;
 	border: 1px solid #e4e8eb;
 }
+.wrapTitle-search {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+	height: 10%;
+	border: 1px solid #e4e8eb;
+}
 .wrapTitleSpan {
 	font-weight: 900;
 }
@@ -214,7 +226,7 @@ body {
 	justify-content: space-around;
 	margin-top: 10px;
 	width: 100%;
-	height: 100%;
+	height: 90%;
 	border: 1px solid #e4e8eb;
 }
 .blogItem-search {
@@ -286,10 +298,14 @@ body {
 	width: 100%;
 	height: 40%;
 	font-weight: 900;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 .spanDesc-search {
 	width: 100%;
 	height: 40%;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 .spanInfo-search {
 	font-size: 5px;

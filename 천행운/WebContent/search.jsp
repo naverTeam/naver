@@ -19,9 +19,13 @@
 <body>
 	<div id="root">
 		<div id="searchBar-search">
-			<img src="" alt="img">
-			<input type="text" name="keyWord" value="<%=keyWord %>" style="width: 533px; height: 57px;">
-			<input type="button" value="검색"> 
+			<a href="index.jsp" style="width: 26px; height: 26px;">
+				<img src="./resources/img/logo-sm.png" alt="img" style="margin-right: 20px;">
+			</a>
+			<form class="searchFrm" name="searchFrm" action="search.jsp">
+				<input type="text" name="keyWord" value="<%=keyWord %>" style="width: 533px; height: 40px; border: none;">
+				<input type="button" onclick="javascript:check()" style="width: 60px; height: 60px; border: 0;">			 
+			</form>
 		</div>
 		<div id="categoryWrap">
 			<div id="categoryBar">
@@ -34,29 +38,31 @@
 		<div id="container">
 			<div class="conLeft">
 				<div class="blogWrap-search">
-					<div class="wrapTitle">
+					<div class="wrapTitle-search">
 						<span class="wrapTitleSpan">블로그</span>
 					</div>
 					<div class="blogItems-search">
 					<%
-							Vector<BlogBean> bVlist = bMgr.getBlogSearchList(keyWord);
+							Vector<BlogBean> bVlist = bMgr.getBlogInSearch(keyWord);
 							for(int i=0; i<bVlist.size(); i++){ 
 								bBean = bVlist.get(i);
 								String bTitle = bBean.getbTitle();
 								String bImg = bBean.getbImg();
 								String bDesc = bBean.getbDesc();
 					%>
-						<div class="blogItem-search"><%=bVlist.size() %>
-							<img class="thumb-search" src="<%=bImg %>" alt="img">
-							<div class="blogSpan">
-								<span class="spanHeader-search"><%=bTitle %></span>
-								<span class="spanDesc-search"><%=bDesc %></span>
-								<span class="spanInfo-search">아이디 | 작성시간</span>
-							</div>
+						<div class="blogItem-search">
+							<a href="#" class="fullLink-row">
+								<img class="thumb-search" src="<%=bImg %>" alt="img">
+								<div class="blogSpan">
+									<span class="spanHeader-search"><%=bTitle %></span>
+									<span class="spanDesc-search"><%=bDesc %></span>
+									<span class="spanInfo-search">아이디 | 작성시간</span>
+								</div>
+							</a>
 						</div>
 					<%} %>
-					</div>
 					<button class="moreBtn" onclick="location.href='search_blog.jsp?keyWord=<%=keyWord%>'">더보기</button>
+					</div>
 				</div>
 				
 				<div class="space"></div>
@@ -104,5 +110,6 @@
 			</div>
 		</div>
 	</div>
+	
 </body>
 </html>
