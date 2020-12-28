@@ -1,0 +1,355 @@
+@charset "UTF-8";
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font-family: '돋움',Helvetica,sans-serif;
+  vertical-align: baseline;
+  color: #1c1b20;
+  font-size: 16px; }
+
+a {
+  display: inline-block;
+  text-decoration: none; }
+
+span {
+  display: inline-block; }
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  font-family: '돋움',Helvetica,sans-serif;
+  cursor: pointer; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+.wrap {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  background: #f5f6f7; }
+  .wrap.join {
+    height: inherit; }
+    .wrap.join .footer {
+      position: relative; }
+
+.header {
+  width: 768px;
+  height: 168px;
+  margin: 0 auto;
+  padding-top: 62px;
+  box-sizing: border-box;
+  position: relative; }
+  .header__title {
+    text-align: center; }
+    .header__title__logo {
+      width: 240px;
+      height: 44px;
+      text-indent: -9999px;
+      background: url("../img/logo.png") no-repeat center center; }
+  .header__select__languages {
+    min-width: 95px;
+    height: 30px;
+    padding: 5px 9px 5px 7px;
+    position: absolute;
+    top: 14px;
+    right: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    cursor: pointer; }
+
+.section {
+  width: 460px;
+  margin: 0 auto; }
+  .section__loginform__textbox {
+    width: 460px;
+    padding: 10px 35px 10px 15px;
+    box-sizing: border-box;
+    background: #fff;
+    border: solid 1px #dadada; }
+    .section__loginform__textbox input {
+      width: 88%;
+      height: 29px;
+      border: none;
+      font-size: 15px; }
+    .section__loginform__textbox:first-of-type {
+      margin-bottom: 14px; }
+  .section__loginform__button {
+    width: 460px;
+    height: 61px;
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    background: #03c75a;
+    margin: 30px 0 16px; }
+  .section__joinform__label {
+    margin: 28px 0 8px; }
+    .section__joinform__label label {
+      font-size: 14px; }
+      .section__joinform__label label span {
+        margin-left: 8px;
+        font-size: 12px;
+        font-weight: 100;
+        line-height: 14px;
+        color: #8e8e8e; }
+    .section__joinform__label:first-of-type {
+      margin: 0 0 8px; }
+  .section__joinform__textbox {
+    width: 460px;
+    padding: 10px 35px 10px 15px;
+    box-sizing: border-box;
+    background: #fff;
+    border: solid 1px #dadada;
+    position: relative; }
+    .section__joinform__textbox input {
+      width: 88%;
+      height: 29px;
+      border: none;
+      font-size: 15px; }
+    .section__joinform__textbox select {
+      width: 408px;
+      height: 29px;
+      border: none;
+      font-size: 15px; }
+    .section__joinform__textbox.step1:after {
+      width: 18px;
+      height: 21px;
+      display: block;
+      content: '';
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url("../img/pw.png");
+      background-repeat: no-repeat;
+      background-position: center center; }
+    .section__joinform__textbox.step2:after {
+      width: 18px;
+      height: 21px;
+      display: block;
+      content: '';
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url("../img/pw_ok.png");
+      background-repeat: no-repeat;
+      background-position: center center; }
+    .section__joinform__textbox.step3:after {
+      width: 18px;
+      height: 21px;
+      display: block;
+      content: '';
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url("../img/pw_error.png");
+      background-repeat: no-repeat;
+      background-position: center center; }
+    .section__joinform__textbox.check-step1:after {
+      width: 18px;
+      height: 21px;
+      display: block;
+      content: '';
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url("../img/pw_check.png");
+      background-repeat: no-repeat;
+      background-position: center center; }
+    .section__joinform__textbox.check-step2:after {
+      width: 18px;
+      height: 21px;
+      display: block;
+      content: '';
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url("../img/pw_check_ok.png");
+      background-repeat: no-repeat;
+      background-position: center center; }
+    .section__joinform__textbox.check-step3:after {
+      width: 18px;
+      height: 21px;
+      display: block;
+      content: '';
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url("../img/pw_error.png");
+      background-repeat: no-repeat;
+      background-position: center center; }
+    .section__joinform__textbox__checkmessage {
+      display: none;
+      position: absolute;
+      left: 0;
+      bottom: -18px;
+      font-size: 12px;
+      line-height: 14px;
+      color: #f00; }
+      .section__joinform__textbox__checkmessage.empty-check {
+        display: block; }
+  .section__joinform__button {
+    width: 460px;
+    height: 61px;
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    background: #03c75a;
+    margin: 50px 0 17px; }
+  .section__join__button {
+    margin-bottom: 25px; }
+    .section__join__button a {
+      width: 460px;
+      height: 61px;
+      display: block;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      background: #b6b6b6;
+      text-align: center;
+      line-height: 61px; }
+  .section__find {
+    padding-top: 20px;
+    border-top: 1px solid #e4e4e5; }
+    .section__find ul {
+      display: flex;
+      justify-content: center; }
+      .section__find ul li {
+        position: relative;
+        color: #8e8e8e;
+        font-size: 12px; }
+        .section__find ul li:first-of-type {
+          margin-right: 20px; }
+          .section__find ul li:first-of-type:after {
+            display: block;
+            content: '';
+            width: 1px;
+            height: 13px;
+            position: absolute;
+            background: #e4e4e5;
+            right: -10px;
+            top: 0; }
+
+.section__loginok {
+  width: 650px;
+  height: 350px;
+  margin: 0 auto;
+  padding: 35px 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #b6b6b6; }
+  .section__loginok__title {
+    display: none; }
+  .section__loginok__userinfo {
+    font-size: 14px; }
+    .section__loginok__userinfo .user-name {
+      font-weight: bold; }
+  .section__loginok__date {
+    font-size: 12px;
+    font-weight: 100; }
+    .section__loginok__date .user-date {
+      font-size: 12px;
+      font-weight: 100; }
+  .section__loginok__logout__button {
+    width: 460px;
+    height: 61px;
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    background: #03c75a;
+    text-align: center;
+    line-height: 61px; }
+
+.footer {
+  width: 460px;
+  padding: 15px 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%); }
+  .footer__list {
+    width: 100%;
+    margin-bottom: 9px;
+    display: flex;
+    justify-content: center; }
+    .footer__list li {
+      position: relative;
+      font-size: 12px;
+      margin-right: 18px; }
+      .footer__list li:after {
+        display: block;
+        content: '';
+        width: 1px;
+        height: 13px;
+        position: absolute;
+        background: #e4e4e5;
+        right: -10px;
+        top: 0; }
+      .footer__list li:last-of-type {
+        margin-right: 0; }
+        .footer__list li:last-of-type:after {
+          display: none; }
+  .footer__copyright {
+    position: relative;
+    text-align: center;
+    font-size: 12px; }
+    .footer__copyright span {
+      width: 59px;
+      height: 11px;
+      text-indent: -9999px;
+      background: url("../img/logo_footer.png") no-repeat center center; }
+
+/*# sourceMappingURL=main.css.map */

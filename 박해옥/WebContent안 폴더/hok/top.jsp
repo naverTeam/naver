@@ -11,7 +11,7 @@
 
 	String reg="";
 	if(id == null) reg ="<a href=member.jsp>회원가입</a>";
-	else reg = "<a href=memberUpdate.jsp>회원수정</a>";
+	else reg = "<a href=update.jsp>회원수정</a>";
 %>
 
 <div class="mainText">Welcome NaverMall</div>

@@ -57,7 +57,7 @@ public class ProductMgr {
 		try {
 			con = pool.getConnection();
 			sql = "select proNum,proImg,proName,price,proDay,proAm,"
-					+ "salAm,stock,name,proAddress,proPhone"
+					+ "salAm,stock,name,proAddress,proPhone,proDetail"
 					+ " from tblProduct where proNum= ? ";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1,proNum);
@@ -74,6 +74,7 @@ public class ProductMgr {
 				bean.setName(rs.getString(9));
 				bean.setProAddress(rs.getString(10));
 				bean.setProPhone(rs.getString(11));
+				bean.setProDetail(rs.getString(12));
 			}
 
 		} catch (Exception e) {
@@ -82,11 +83,28 @@ public class ProductMgr {
 			pool.freeConnection(con, pstmt, rs);
 		}
 		return bean;
-		
-		
 	}
 	
 	//Product Stock Reduce(구매 -> 재고, 판매량 수정)
+	public void reduceProduct(OrderBean order) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "update tblProduct set stock=stock-? where no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,order.getOrdAm());
+			pstmt.setInt(2,order.getProNum());
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return;
+	}
 	
 	/////admin mode///////
 	//Product Insert : 상품 저장

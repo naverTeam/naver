@@ -107,6 +107,11 @@ function win_close(){
 		document.detail.proNum.value=proNum;
 		document.detail.submit();
 	}
+
+//saller
+	function sallerInfo(){
+		document.frmsaller.submit();
+	}
 	
 //Cart
 	function cartUpdate(form){
