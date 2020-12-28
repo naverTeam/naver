@@ -11,7 +11,7 @@
 
 
 
-<%-- <%
+<%
 		postMgr.insertPost(request);
 		response.sendRedirect("blog_cjsgoddns_posting.jsp");
-%> --%>
+%>

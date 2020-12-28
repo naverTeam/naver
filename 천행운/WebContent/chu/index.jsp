@@ -34,7 +34,7 @@
 		</div>
 		<div id="searchBar">
 			<a href="index.jsp">
-				<img src="./resources/img/logo-lg.jpg" alt="img" style="width: 200px; height: 60px;">
+				<img src="./resources/img/logo-lg.jpg" alt="img" style="width: 250px; height: 60px;">
 			</a>
 			<form class="searchFrm" name="searchFrm" action="search.jsp">
 				<input type="text" name="keyWord" style="width: 533px; height: 57px; border: 2px solid #19ce60;">
@@ -113,9 +113,9 @@
 						<div><a href="../joon/logout.jsp">로그아웃</a></div>
 					</div>
 					<div class="loginBoxBottom" style="justify-content: space-around;">
-						<div>My 지식인</div>
-						<div>My 블로그</div>
-						<div>My 쇼핑</div>
+						<div class="loginBoxBottom-item">My 지식인</div>
+						<div class="loginBoxBottom-item"><a href="../blog/blog_<%=id%>.jsp">My 블로그</a></div>
+						<div class="loginBoxBottom-item">My 쇼핑</div>
 					</div>
 				</div>
 				<%} else { %>

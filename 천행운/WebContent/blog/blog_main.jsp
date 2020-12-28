@@ -16,12 +16,13 @@
 	<div id="root">
 		
 		<div id="searchBar-blog">
-			<a href="../chu/index.jsp" style="width: 81px; height: 26px; margin-left: 18%;">
-				<img src="./resources/img/logo-md.png" alt="img">
-			</a> 
-			<div style="border-right: 1px solid #e4e8eb; height: 23px; padding-right: 5px; margin-right: 5px;"></div>
-			<input type="text" name="keyWord" value="" style="width: 533px; height: 40px; border: none;">
-			<input type="button" onclick="javascript:check()" style="width: 60px; height: 60px; border: 0;"> 
+			<div class="blog-navbar-left">
+				<a href="../chu/index.jsp" style="width: 81px; height: 26px; margin-left: 18%;">
+					<img src="./resources/img/logo-md.png" alt="img">
+				</a> 
+			</div>
+			<div class="blog-navbar-right">
+			</div> 
 		</div>
 		
 		<div id="categoryWrap">
@@ -146,9 +147,9 @@
 						<div><a href="../joon/logout.jsp">로그아웃</a></div>
 					</div>
 					<div class="loginBoxBottom" style="justify-content: space-around;">
-						<div>My 지식인</div>
-						<div>My 블로그</div>
-						<div>My 쇼핑</div>
+						<div class="loginBoxBottom-item">My 지식인</div>
+						<div class="loginBoxBottom-item"><a href="../blog/blog_<%=id%>.jsp">My 블로그</a></div>
+						<div class="loginBoxBottom-item">My 쇼핑</div>
 					</div>
 				</div>
 				<%} else { %>

@@ -30,15 +30,26 @@
 		
 		<div id="blog-navBarWrap">
 			<div class="blog-navbar">
-				<select>
-					<option>이웃블로그
-				</select> 
+				<div class="blog-navbar-left">
+					<a href="../chu/index.jsp" style="width: 81px; height: 26px; margin-left: 18%;">
+						<img src="./resources/img/logo-md.png" alt="img">
+					</a> 
+				</div>
+				<div class="blog-navbar-right">
+					<select>
+						<option>이웃블로그
+					</select>
+					<div><a href="../joon/logout.jsp">로그아웃</a></div> 
+				</div>
 			</div>
 		</div>
 		
 		<div id="mainImgWrap">
-			<div><img src="./resources/img/<%=blogBanner %>"></div>
+			<div style="height: 100%;">
+				<img class="bannerImg" src="./resources/img/<%=blogBanner %>">
+			</div>
 		</div>
+		
 		<div id="container">
 		
 			<div class="blog-conLeft">
@@ -54,7 +65,12 @@
 						<div><%=blogProfileDesc %></div>
 					</div>
 				</div>
-				<div style="margin-top: 5px;">글쓰기</div>
+				<%if(id!=null&&!id.equals("")){ %>
+				<div style="margin-top: 5px;">
+					<a href="blog_<%=id%>_posting.jsp">글쓰기 </a><small style="padding: 5px;"> / </small>
+					<a href="blog_<%=id%>_setting.jsp"> 설정</a>
+				</div>
+				<%} %>
 				<div class="blog-postCategorys">					
 					<form class="categoryFrm">
 						<ul>

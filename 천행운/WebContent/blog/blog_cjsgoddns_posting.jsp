@@ -24,9 +24,17 @@
 		
 		<div id="blog-navBarWrap">
 			<div class="blog-navbar">
-				<select>
-					<option>이웃블로그
-				</select> 
+				<div class="blog-navbar-left">
+					<a href="../chu/index.jsp" style="width: 81px; height: 26px; margin-left: 18%;">
+						<img src="./resources/img/logo-md.png" alt="img">
+					</a> 
+				</div>
+				<div class="blog-navbar-right">
+					<select>
+						<option>이웃블로그
+					</select>
+					<div><a href="../joon/logout.jsp">로그아웃</a></div>
+				</div>
 			</div>
 		</div>
 		
