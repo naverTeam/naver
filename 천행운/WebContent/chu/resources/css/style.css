@@ -79,7 +79,6 @@ body {
 }
 #searchBar-search{
 	height: 50px;
-	border-bottom: 1px solid #e4e8eb;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -90,6 +89,12 @@ body {
 #categoryWrap {
 	box-shadow: 0 1px 3px 0 rgba(0,0,0,.12);
 	height: 50px;
+	border-top: 2px solid #19ce60;
+}
+#categoryWrap-main {
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.12);
+	height: 50px;
+	border-top: 1px solid #e4e8eb;
 }
 #categoryBar {
 	height: 50px;
@@ -426,4 +431,5 @@ body {
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+	border: none;
 }

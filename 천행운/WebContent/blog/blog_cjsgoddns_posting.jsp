@@ -68,7 +68,7 @@
 			<div class="blog-conRight">
 			
 				<div class="postWrap">
-					<form method="post" action="postingProc.jsp">
+					<form name="postFrm" method="post" action="postingProc.jsp" enctype="multipart/form-data">
 						<input type="text" name="title" style="font-size: 20px; width: 99%; height: 40px;"
 									placeholder="제목을 입력하세요">
 						<div style="display: flex; justify-content: flex-end;">
@@ -86,11 +86,10 @@
 								<option value="5">스포츠
 							</select>
 						</div>
-  						<textarea id="summernote" name="contents"></textarea>
+  						<textarea id="summernote" name="text"></textarea>
   						<input multiple="multiple" type="file" name="filename[]">
   						<input type="submit" value="저장">
   						<input type="hidden" name="bid" value="cjsgoddns">
-  						<input type="hidden" name="category" value="IT">
 					</form>
 				</div>
 				

@@ -48,15 +48,20 @@
 </head>
 <body>
 	<div id="root">
+	
 		<div id="searchBar-search">
-			<img src="" alt="img">
-			<input type="text" name="keyWord" value="<%=keyWord %>" style="width: 533px; height: 57px;">
-			<input type="button" value="검색"> 
+			<a href="index.jsp" style="width: 26px; height: 26px;">
+				<img src="./resources/img/logo-sm.png" alt="img">
+			</a>
+			<div style="border-right: 1px solid #e4e8eb; height: 23px; padding-right: 5px; margin-right: 5px;"></div>
+			<input type="text" name="keyWord" value="<%=keyWord %>" style="width: 533px; height: 40px; border: none;">
+			<input type="button" onclick="javascript:check()" style="width: 60px; height: 60px; border: 0;"> 
 		</div>
+		
 		<div id="categoryWrap">
 			<div id="categoryBar">
-				<div class="category"><a href="#">통합검색</a></div>
-				<div class="category">블로그</div>
+				<div class="category"><a href="search.jsp?keyWord=<%=keyWord%>">통합검색</a></div>
+				<div class="category"><a><font color="#19ce60"><strong>블로그</strong></font></a></div>
 				<div class="category">지식인</div>
 				<div class="category">쇼핑</div>
 			</div>
@@ -119,19 +124,21 @@
 				
 			</div>
 			<div class="conRight">
+			
 				<div class="loginBox">
 					<div class="loginBoxTop">
-						<input class="loginButton" onclick="location.href='login.jsp'" type="button" value="로그인">
+						<input class="loginButton" onclick="location.href='../joon/login.jsp'" type="button" value="로그인">
 					</div>
 					<div class="loginBoxBottom">
 						<div class="loginBoxBottomLeft">
-							<span style="margin-left: 10px;"><a href="#">회원가입</a></span>
+							<span style="margin-left: 10px;"><a href="../joon/member.jsp">회원가입</a></span>
 						</div>
 						<div class="loginBoxBottomRight">
 							<span style="margin-right: 10px;"><a href="#">ID 찾기</a></span>
 						</div>
 					</div>
 				</div>
+				
 				<div class="weatherBox">날씨</div>
 				
 			</div>

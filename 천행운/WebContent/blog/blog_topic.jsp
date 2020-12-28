@@ -16,7 +16,7 @@
 	<div id="root">
 		
 		<div id="searchBar-blog">
-			<a href="index.jsp" style="width: 81px; height: 26px; margin-left: 18%;">
+			<a href="../chu/index.jsp" style="width: 81px; height: 26px; margin-left: 18%;">
 				<img src="./resources/img/logo-md.png" alt="img">
 			</a>
 			<div style="border-right: 1px solid #e4e8eb; height: 23px; padding-right: 5px; margin-right: 5px;"></div>

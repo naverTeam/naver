@@ -34,7 +34,7 @@
 		
 			<div class="conLeft">
 			<%
-						String id = "";//id로 로그인상태 확인 후 출력문 결정
+						String id = (String) session.getAttribute("id");//id로 로그인상태 확인 후 출력문 결정
 						String neighbor = "aa";//neighbor로 이웃 확인 후 출력문 결정
 						//3가지 경우의 수
 						//로그인 했다
@@ -139,6 +139,19 @@
 			
 			<div class="conRight">
 			
+				<%if(id!=null&&!id.equals("")) {%>
+				<div class="loginBox">
+					<div class="loginBoxTop" style="flex-direction: column;">
+						<div><strong><%=id %></strong>님 환영합니다.</div>
+						<div><a href="../joon/logout.jsp">로그아웃</a></div>
+					</div>
+					<div class="loginBoxBottom" style="justify-content: space-around;">
+						<div>My 지식인</div>
+						<div>My 블로그</div>
+						<div>My 쇼핑</div>
+					</div>
+				</div>
+				<%} else { %>
 				<div class="loginBox">
 					<div class="loginBoxTop">
 						<input class="loginButton" onclick="location.href='../joon/login.jsp'" type="button" value="로그인">
@@ -152,6 +165,7 @@
 						</div>
 					</div>
 				</div>
+				<%} %>
 				
 				<div class="weatherBox">날씨</div>
 				<div class="shopBox">
