@@ -1,6 +1,42 @@
+<%@page import="in.UtilMgr"%>
+<%@page import="in.QuestionBean"%>
+<%@page import="java.util.Vector"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-  
+    <jsp:useBean id="mgr" class="in.QuestionMgr" />
+  <%
+   request.setCharacterEncoding("EUC-KR");
+  int totalRecord = 0;//총게시물수
+	int numPerPage = 10;//페이지당 레코드 개수(5,10,15,30)
+	int pagePerBlock = 10;//블럭당 페이지 개수
+	int totalPage = 0;//총 페이지 개수
+	int totalBlock =0;//총 블럭 개수
+	int nowPage = 1;//현재 페이지
+	int nowBlock = 1;//현재 블럭
+	
+	totalRecord = mgr.getTotalCount();
+	
+	//요청된 numPerPage 처리
+	if(request.getParameter("numPerPage")!=null){
+		//Integer.parseInt(request.getParameter(name));
+		numPerPage = UtilMgr.parseInt(request, "numPerPage");
+	}
+	
+	if(request.getParameter("nowPage")!=null){
+		nowPage = UtilMgr.parseInt(request, "nowPage");
+	}
+	
+//sql문에 들어가는 start,cnt선언 
+		int start =  (nowPage*numPerPage)-numPerPage;
+		int cnt = numPerPage;
+		
+		//전체페이지 개수
+		totalPage = (int)Math.ceil((double)totalRecord/numPerPage);
+		//전체블럭 개수
+		 totalBlock = (int)Math.ceil((double)totalPage/pagePerBlock);
+		//현재블럭
+		nowBlock = (int)Math.ceil((double)nowPage/pagePerBlock);
+  %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,9 +101,7 @@ video#bgvid {
 width: 318px;
    border-radius: 30px;
     }
-#body{
- background-color: #eeeeee;
- }
+
 .relative{
 position : relative;
 }
@@ -83,31 +117,45 @@ background-size:270px 60px;
     cursor: pointer;
     margin-left: -10px;
 }
-
+#body{
+ background-color: #eeeeee;
+ padding-bottom: 30px;
+ height: 100%;
+ }
  #mainboard{
  border: 1px solid #aaaaaa;
  width:970px;
- height:1000px;
+ height:1200px;
  float: left;
  background-color: white;
  margin-left: 0px;
  }
+ #maincontent{
+ width:1300px;
+ margin: 50px auto;
+ padding-bottom:1150px;
+ }
  #profile{
  width:310px;
- height:1000px;
+ height:1200px;
  border:1px solid #aaaaaa;
  float:right;
  background-color: white;
  }
- #maincontent{
- width:1300px;
- height:1100px;
- margin: 20px auto;
+ #board{
+ float:left;
+ width:73%;
+ height: 100%;
+ margin-bottom: 100px;
+ }
+  #boardtable{
+ width:100%;
+ margin-bottom: 50px;
  }
  #sidebar{
  float:left;
  width:200px;
- border-right: 1px solid #cccccc;
+ border-right: 1px solid #cccccc; 	
  }
  #sidebar li{
  	list-style: none;
@@ -117,13 +165,8 @@ background-size:270px 60px;
  #sidebar li:hover{
  color:#40c700;
 }
- #board{
- float:left;
- width:73%;
- }
- #boardtable{
- width:100%;
- }
+
+
 
  #boardtable td{
  font-size: 15px;
@@ -165,21 +208,53 @@ background-size:270px 60px;
  font-size: 12px;
  color:#888;
  }
- 
+ #page{
+ width: 70px;
+ height: 50px;
+ padding:7px;
+ border: 1px solid white;
+ text-decoration: none;
+ color:#888;
+ }
+#page:hover{
+border: 1px solid #ccc;
+color:blue;
+cursor: pointer;
+}
 
 </style>
-<script>
- 
+<script type="text/javascript">
+
+ function Cal(date12) {
+	 var a = date12;
+	 return a;
+}
  function boardevent(num) {
 	var e = document.getElementById(num);
+	e.style.fontWeight= 'bold';
 	e.style.color='#40c700';
-	return;
 }
 	window.onload = function() {
 		boardevent(1);
 		boardevent(101);
 	}
-	
+	function numPerFn(numPerPage) {
+		document.readFrm.numPerPage.value=numPerPage;
+		document.readFrm.submit();
+	}
+	function pageing(page) {
+		document.readFrm.nowPage.value=page;
+		document.readFrm.submit();
+	}
+	function block(block) {
+		document.readFrm.nowPage.value=<%=pagePerBlock%>*(block-1)+1;
+		document.readFrm.submit();
+	}
+	function read(num) {
+		document.readFrm.num.value = num;
+		document.readFrm.action = "read.jsp";
+		document.readFrm.submit();
+	}
 </script>
 </head>
 
@@ -222,7 +297,7 @@ background-size:270px 60px;
 
 <!-- 메인 게시판 -->
 <div id="mainboard">
-<h2 align="center" style="color:#888;">답변을 기다리는 질문</h2>
+<h2 align="center" style="color:#888;" onclick="Cal(12)" >답변을 기다리는 질문</h2>
 <hr style="width:90%;margin-bottom: 20px;">
 <!-- 사이드 메뉴바 -->
 <div id="sidebar">
@@ -257,17 +332,19 @@ background-size:270px 60px;
 </div>
 <!-- 게시판 -->
 <div id="board" style="margin-left: 30px;">
-<h2 align="left">전체</h2>
+<h2>전체</h2>
 <ul id="boardbar">
-	<li style="margin-left: -35px; list-style:none;"><form name="npFrm" method="post">
+	<li style="margin-left: -35px; list-style:none;">
+	        <form name="npFrm" method="post">
 				<select  name="numPerPage" size="1" 
 				onchange="numPerFn(this.form.numPerPage.value)">
     				<option value="5">5개 보기</option>
     				<option value="10" selected>10개 보기</option>
     				<option value="15">15개 보기</option>
-    				<option value="30">30개 보기</option>
    				</select>
-   			</form></li>
+   				</form>
+   				<script>document.npFrm.numPerPage.value=<%=numPerPage%></script>
+   			</li>
 	<li id="101" style="margin-left: 220px" onclick="boardevent(101)">답변적은순</li>
 	<li id="102" onclick="boardevent(102)">첫질문</li>
 	<li id="103" onclick="boardevent(103)">최신순</li>
@@ -276,20 +353,60 @@ background-size:270px 60px;
 <hr style="margin-bottom:0px;">
 <table id="boardtable">
 <%
-	for(int i=0;i<10;i++){
+	Vector<QuestionBean> vlist = mgr.getQuestionList(start,cnt);
+	for(int i=0;i<vlist.size();i++){
+		QuestionBean bean = vlist.get(i);
 	%>
 	<tr id="q">
-		<td style="font-weight:bold;font-size: 18px;">질문입니다.어떻게할까요??</a></td>
-		<td width="50px" style="color:#888;">답변0</td>
-		<td width="130px" style="color:#888;">엔터테이먼트,예술</td>
-		<td style="text-align: right;color:#888;">방금</td>
+		<td style="font-weight:bold;font-size: 18px;"><%=bean.getTitle() %></td>
+		<td width="50px" style="color:#888;">답변<%=bean.getAnswer_count() %></td>
+		<td width="130px" style="color:#888;"><%=bean.getDirectory() %></td>
+		<td style="text-align: right;color:#888;" id="test">
+		<script>
+			document.write(Cal(1236));
+		</script>
+		
+		</td>
 	</tr>
 	
 	<%
 	}
 %>
-</table>
 
+
+</table>
+<table style="margin: 20px auto;">
+<tr>
+<td>
+<!-- 페이징 및 블럭 Start -->
+		<!-- 이전블럭 -->
+		<%if(nowBlock>1){%>
+		<a id="page" href="javascript:block('<%=nowBlock-1 %>')"><%="< "%>이전</a>
+			<%} %>
+			<!-- 페이징 -->
+		<%
+				int pageStart = (nowBlock-1)*pagePerBlock+1;
+				int pageEnd = (pageStart+pagePerBlock/*10*/)<totalPage?
+						pageStart+pagePerBlock:totalPage+1;
+				for(;pageStart<pageEnd;pageStart++){
+		%>
+		
+		<a id="page" href="javascript:pageing('<%=pageStart%>')">
+			<%if(nowPage==pageStart){%><font color="blue"><%}%>
+				<%=pageStart%>
+			<%if(nowPage==pageStart){%></font><%}%>
+		</a>
+		
+		<%}//--for%>
+		<!-- 다음블럭 -->
+			<%if(totalBlock>nowBlock){%>
+			
+			<a id="page" href="javascript:block('<%=nowBlock+1 %>')">다음 ></a>
+			<%} %>
+		<!-- 페이징 및 블럭 End -->
+			</td>
+</tr>
+</table>
 </div><!-- board -->
 
 </div><!-- mainboard -->
@@ -368,5 +485,12 @@ background-size:270px 60px;
 		</tr>
 	</table>
 </span>
+
+<form name="readFrm">
+	<input type="hidden" name="nowPage" value="<%=nowPage%>">
+	<input type="hidden" name="numPerPage" value="<%=numPerPage%>">
+	<input type="hidden" name="num">
+</form>
+
 <%@ include file="footer.jsp" %>
 </html>
