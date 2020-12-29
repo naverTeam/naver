@@ -23,7 +23,7 @@
 	<meta charset="EUC-KR">
 	<title>blog</title>
 	<link rel="stylesheet" href="./resources/css/blog_style.css">
-	<script type="text/javascript" src="./resources/js/script.js"></script>
+	<script type="text/javascript" charset="EUC-KR" src="./resources/js/script.js"></script>
 </head>
 <body>
 
@@ -47,7 +47,7 @@
 			</div>
 		</div>
 		
-		<form action="blog_settingProc.jsp" method="post" enctype="multipart/form-data">
+		<form action="blog_settingProc.jsp" method="post" enctype="multipart/form-data" accept-charset="euc-kr">
 		
 		<div id="mainImgWrap" style="border: 5px solid yellow;">
 			<div style="height: 100%;">
@@ -72,7 +72,7 @@
 					</div>
 					<div class="blog-profileDesc"  style="border: 5px solid yellow;">
 						<div style="width: 100%; height: 100%;">
-							<textarea name="profileDesc" class="descChange"><%=blogProfileDesc %></textarea>
+							<textarea name="profileDesc" class="descChange" placeholder="<%=blogProfileDesc %>"></textarea>
 						</div>
 					</div>
 				</div>
@@ -84,11 +84,11 @@
 				<%} %>
 				<div class="blog-postCategorys"  style="border: 5px solid yellow;">					
 					
-						<ul style="padding-inline-start: 0px;">
-							<li class="pCategory">
+						<div id="categorys" style="padding-inline-start: 0px;">
+							<div class="pCategory">
 								<strong>카테고리</strong>
 								<input type="button" value="추가" onclick="addCategory()">
-							</li>
+							</div>
 							<%
 									Vector<CateBean> cateVlist = new Vector<CateBean>();
 									cateVlist = cateMgr.getBlogCategory(id);
@@ -98,14 +98,14 @@
 										int cateNum = cateBean.getBlogCateNum();
 							%>
 							
-							<li class="pCategory">
-								<input type="text" class="cateChange" name="category" value="<%=cateName%>">
+							<div class="pCategory<%=i%>">
+								<input type="text" class="cateChange" name="category" placeholder="<%=cateName%>">
 								<input type="button" value="삭제" onclick="delCategory()">
-							</li>
+							</div>
 							
 							<%	} %>
 								
-						</ul>
+						</div>
 					
 				</div>
 				

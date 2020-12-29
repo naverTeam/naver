@@ -54,6 +54,20 @@ body {
 	overflow: hidden;
     min-width: 1190px;
 }
+#overlay {
+  
+  z-index: 1000;
+  position: fixed;
+  width: 100%; height: 100%;
+  left: 0; top: 0;
+  background-color: rgba(0,0,0, 0.4);
+  overflow-x: hidden;
+}
+.overlayButton {
+	margin-left: 1000px;
+	margin-top: 500px;
+}
+
 #portfolioLink {
 	height: 30px;
 	margin-right: 18%;
@@ -139,6 +153,36 @@ body {
 	max-height: 100%;
 	width: 100%;
 }
+.bannerChange {
+	width: 100%;
+	height: 100%;
+}
+.bannerChange:hover {
+	opacity:0.5!important;
+}
+.profileImgChange {
+	width: 100%;
+	height: 100%;
+}
+.profileImgChange:hover {
+	opacity: 0.5!important;
+}
+.descChange{
+	width: 98%;
+	height: 90%;
+	resize: none;
+}
+.descChange:hover{
+	background: yellow;
+	opacity: 0.5!important;
+}
+.cateChange {
+	margin-left: 5px;
+}
+.cateChange:hover {
+	background: yellow;
+	opacity: 0.5!important;
+}
 #categoryBar {
 	height: 50px;
 	display: flex;
@@ -169,7 +213,7 @@ body {
 	margin-right: 18%;
 	margin-left: 18%;
 	min-width: 1216px;
-	border: 1px solid grey;
+	margin-top: 20px;
 }
 .container-update-top {
 	width: 100%;
@@ -177,14 +221,13 @@ body {
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
-	border: 1px solid grey;
 }
 .container-update-bottom {
 	width: 100%;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-around;
 	border: 1px solid grey;
 }
 .profileUpdate {
@@ -194,6 +237,7 @@ body {
 	align-items: center;
 	justify-content: space-around;
 	border: 1px solid grey;
+	margin-bottom: 20px;
 }
 .profileUpdateItem {
 	width: 80%;
@@ -560,20 +604,20 @@ body {
 }
 .postListTop {
 	width: 95%;
-	border: 1px solid #e4e8eb;
 	display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    
 }
 .postListBottom {
-	margin-top: 10px;
 	width: 100%;
 	border: 1px solid #e4e8eb;
 	display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    background: #fdfdfd;
 }
 .loginBoxTop {
 	width: 100%;
@@ -616,6 +660,22 @@ body {
 	margin-top: 10px;
 	width: 100%;
 	border: 1px solid #e4e8eb;
+}
+.postTitle {
+	border-bottom: 1px solid #e4e8eb;
+}
+.postContents {
+	border-bottom: 1px solid #e4e8eb;
+}
+.postSpan-lg {
+	font-weight: 900;
+	font-size: larger;
+}
+.postSpan-md {
+	font-weight: 500;
+}
+.postSpan-sm {
+	font-size: small;
 }
 .shopBox {
 	margin-top: 10px;
@@ -665,6 +725,7 @@ body {
 .textbtn:hover {
 	cursor: pointer;
 }
+
 .categoryFrm > ul {
 	display: block;
     list-style-type: disc;

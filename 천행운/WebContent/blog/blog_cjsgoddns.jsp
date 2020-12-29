@@ -14,6 +14,7 @@
 		String blogBanner = blogBean.getBannerImg();
 		String blogProfileDesc = blogBean.getProfileDesc();
 		String blogProfileImg = blogBean.getProfileImage();
+		String sid = (String) session.getAttribute("id");
 		
 %>
 
@@ -36,14 +37,17 @@
 					</a> 
 				</div>
 				<div class="blog-navbar-right">
-					<select>
-						<option>이웃블로그
-					</select>
-					<div><a href="../joon/logout.jsp">로그아웃</a></div> 
+					<%if(sid!=null&&!sid.equals("")){ %>
+					<div><a href="../joon/logout.jsp">로그아웃</a></div>
+						<%if(sid!=id&&!sid.equals(id)){ %>
+					<div><a href="blog_<%=sid%>.jsp">내 블로그</a></div>
+						<%} %>
+					<%}else{ %> 
+					<div><a href="../joon/login.jsp">로그인</a></div>
+					<%} %>
 				</div>
 			</div>
 		</div>
-		
 		<div id="mainImgWrap">
 			<div style="height: 100%;">
 				<img class="bannerImg" src="./resources/img/<%=blogBanner %>">
@@ -56,25 +60,27 @@
 				
 				<div class="blog-profileWrap">
 					<div class="blog-profileImg">
-						<div><img src="./resources/img/<%=blogProfileImg %>"></div>
+						<div style="width: 100%; height: 100%;">
+							<img src="./resources/img/<%=blogProfileImg %>" style="width: 100%; height: 100%;">
+						</div>
 					</div>
 					<div class="blog-profileId">					
-						<div><%=id %>님의 블로그</div>
+						<div><strong><%=id %>님의 블로그</strong></div>
 					</div>
 					<div class="blog-profileDesc">
 						<div><%=blogProfileDesc %></div>
 					</div>
 				</div>
-				<%if(id!=null&&!id.equals("")){ %>
+				<%if(sid!=null&&sid.equals(id)){ %>
 				<div style="margin-top: 5px;">
 					<a href="blog_<%=id%>_posting.jsp">글쓰기 </a><small style="padding: 5px;"> / </small>
 					<a href="blog_<%=id%>_setting.jsp"> 설정</a>
 				</div>
 				<%} %>
 				<div class="blog-postCategorys">					
-					<form class="categoryFrm">
-						<ul>
-							<li class="pCategory"><strong>카테고리</strong></li>
+					
+						<div>
+							<div class="pCategory"><strong>카테고리</strong></div>
 							<%
 									Vector<CateBean> cateVlist = new Vector<CateBean>();
 									cateVlist = cateMgr.getBlogCategory(id);
@@ -84,13 +90,17 @@
 										int cateNum = cateBean.getBlogCateNum();
 							%>
 							
-							<li class="pCategory">
-								<input type="submit" class="textbtn" name="category" value="<%=cateName%>"></li>
+							<div class="pCategory">
+							<form class="categoryFrm">
+								<input type="submit" class="textbtn" name="category" value="<%=cateName%>">
+								<input type="hidden" name="cateNum" value="<%=i+1%>">
+							</form>
+							</div>
 							
 							<%	} %>
 								
-						</ul>
-					</form>
+						</div>
+					
 				</div>
 				
 			</div>
@@ -100,23 +110,34 @@
 			<%
 					Vector<BlogPostBean> postVlist = new Vector<BlogPostBean>();
 					String cateName = request.getParameter("category");
-					postVlist = postMgr.getPostList(id, cateName);
+					int cateNum = Integer.parseInt(request.getParameter("cateNum"));
+					postVlist = postMgr.getPostList(id, cateNum);
 					for(int i=0; i<postVlist.size(); i++){
 						BlogPostBean bean = postVlist.get(i);
 						String title = bean.getPostTitle();
 						String text = bean.getPostText();
+						String date = bean.getPostDate();
 						int like = bean.getPostLike();
 						int view = bean.getPostView();
 			%>
-				<div class="postWrap"><%=cateName %>
-					<div>제목: <%=title %></div>
-					<div>내용 <%=text %></div>
-					<div>좋아요: <%=like %></div>
+				<div class="postWrap">
+					<div class="postTitle">
+						<span class="postSpan-lg">제목: <%=title %></span>
+					</div>
+					<div class="postContents">
+						<%=text %>
+					</div>
+					<div class="postLike">
+						<span class="postSpan-sm">좋아요: <%=like %></span>
+					</div>
+					<div class="postDate">
+						<span class="postSpan-sm">게시일: <%=date %></span>
+					</div>
 				</div>
 			<%	} %>
 				<div class="postListWrap">
 					<div class="postListTop">
-						<div>IT 9개의 글</div>
+						<div><strong><%=cateName %> <%=postVlist.size() %>개의 글</strong></div>
 						<select>
 							<option>5줄 보기</option>
 							<option>10줄 보기</option>
@@ -127,14 +148,14 @@
 						<table style="width: 95%;">
 							<thead>
 								<tr>
-									<td style=" width:80%">제목</td>
-									<td style="width:10%">작성일</td>
-									<td style="width:10%">조회수</td>
+									<td style=" width:80%"><strong>제목</strong></td>
+									<td style="width:10%"><strong>작성일</strong></td>
+									<td style="width:10%"><strong>조회수</strong></td>
 								<tr>
 							</thead>
 							<tbody>
 							<%
-									postVlist = postMgr.getPostList(id, cateName);
+									postVlist = postMgr.getPostList(id, cateNum);
 									for(int i=0; i<postVlist.size(); i++){
 										BlogPostBean bean = postVlist.get(i);
 										String title = bean.getPostTitle();
@@ -144,7 +165,7 @@
 								<tr>
 									<td style=" width:80%"><%=title %></td>
 									<td style="width:10%"><%=date %></td>
-									<td style="width:10%"><%=view %></td>
+									<td style="width:10%" align="center"><%=view %></td>
 								<tr>
 							<%	} %>
 							</tbody>

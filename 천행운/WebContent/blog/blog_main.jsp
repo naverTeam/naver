@@ -148,7 +148,7 @@
 					</div>
 					<div class="loginBoxBottom" style="justify-content: space-around;">
 						<div class="loginBoxBottom-item">My 지식인</div>
-						<div class="loginBoxBottom-item"><a href="../blog/blog_<%=id%>.jsp">My 블로그</a></div>
+						<div class="loginBoxBottom-item"><a href="../blog/blog_<%=id%>_welcome.jsp">My 블로그</a></div>
 						<div class="loginBoxBottom-item">My 쇼핑</div>
 					</div>
 				</div>
