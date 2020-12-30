@@ -120,7 +120,7 @@ CREATE TABLE tblAccount (
  pay INT NULL,                
  charge INT  NULL,
  remittance INT NULL,
- remDay varchar(20) NULL,navernavernavernaver
+ remDay varchar(20) NULL,
  proPhone CHAR(50) NULL,
  PRIMARY KEY (num)
 )COLLATE='euckr_korean_ci';

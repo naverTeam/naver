@@ -9,6 +9,7 @@ public class OrderBean {
 	private String email;
 	private String ordPhone;
 	private int ordAm;
+	private int payment;
 	private String payMe;
 	private String state;
 	private String payName;
@@ -59,6 +60,13 @@ public class OrderBean {
 	}
 	public void setOrdAm(int ordAm) {
 		this.ordAm = ordAm;
+	}
+	
+	public int getPayment() {
+		return payment;
+	}
+	public void setPayment(int payment) {
+		this.payment = payment;
 	}
 	public String getPayMe() {
 		return payMe;

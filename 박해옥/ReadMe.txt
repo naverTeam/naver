@@ -14,3 +14,6 @@ ProductList.jsp실행
 회원수정 - >입력-> 제출하면 404에러 이전까지 모두 실행됨
 내일 db안 tblProduct_data_insert.sql에 update문 3개 추가되었음(20201230)
 cartList.jsp 실행 -> 로그인->상품목록->상세보기->장바구니담기
+->주문하기
+db폴더에 tblorder테이블에 열을 추가생성하는 alter.sql 실행(20201230)
+
