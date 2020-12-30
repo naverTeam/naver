@@ -17,6 +17,6 @@ public class insertServlet extends HttpServlet {
 		request.setCharacterEncoding("EUC-KR");
 		QuestionMgr mgr = new QuestionMgr();
 		mgr.insertQuestion(request);
-		response.sendRedirect("list.jsp");
+		response.sendRedirect("naverin_main.jsp");
 	}
 }

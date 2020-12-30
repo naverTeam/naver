@@ -2,6 +2,7 @@ package in;
 
 public class QuestionBean {
 
+		private int qnum;
 		private String id;
 		private String title;
 		private String content;
@@ -11,6 +12,12 @@ public class QuestionBean {
 		private int hits;
 		private String date;
 		
+		public int getQnum() {
+			return qnum;
+		}
+		public void setQnum(int qnum) {
+			this.qnum = qnum;
+		}
 		public String getId() {
 			return id;
 		}
