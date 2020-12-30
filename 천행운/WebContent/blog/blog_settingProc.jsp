@@ -21,12 +21,12 @@
 	<title>Insert title here</title>
 </head>
 <body>
-	<%=bannerImg %>
-	<%=profileImg %>
-	<%=profileDesc %>
-	
+	배너 사진: <%=bannerImg %><br>
+	프로필 사진: <%=profileImg %><br>
+	인사말: <%=profileDesc %><br>
+	카테고리: 
 	<%	for(int i=0; i<category.length; i++){%>
-				<%=category[i] %>
+				<%=category[i] %><br>
 	<%	}%>	
 </body>
 </html>

@@ -36,6 +36,7 @@
 				<div class="category"><a href="search_blog.jsp?keyWord=<%=keyWord%>">블로그</a></div>
 				<div class="category">지식인</div>
 				<div class="category">쇼핑</div>
+				<div class="category"><a href="search_img.jsp?keyWord=<%=keyWord%>">이미지</a></div>
 			</div>
 		</div>
 		<div id="container">

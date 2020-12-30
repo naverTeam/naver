@@ -8,6 +8,7 @@
 <jsp:useBean id="adMgr" class="naver.ADMgr"/>
 <jsp:useBean id="bMgr" class="naver.BlogMgr"/>
 <jsp:useBean id="bBean" class="naver.BlogBean"/>
+<jsp:useBean id="blogMgr" class="blog.BlogMgr"/>
 
 <%
 		adBean = adMgr.getBannerAD();
@@ -106,7 +107,11 @@
 			
 			<div class="conRight">
 			
-				<%if(id!=null&&!id.equals("")) {%>
+				<%	if(id!=null&&!id.equals("")) {//로그인 상태 체크%>
+					<%
+							boolean flag = blogMgr.getBlogState(id);//로그인한 아이디가 블로그테이블에 존재하는지 체크
+							if(flag==true){//존재한다면 My blog버튼으로
+					%>
 				<div class="loginBox">
 					<div class="loginBoxTop" style="flex-direction: column;">
 						<div><strong><%=id %></strong>님 환영합니다.</div>
@@ -118,7 +123,22 @@
 						<div class="loginBoxBottom-item">My 쇼핑</div>
 					</div>
 				</div>
-				<%} else { %>
+					<%	} else {//존재하지 않으면 블로그 생성버튼으로%>
+					<div class="loginBox">
+					<div class="loginBoxTop" style="flex-direction: column; height: 30%;">
+						<div><strong><%=id %></strong>님 환영합니다.</div>
+						<div><a href="../joon/logout.jsp">로그아웃</a></div>
+					</div>
+					<div><strong>나만의 블로그를 만들어보세요!</strong></div>
+					<div class="loginBoxBottom" style="justify-content: space-around;">
+						<div class="loginBoxBottom-item">My 지식인</div>
+						<div class="loginBoxBottom-item" style="background: #c9ffd1;"><a href="../blog/createBlogProc_____.jsp">블로그 생성</a></div>
+						<div class="loginBoxBottom-item">My 쇼핑</div>
+					</div>
+				</div>
+					
+					<%	} %>
+				<%} else {//로그인 하지 않은 경우 %>
 				<div class="loginBox">
 					<div class="loginBoxTop">
 						<input class="loginButton" onclick="location.href='../joon/login.jsp'" type="button" value="로그인">

@@ -23,7 +23,9 @@
 	<meta charset="EUC-KR">
 	<title>blog</title>
 	<link rel="stylesheet" href="./resources/css/blog_style.css">
-	<script type="text/javascript" src="./resources/js/script.js"></script>
+	<script type="text/javascript" charset="EUC-KR" src="./resources/js/script.js">
+	
+	</script>
 </head>
 <body>
 
@@ -47,7 +49,7 @@
 			</div>
 		</div>
 		
-		<form action="blog_settingProc.jsp" method="post" enctype="multipart/form-data">
+		<form name="updateFrm" action="blog_settingProc.jsp" method="post" enctype="multipart/form-data" accept-charset="euc-kr">
 		
 		<div id="mainImgWrap" style="border: 5px solid yellow;">
 			<div style="height: 100%;">
@@ -72,7 +74,7 @@
 					</div>
 					<div class="blog-profileDesc"  style="border: 5px solid yellow;">
 						<div style="width: 100%; height: 100%;">
-							<textarea name="profileDesc" class="descChange"><%=blogProfileDesc %></textarea>
+							<textarea name="profileDesc" class="descChange" placeholder="<%=blogProfileDesc %>"></textarea>
 						</div>
 					</div>
 				</div>
@@ -84,12 +86,13 @@
 				<%} %>
 				<div class="blog-postCategorys"  style="border: 5px solid yellow;">					
 					
-						<ul style="padding-inline-start: 0px;">
-							<li class="pCategory">
+						<div id="categorys" style="padding-inline-start: 0px;">
+							<div class="pCategory">
 								<strong>카테고리</strong>
-								<input type="button" value="추가" onclick="addCategory()">
-							</li>
+								
+							</div>
 							<%
+									int count = 0;
 									Vector<CateBean> cateVlist = new Vector<CateBean>();
 									cateVlist = cateMgr.getBlogCategory(id);
 									for(int i=0; i<cateVlist.size(); i++){
@@ -98,19 +101,20 @@
 										int cateNum = cateBean.getBlogCateNum();
 							%>
 							
-							<li class="pCategory">
-								<input type="text" class="cateChange" name="category" value="<%=cateName%>">
-								<input type="button" value="삭제" onclick="delCategory()">
-							</li>
-							
+							<div id="pCategory<%=i+1%>">
+								<input type="text" class="cateChange" name="category" placeholder="<%=cateName%>">
+								<input type="button" id="delButton<%=i+1 %>" value="삭제" onclick="delCategory('<%=i+1%>')">
+							</div>
+									<%count = i+1; %>
 							<%	} %>
-								
-						</ul>
+							
+							<input type="button" id="addButton<%=count %>" value="추가" onclick="addCategory('<%=count%>')" style="margin-left: 40%; margin-top: 5px;">
+							
+						</div>
 					
 				</div>
 				
 			</div>
-			
 			
 			<div class="blog-conRight">
 				<input type="submit" value="수정완료">
@@ -122,4 +126,50 @@
 	</div>
 	
 </body>
+<script type="text/javascript">
+function addCategory(count) {
+	
+	addFrm = document.getElementById("categorys");
+	addBtn = document.getElementById("addButton"+count);
+	addFrm.removeChild(addBtn);
+	
+	count++;
+	
+	addedDiv = document.createElement("div");
+	addedDiv.setAttribute("id","pCategory"+count);
+	
+	addedInput = document.createElement("input");
+	addedInput.setAttribute("class","cateChange");
+	addedInput.setAttribute("name","category");
+	addedInput.setAttribute("placeholder","새 카테고리");
+	
+	addedBtn = document.createElement("input");
+	addedBtn.type = "button";
+	addedBtn.setAttribute("onclick","delCategory("+count+")");
+	addedBtn.setAttribute("value","삭제");
+	
+	addedAddBtn = document.createElement("input");
+	addedAddBtn.type="button";
+	addedAddBtn.setAttribute("onclick", "addCategory("+count+")");
+	addedAddBtn.setAttribute("id", "addButton"+count);
+	addedAddBtn.setAttribute("style", "margin-left: 40%; margin-top: 5px;")
+	addedAddBtn.setAttribute("value", "추가");
+	
+	addFrm.appendChild(addedDiv);
+	addedDiv.appendChild(addedInput);
+	addedDiv.appendChild(addedBtn);
+	
+	addFrm.appendChild(addedAddBtn);
+	
+}
+
+function delCategory(count) {
+	//delFrm = document.getElementById("categorys");
+	//alert("pCategory"+count);
+	delCate = document.getElementById("pCategory"+count);
+	document.getElementById("categorys").removeChild(delCate);
+	
+	//delFrm.removeChild(delCate);
+}
+</script>
 </html>

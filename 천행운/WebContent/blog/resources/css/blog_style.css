@@ -156,6 +156,7 @@ body {
 .bannerChange {
 	width: 100%;
 	height: 100%;
+	background-size: 100% 100%;
 }
 .bannerChange:hover {
 	opacity:0.5!important;
@@ -163,6 +164,7 @@ body {
 .profileImgChange {
 	width: 100%;
 	height: 100%;
+	background-size: 100% 100%;
 }
 .profileImgChange:hover {
 	opacity: 0.5!important;
@@ -256,7 +258,13 @@ body {
 	justify-content: space-around;
 	border: 1px solid grey;
 }
-
+#categorys {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-around;
+}
 .categoryUpdateItem {
 	width: 80%;
 	display: flex;

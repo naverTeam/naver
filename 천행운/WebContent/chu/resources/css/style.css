@@ -26,7 +26,7 @@
 	justify-content: center;
 }
 .category {
-	width: 25%;
+	width: 10%;
 	height: 100%;
 	display: flex;
 	flex-direction: row;
@@ -78,11 +78,11 @@ body {
     justify-content: center;
 }
 #searchBar-search{
-	height: 50px;
+	height: 80px;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
 	margin-right: 18%;
 	margin-left: 18%;
 }
@@ -101,7 +101,7 @@ body {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: flex-start;
 	margin-right: 18%;
 	margin-left: 18%;
 }
@@ -117,6 +117,15 @@ body {
 	border-left: 1px solid #e4e8eb;
 	height: 1580px;
 	min-width: 1216px;
+}
+#container-search-img {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: center;
+	min-width: 1216px;
+	margin-top: 20px;
 }
 
 .conLeft {
