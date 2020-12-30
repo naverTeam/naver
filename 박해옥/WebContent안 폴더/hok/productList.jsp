@@ -53,5 +53,6 @@ onclick="productDetail('<%=pbean.getProNum()%>')">
 <form name="detail" method="post" action="productDetail.jsp">
 <input type="hidden" name="proNum">
 </form>
+<%@ include file="bottom.jsp" %>
 </body>
 </html>

@@ -14,7 +14,7 @@
 	else reg = "<a href=memberUpdate.jsp>회원수정</a>";
 %>
 
-<div class="mainText">Welcome NaverMall</div>
+<div class="mainText" width="75%">Welcome NaverMall</div>
 <table width="75%" align="center" bgcolor="#FFFF99">
   <tr bgcolor="#FFCC00"> 
   	<th>naver홈</th>
