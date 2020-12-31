@@ -14,7 +14,11 @@
 		String blogBanner = blogBean.getBannerImg();
 		String blogProfileDesc = blogBean.getProfileDesc();
 		String blogProfileImg = blogBean.getProfileImage();
-		
+		String sid = (String) session.getAttribute("id");
+		//현재 로그인한 세션 아이디와 블로그소유주 아이디가 동일하지 않으면
+		//이 블로그의 웰컴 페이지로 넘김 (비정상적 접근)
+		if(id!=sid&&!id.equals(sid))
+			response.sendRedirect("blog_"+id+"_welcome.jsp");
 %>
 
 <!DOCTYPE html>
@@ -80,7 +84,7 @@
 				</div>
 				<%} %>
 				<div class="blog-postCategorys">					
-					<form class="categoryFrm">
+					<form class="categoryFrm" action="blog_<%=id %>.jsp">
 						<div>
 							<div class="pCategory"><strong>카테고리</strong></div>
 							<%
@@ -94,7 +98,8 @@
 							
 							<div class="pCategory">
 								<input type="submit" class="textbtn" name="category" value="<%=cateName%>"></div>
-							
+								<input type="hidden" name="cateNum" value="<%=i+1%>">
+								<input type="hidden" name="postNum" value="0">
 							<%	} %>
 								
 						</div>
@@ -126,8 +131,9 @@
 						</div>
   						<textarea id="summernote" name="text"></textarea>
   						<input multiple="multiple" type="file" name="filename[]">
+  						<input type="hidden" name="hiddenid" value="<%=id%>">
   						<input type="submit" value="저장">
-  						<input type="hidden" name="bid" value="cjsgoddns">
+  						
 					</form>
 				</div>
 				

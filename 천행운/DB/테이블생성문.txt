@@ -1,0 +1,86 @@
+CREATE TABLE `blog` (
+	`id` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci',
+	`blogbanner` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	`profileImg` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	`profileDesc` VARCHAR(50) NULL COLLATE 'euckr_korean_ci'
+)
+COLLATE='euckr_korean_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `blog_post` (
+	`postNo` INT(10) NOT NULL AUTO_INCREMENT,
+	`id` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci',
+	`postTitle` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	`postText` TEXT NULL COLLATE 'euckr_korean_ci',
+	`postImg` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	`postCNum` INT(11) NULL,
+	`postTopic` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	`postDate` DATE NULL,
+	`postLike` INT(10) NULL,
+	`postView` INT(10) NOT NULL,
+	PRIMARY KEY (`postNo`) USING BTREE
+)
+COLLATE='euckr_korean_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1
+;
+
+CREATE TABLE `naverad` (
+	`adimg` CHAR(100) NULL COLLATE 'euckr_korean_ci',
+	`adurl` CHAR(100) NULL COLLATE 'euckr_korean_ci',
+	`adtype` CHAR(100) NULL COLLATE 'euckr_korean_ci',
+	`addesc` CHAR(200) NULL COLLATE 'euckr_korean_ci'
+)
+COLLATE='euckr_korean_ci'
+ENGINE=InnoDB
+ROW_FORMAT=COMPACT
+;
+
+CREATE TABLE `navermember` (
+	`id` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
+	`pswd1` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
+	`pswd2` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
+	`name` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
+	`birth_yy` CHAR(4) NOT NULL COLLATE 'euckr_korean_ci',
+	`birth_mm` CHAR(2) NOT NULL COLLATE 'euckr_korean_ci',
+	`birth_dd` CHAR(2) NOT NULL COLLATE 'euckr_korean_ci',
+	`gender` CHAR(6) NOT NULL DEFAULT '0' COLLATE 'euckr_korean_ci',
+	`mobile` CHAR(50) NOT NULL DEFAULT '0' COLLATE 'euckr_korean_ci'
+)
+COLLATE='euckr_korean_ci'
+ENGINE=InnoDB
+ROW_FORMAT=COMPACT
+;
+
+CREATE TABLE `neighbor` (
+	`logID` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci',
+	`neighborID` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci',
+	`groupNum` INT(11) NOT NULL DEFAULT '0',
+	`groupName` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci'
+)
+COLLATE='euckr_korean_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `post_category` (
+	`cNum` INT(10) NOT NULL AUTO_INCREMENT,
+	`id` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci',
+	`blogCateNum` INT(10) NULL,
+	`blogCateName` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	PRIMARY KEY (`cNum`) USING BTREE
+)
+COLLATE='euckr_korean_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1
+;
+
+CREATE TABLE `post_topic` (
+	`topicNum` INT(11) NOT NULL AUTO_INCREMENT,
+	`topicName` VARCHAR(50) NOT NULL DEFAULT '' COLLATE 'euckr_korean_ci',
+	PRIMARY KEY (`topicNum`) USING BTREE
+)
+COLLATE='euckr_korean_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=1
+;

@@ -17,6 +17,12 @@
 	align-items: center;
 	justify-content: center;
 }
+.fullLink-col:hover {
+	cursor: pointer;
+}
+.fullLink-col:visited {
+	background: red;
+}
 .fullLink-row {
 	width: 100%;
 	height: 100%;
@@ -105,7 +111,15 @@ body {
 	margin-right: 18%;
 	margin-left: 18%;
 }
-
+#categoryBar-main {
+	height: 50px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	margin-right: 18%;
+	margin-left: 18%;
+}
 #container {
 	display: flex;
 	flex-direction: row;
@@ -230,7 +244,7 @@ body {
 	justify-content: space-around;
 	margin-top: 10px;
 	width: 100%;
-	
+	height: 300px;
 	border: 1px solid #e4e8eb;
 }
 .blogItems-search {
@@ -330,6 +344,8 @@ body {
 	width: 90%;
 	height: 17%;
 	border: 1px solid #e4e8eb;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	font-weight: 900;
 }
 .spanHeader-md {

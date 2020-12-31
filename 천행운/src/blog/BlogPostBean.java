@@ -2,6 +2,7 @@ package blog;
 
 public class BlogPostBean {
 	private int postNo;
+	private String id;
 	private String postTitle;
 	private String postText;
 	private int postCNum;
@@ -11,6 +12,12 @@ public class BlogPostBean {
 	private int postView;
 	private int postLike;
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public int getPostNo() {
 		return postNo;
 	}

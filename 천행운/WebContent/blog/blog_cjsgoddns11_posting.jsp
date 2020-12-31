@@ -9,13 +9,14 @@
 <jsp:useBean id="cateMgr" class="blog.CateMgr"/>
 <jsp:useBean id="postMgr" class="blog.BlogPostMgr"/>
 <%
-		String id = "cjsgoddns";
+		String id = "cjsgoddns11";
 		blogBean = blogMgr.getBlogPage(id);
 		String blogBanner = blogBean.getBannerImg();
 		String blogProfileDesc = blogBean.getProfileDesc();
 		String blogProfileImg = blogBean.getProfileImage();
 		String sid = (String) session.getAttribute("id");
-		
+		if(id!=sid&&!id.equals(sid))
+			response.sendRedirect("blog_"+id+"_welcome.jsp");
 %>
 
 <!DOCTYPE html>
@@ -25,6 +26,12 @@
 	<title>blog</title>
 	<link rel="stylesheet" href="./resources/css/blog_style.css">
 	<script type="text/javascript" src="./resources/js/script.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    
 </head>
 <body>
 	<div id="root">
@@ -37,17 +44,14 @@
 					</a> 
 				</div>
 				<div class="blog-navbar-right">
-					<%if(sid!=null&&!sid.equals("")){ %>
+					<select>
+						<option>이웃블로그
+					</select>
 					<div><a href="../joon/logout.jsp">로그아웃</a></div>
-						<%if(sid!=id&&!sid.equals(id)){ %>
-					<div><a href="blog_<%=sid%>.jsp">내 블로그</a></div>
-						<%} %>
-					<%}else{ %> 
-					<div><a href="../joon/login.jsp">로그인</a></div>
-					<%} %>
 				</div>
 			</div>
 		</div>
+		
 		<div id="mainImgWrap">
 			<div style="height: 100%;">
 				<img class="bannerImg" src="./resources/img/<%=blogBanner %>">
@@ -65,26 +69,22 @@
 						</div>
 					</div>
 					<div class="blog-profileId">					
-						<div><strong><%=id %>님의 블로그</strong></div>
+						<div><%=id %>님의 블로그</div>
 					</div>
 					<div class="blog-profileDesc">
 						<div><%=blogProfileDesc %></div>
 					</div>
 				</div>
-				<%if(sid!=null&&sid.equals(id)){ %>
+				<%if(id!=null&&!id.equals("")){ %>
 				<div style="margin-top: 5px;">
 					<a href="blog_<%=id%>_posting.jsp">글쓰기 </a><small style="padding: 5px;"> / </small>
 					<a href="blog_<%=id%>_setting.jsp"> 설정</a>
 				</div>
-				<%}else{ %>
-				<div style="margin-top: 5px;">
-					<a href="neighborProc.jsp">이웃신청 </a>
-				</div>
 				<%} %>
 				<div class="blog-postCategorys">					
-					
+					<form class="categoryFrm">
 						<div>
-							<div class="pCategory-head"><strong>카테고리</strong></div>
+							<div class="pCategory"><strong>카테고리</strong></div>
 							<%
 									Vector<CateBean> cateVlist = new Vector<CateBean>();
 									cateVlist = cateMgr.getBlogCategory(id);
@@ -95,74 +95,63 @@
 							%>
 							
 							<div class="pCategory">
-							<form class="categoryFrm" action="blog_<%=id%>.jsp?cateNum=<%=cateNum%>">
-								<input type="submit" class="textbtn" name="category" value="<%=cateName%>">
-								<input type="hidden" name="cateNum" value="<%=i+1%>">
-							</form>
-							</div>
+								<input type="submit" class="textbtn" name="category" value="<%=cateName%>"></div>
 							
 							<%	} %>
 								
 						</div>
-					
+					</form>
 				</div>
 				
 			</div>
 			
-			
 			<div class="blog-conRight">
-			<%
-						BlogPostBean bean = postMgr.getNewPost(id);
-						int postNo = bean.getPostNo();
-						String title = bean.getPostTitle();
-						String text = bean.getPostText();
-						String date = bean.getPostDate();
-						int like = bean.getPostLike();
-						int view = bean.getPostView();
-			%>
+			
 				<div class="postWrap">
-					<div class="postTitle">
-						<span class="postSpan-lg">제목: <%=title %></span>
-					</div>
-					<div class="postContents">
-						<%=text %>
-					</div>
-					<div class="postLike">
-						<span class="postSpan-sm">좋아요: <%=like %></span>
-					</div>
-					<div class="postDate">
-						<span class="postSpan-sm">게시일: <%=date %></span>
-					</div>
+					<form name="postFrm" method="post" action="postingProc.jsp" enctype="multipart/form-data">
+						<input type="text" name="title" style="font-size: 20px; width: 99%; height: 40px;"
+									placeholder="제목을 입력하세요">
+						<div style="display: flex; justify-content: flex-end;">
+							<select name="category">
+								<option>카테고리
+								<option value="1">취미
+								<option value="2">일상
+							</select>
+							<select name="topic">
+								<option>주제
+								<option value="1">IT
+								<option value="2">요리
+								<option value="3">여행
+								<option value="4">예술
+								<option value="5">스포츠
+							</select>
+						</div>
+  						<textarea id="summernote" name="text"></textarea>
+  						<input multiple="multiple" type="file" name="filename[]">
+  						<input type="hidden" name="hiddenid" value="<%=id%>">
+  						<input type="submit" value="저장">
+  						
+					</form>
 				</div>
 				
-			<%
-						BlogPostBean bean2 = postMgr.getMaxLikePost(id);
-						int postNo2 = bean2.getPostNo();
-						String title2 = bean2.getPostTitle();
-						String text2 = bean2.getPostText();
-						String date2 = bean2.getPostDate();
-						int like2 = bean2.getPostLike();
-						int view2 = bean2.getPostView();
-			%>
-				<div class="postWrap">
-					<div class="postTitle">
-						<span class="postSpan-lg">제목: <%=title2 %></span>
-					</div>
-					<div class="postContents">
-						<%=text2 %>
-					</div>
-					<div class="postLike">
-						<span class="postSpan-sm">좋아요: <%=like2 %></span>
-					</div>
-					<div class="postDate">
-						<span class="postSpan-sm">게시일: <%=date2 %></span>
-					</div>
-				</div>
-				
-				
-			</div>	
-					
+			</div>			
 		</div>
 	</div>
 </body>
+<script>
+$('#summernote').summernote({
+        placeholder: '내용을 입력하세요',
+        tabsize: 2,
+        height: 120,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });
+</script>  
 </html>

@@ -36,7 +36,7 @@
 			<div class="conLeft">
 			<%
 						String id = (String) session.getAttribute("id");//id로 로그인상태 확인 후 출력문 결정
-						String neighbor = "aa";//neighbor로 이웃 확인 후 출력문 결정
+						String neighbor = "";//neighbor로 이웃 확인 후 출력문 결정
 						//3가지 경우의 수
 						//로그인 했다
 						//로그인 했는데 이웃이 없다

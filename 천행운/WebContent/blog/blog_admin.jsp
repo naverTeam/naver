@@ -9,7 +9,7 @@
 <jsp:useBean id="cateMgr" class="blog.CateMgr"/>
 <jsp:useBean id="postMgr" class="blog.BlogPostMgr"/>
 <%
-		String id = "cjsgoddns";
+		String id = "admin";
 		blogBean = blogMgr.getBlogPage(id);
 		String blogBanner = blogBean.getBannerImg();
 		String blogProfileDesc = blogBean.getProfileDesc();
@@ -76,15 +76,11 @@
 					<a href="blog_<%=id%>_posting.jsp">글쓰기 </a><small style="padding: 5px;"> / </small>
 					<a href="blog_<%=id%>_setting.jsp"> 설정</a>
 				</div>
-				<%}else{ %>
-				<div style="margin-top: 5px;">
-					<a href="neighborProc.jsp">이웃신청 </a>
-				</div>
 				<%} %>
 				<div class="blog-postCategorys">					
 					
 						<div>
-							<div class="pCategory-head"><strong>카테고리</strong></div>
+							<div class="pCategory"><strong>카테고리</strong></div>
 							<%
 									Vector<CateBean> cateVlist = new Vector<CateBean>();
 									cateVlist = cateMgr.getBlogCategory(id);
@@ -95,7 +91,7 @@
 							%>
 							
 							<div class="pCategory">
-							<form class="categoryFrm" action="blog_<%=id%>.jsp?cateNum=<%=cateNum%>">
+							<form class="categoryFrm">
 								<input type="submit" class="textbtn" name="category" value="<%=cateName%>">
 								<input type="hidden" name="cateNum" value="<%=i+1%>">
 							</form>
@@ -112,8 +108,12 @@
 			
 			<div class="blog-conRight">
 			<%
-						BlogPostBean bean = postMgr.getNewPost(id);
-						int postNo = bean.getPostNo();
+					Vector<BlogPostBean> postVlist = new Vector<BlogPostBean>();
+					String cateName = request.getParameter("category");
+					int cateNum = Integer.parseInt(request.getParameter("cateNum"));
+					postVlist = postMgr.getPostList(id, cateNum);
+					for(int i=0; i<postVlist.size(); i++){
+						BlogPostBean bean = postVlist.get(i);
 						String title = bean.getPostTitle();
 						String text = bean.getPostText();
 						String date = bean.getPostDate();
@@ -134,34 +134,45 @@
 						<span class="postSpan-sm">게시일: <%=date %></span>
 					</div>
 				</div>
-				
-			<%
-						BlogPostBean bean2 = postMgr.getMaxLikePost(id);
-						int postNo2 = bean2.getPostNo();
-						String title2 = bean2.getPostTitle();
-						String text2 = bean2.getPostText();
-						String date2 = bean2.getPostDate();
-						int like2 = bean2.getPostLike();
-						int view2 = bean2.getPostView();
-			%>
-				<div class="postWrap">
-					<div class="postTitle">
-						<span class="postSpan-lg">제목: <%=title2 %></span>
+			<%	} %>
+				<div class="postListWrap">
+					<div class="postListTop">
+						<div><strong><%=cateName %> <%=postVlist.size() %>개의 글</strong></div>
+						<select>
+							<option>5줄 보기</option>
+							<option>10줄 보기</option>
+							<option>15줄 보기</option>
+						</select>
 					</div>
-					<div class="postContents">
-						<%=text2 %>
-					</div>
-					<div class="postLike">
-						<span class="postSpan-sm">좋아요: <%=like2 %></span>
-					</div>
-					<div class="postDate">
-						<span class="postSpan-sm">게시일: <%=date2 %></span>
+					<div class="postListBottom">
+						<table style="width: 95%;">
+							<thead>
+								<tr>
+									<td style=" width:80%"><strong>제목</strong></td>
+									<td style="width:10%"><strong>작성일</strong></td>
+									<td style="width:10%"><strong>조회수</strong></td>
+								<tr>
+							</thead>
+							<tbody>
+							<%
+									postVlist = postMgr.getPostList(id, cateNum);
+									for(int i=0; i<postVlist.size(); i++){
+										BlogPostBean bean = postVlist.get(i);
+										String title = bean.getPostTitle();
+										String date = bean.getPostDate();
+										int view = bean.getPostView();
+							%>
+								<tr>
+									<td style=" width:80%"><%=title %></td>
+									<td style="width:10%"><%=date %></td>
+									<td style="width:10%" align="center"><%=view %></td>
+								<tr>
+							<%	} %>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				
-				
-			</div>	
-					
+			</div>			
 		</div>
 	</div>
 </body>
