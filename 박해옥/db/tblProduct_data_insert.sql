@@ -1,30 +1,33 @@
-ï»¿INSERT INTO tblproduct (id, name, email, proAddress, zipcode, proPhone, proName, proImg 
-, price, proAm, salAm, stock, bankNa, accNo, accHo, proDay, filename, filesize)
-VALUES ('aaa', 'aìƒì‚¬', 'aaa@naver.com', 'ë¶€ì‚°', '1111', '010-1111-1111', 'ì¥ë¯¸1', 'rose1.PNG'
-, 10000, 100, 0, 100, 'ë¶€ì‚°ì€í–‰', '1111', 'ì¥ë¯¸1', '2020/12/25', 'a.txt', 497);
 INSERT INTO tblproduct (id, name, email, proAddress, zipcode, proPhone, proName, proImg 
-, price, proAm, salAm, stock, bankNa, accNo, accHo, proDay, filename, filesize)
-VALUES ('bbb', 'bìƒì‚¬', 'bbb@naver.com', 'ë¶€ì‚°2', '2222', '010-2222-2222', 'ì¥ë¯¸2', 'rose2.PNG'
-, 20000, 200, 0, 200, 'í•˜ë‚˜ì€í–‰', '2222', 'ì¥ë¯¸2', '2020/12/25', 'b.txt', 497);
+, price, proAm, salAm, stock, bankNa, accNo, accHo, proDay, filename, filesize, proDetail)
+VALUES ('aaa', 'a»ó»ç', 'aaa@naver.com', 'ºÎ»ê', '1111', '010-1111-1111', 'Àå¹Ì1', 'rose1.PNG'
+, 10000, 100, 0, 100, 'ºÎ»êÀºÇà', '1111', 'Àå¹Ì1', '2020/12/25', 'a.txt', 497
+,'´Ù³â°£ °æ·ÂÀ» °¡Áø ÇÁ·Î¸®½ºÅ¸°¡<br>
+ Á÷Á¢ ½Å¼±ÇÑ Àç·Î·á ÃÖ»óÀÇ »óÇ°À» Á¦ÀÛÇÕ´Ï´Ù. <br>
+<img src="data/rose1.PNG">' );
+
 INSERT INTO tblproduct (id, name, email, proAddress, zipcode, proPhone, proName, proImg 
-, price, proAm, salAm, stock, bankNa, accNo, accHo, proDay, filename, filesize)
-VALUES ('ccc', 'cìƒì‚¬', 'ccc@naver.com', 'ë¶€ì‚°3', '3333', '010-333-3333', 'ì¥ë¯¸3', 'rose3.PNG'
-, 30000, 300, 0, 300, 'ë†í˜‘', '3333', 'ì¥ë¯¸3', '2020/12/25', 'c.txt', 497);
+, price, proAm, salAm, stock, bankNa, accNo, accHo, proDay, filename, filesize, proDetail)
+VALUES ('bbb', 'b»ó»ç', 'bbb@naver.com', 'ºÎ»ê2', '2222', '010-2222-2222', 'Àå¹Ì2', 'rose2.PNG'
+, 20000, 200, 0, 200, 'ÇÏ³ªÀºÇà', '2222', 'Àå¹Ì2', '2020/12/25', 'b.txt', 497
+, '´Ù³â°£ °æ·ÂÀ» °¡Áø ÇÁ·Î¸®½ºÅ¸°¡<br>
+ Á÷Á¢ ½Å¼±ÇÑ Àç·Î·á ÃÖ»óÀÇ »óÇ°À» Á¦ÀÛÇÕ´Ï´Ù. <br>
+<img src="data/rose2.PNG" > ');
 
-UPDATE tblproduct 
-SET proDetail ='ë‹¤ë…„ê°„ ê²½ë ¥ì„ ê°€ì§„ í”„ë¡œë¦¬ìŠ¤íƒ€ê°€<br>
- ì§ì ‘ ì‹ ì„ í•œ ì¬ë¡œë£Œ ìµœìƒì˜ ìƒí’ˆì„ ì œì‘í•©ë‹ˆë‹¤. <br>
-<img src="data/rose1.PNG" > '
-WHERE proNum = 1 ;
-  
-UPDATE tblproduct 
-SET proDetail ='ë‹¤ë…„ê°„ ê²½ë ¥ì„ ê°€ì§„ í”„ë¡œë¦¬ìŠ¤íƒ€ê°€<br>
- ì§ì ‘ ì‹ ì„ í•œ ì¬ë¡œë£Œ ìµœìƒì˜ ìƒí’ˆì„ ì œì‘í•©ë‹ˆë‹¤. <br>
-<img src="data/rose2.PNG" > '
-WHERE proNum = 2 ;
+INSERT INTO tblproduct (id, name, email, proAddress, zipcode, proPhone, proName, proImg 
+, price, proAm, salAm, stock, bankNa, accNo, accHo, proDay, filename, filesize, proDetail)
+VALUES ('ccc', 'c»ó»ç', 'ccc@naver.com', 'ºÎ»ê3', '3333', '010-333-3333', 'Àå¹Ì3', 'rose3.PNG'
+, 30000, 300, 0, 300, '³óÇù', '3333', 'Àå¹Ì3', '2020/12/25', 'c.txt', 497
+, '´Ù³â°£ °æ·ÂÀ» °¡Áø ÇÁ·Î¸®½ºÅ¸°¡<br>
+ Á÷Á¢ ½Å¼±ÇÑ Àç·Î·á ÃÖ»óÀÇ »óÇ°À» Á¦ÀÛÇÕ´Ï´Ù. <br>
+<img src="data/rose3.PNG" > ');
 
-UPDATE tblproduct 
-SET proDetail ='ë‹¤ë…„ê°„ ê²½ë ¥ì„ ê°€ì§„ í”„ë¡œë¦¬ìŠ¤íƒ€ê°€<br>
- ì§ì ‘ ì‹ ì„ í•œ ì¬ë¡œë£Œ ìµœìƒì˜ ìƒí’ˆì„ ì œì‘í•©ë‹ˆë‹¤. <br>
-<img src="data/rose3.PNG" > '
-WHERE proNum = 3 ;
+INSERT INTO tblproduct (id, name, email, proAddress, zipcode, proPhone, proName, proImg 
+, price, proAm, salAm, stock, bankNa, accNo, accHo, proDay, filename, filesize, proDetail)
+VALUES ('ttt', 't»ó»ç', 'ttt@naver.com', 'ºÎ»êtest', '7777', '010-7777-7777', 'test', 'test.PNG'
+, 5, 300, 0, 300, '³óÇù', '7777', 'ttt', '2021/01/01', 't.txt', 497
+, '´Ù³â°£ °æ·ÂÀ» °¡Áø ÇÁ·Î¸®½ºÅ¸°¡<br>
+ Á÷Á¢ ½Å¼±ÇÑ Àç·Î·á ÃÖ»óÀÇ »óÇ°À» Á¦ÀÛÇÕ´Ï´Ù. <br>
+<img src="data/test.PNG" > '
+);
+

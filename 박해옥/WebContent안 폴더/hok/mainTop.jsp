@@ -22,7 +22,7 @@
     <th><%=reg%></th>
     <th align="center" valign="bottom">
    		<input size="16" name="keyWord">
-   		<input type="button" bgcolor="#FFFF99" value="검색" onClick="javascript:check()">
+   		<input type="button" style="background-color:#E0F2F7" value="검색" onClick="javascript:check()">
    		<input type="hidden" name="nowPage" value="1">
   	</th>
     <th><a href="productList.jsp">상품목록</a></th>

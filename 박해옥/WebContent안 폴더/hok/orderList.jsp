@@ -26,6 +26,7 @@
 			<td><font color="#FFFFFF">주문번호</font></td>
 			<td><font color="#FFFFFF">제품</font></td>
 			<td><font color="#FFFFFF">주문수량</font></td>
+			<td><font color="#FFFFFF">주문금액</font></td>
 			<td><font color="#FFFFFF">주문날짜</font></td>
 			<td><font color="#FFFFFF">주문상태</font></td>
 		</tr>
@@ -49,6 +50,7 @@
 			<td><a href="javascript:productDetail('<%=proNum%>')">
 			<%=pbBean.getProName() %></a></td>
 			<td><%=order.getOrdAm() %></td>
+			<td><%=order.getPayment() %></td>
 			<td><%=order.getOrdDay() %></td>
 			<td> <%
 					switch(order.getState()){

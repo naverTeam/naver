@@ -1,101 +1,76 @@
-function loginCheck(){
-	if(document.login.id.value==""){
-		alert("아이디를 입력해 주세요.");
-		document.login.id.focus();
-		return;
-	}
-	if(document.login.pwd.value==""){
-		alert("비밀번호를 입력해 주세요.");
-		document.login.pwd.focus();
-		return;
-	}
-	document.login.submit();
-}
 
-function memberReg(){
-	document.location="member.jsp";
-}
+
 
 function inputCheck(){
-	if(document.regForm.id.value==""){
-		alert("아이디를 입력해 주세요.");
-		document.regForm.id.focus();
+
+	f=document.sallForm;
+	if(f.ordPhone.value.trim() ==""){
+		alert("주문하시는분 전화번호를 입력해주세요.");
+		f.ordPhone.focus();
 		return;
 	}
-	if(document.regForm.pwd.value==""){
-		alert("비밀번호를 입력해 주세요.");
-		document.regForm.pwd.focus();
+	
+	if(f.payMe.value.trim()==""){
+		alert("결재방법을 입력해주세요.");
+		f.payMe.focus();
 		return;
 	}
-	if(document.regForm.repwd.value==""){
-		alert("비밀번호를 확인해 주세요");
-		document.regForm.repwd.focus();
-		return;
-	}
-	if(document.regForm.pwd.value != document.regForm.repwd.value){
-		alert("비밀번호가 일치하지 않습니다.");
-		document.regForm.repwd.focus();
-		return;
-	}
-	if(document.regForm.name.value==""){
-		alert("이름을 입력해 주세요.");
-		document.regForm.name.focus();
+	
+	if(f.payName.value.trim()==""){
+		alert("입금자 또는 카드 명의자 이름을 입력해주세요");
+		f.payName.focus();
 		return;
 	}
 	
 	
-	if(document.regForm.birthday.value==""){
-		alert("생년월일를 입력해 주세요.");
-		document.regForm.birthday.focus();
+	if(f.zipcode.value.trim()==""){
+		alert("우편번호를 입력해주세요");
+		f.zipcode.focus();
 		return;
 	}
+	
+	
+	if(f.devAd1.value.trim()==""){
+		alert("주소를 입력해주세요");
+		f.devAd1.focus();
+		return;
+	}
+	
+	if(f.devAd3.value.trim()==""){
+		alert("상세주소를  입력해주세요");
+		f.devAd3.focus();
+		return;
+	}
+
+	if(f.devNa.value.trim()==""){
+			alert("받는사람 이름을 입력해주세요");
+			f.devNa.focus();
+			return;
+		}
+	if(f.devPhone.value.trim()==""){
+			alert("받는사람 전화번호 입력해주세요");
+			f.devPhone.focus();
+			return;
+		}
+		
+	f.czipcode.value = document.getElementById('zipcode').value;
+	f.cdevAd1.value = document.getElementById('devAd1').value;
+	f.cdevAd2.value = document.getElementById('devAd2').value;
+	f.cdevAd3.value = document.getElementById('devAd3').value;
+	
+//	alert(f.postcode.value);
+//	alert(f.address.value);
+//	alert(f.extraAddress.value);
+//	alert(f.detailAddress.value);	
+
+	f.submit();
 
 	
-	if(document.regForm.email.value==""){
-		alert("이메일을 입력해 주세요.");
-		document.regForm.email.focus();
-		return;
-	}
-
-    var str=document.regForm.email.value;	   
-    var atPos = str.indexOf('@');
-    var atLastPos = str.lastIndexOf('@');
-    var dotPos = str.indexOf('.'); 
-    var spacePos = str.indexOf(' ');
-    var commaPos = str.indexOf(',');
-    var eMailSize = str.length;
-    if (atPos > 1 && atPos == atLastPos && 
-	   dotPos > 3 && spacePos == -1 && commaPos == -1 
-	   && atPos + 1 < dotPos && dotPos + 1 < eMailSize);
-    else {
-          alert('E-mail주소 형식이 잘못되었습니다.\n\r다시 입력해 주세요!');
-	      document.regForm.email.focus();
-		  return;
-    }
-
-	if(document.regForm.job.value=="0"){
-		alert("직업을 선택해 주세요.");
-		document.regForm.job.focus();
-		return;
-	}
-	document.regForm.submit();
 }
 
 
-function idCheck(id){
-	if(id == ""){
-		alert("아이디를 입력해 주세요.");
-		document.regForm.id.focus();
-	}else{
-		url="idCheck.jsp?id=" + id;
-		window.open(url,"post","width=300,height=150");
-	}
-}
 
-function zipCheck(){
-		url="zipSearch.jsp?search=n";
-		window.open(url,"post","toolbar=no ,width=500 ,height=300 ,directories=no,status=yes,scrollbars=yes,menubar=no");
-}
+
 
 function win_close(){
 	self.close();
@@ -125,3 +100,35 @@ function win_close(){
 	}
 
 //OrderList
+
+
+function execPostcode() {
+	new daum.Postcode({
+		oncomplete: function(data) {
+			var addr = '';
+			var extraAddr = '';
+			if (data.userSelectedType === 'R') {
+				addr = data.roadAddress;
+			} else {
+				addr = data.jibunAddress;
+			}
+			if(data.userSelectedType === 'R'){
+				if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+					extraAddr += data.bname;
+				}
+				if(data.buildingName !== '' && data.apartment === 'Y'){
+					extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+				}
+				if(extraAddr !== ''){
+					extraAddr = ' (' + extraAddr + ')';
+				}
+					document.getElementById("devAd2").value = extraAddr;
+			} else {
+				document.getElementById("devAd2").value = '';
+			}
+			document.getElementById('zipcode').value = data.zonecode;
+			document.getElementById("devAd1").value = addr;
+			document.getElementById("devAd3").focus();
+		}
+	}).open();
+}

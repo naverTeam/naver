@@ -5,10 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 public class ProductMgr {
 	private DBConnectionMgr pool;
 	private static final String UPLOAD = "C:/Jsp/myapp/WebContent/hok/data/";
-	private static final String ENCTHPE = "EUC-KR";
+	private static final String ENCTYPE = "EUC-KR";
 	private static final int MAXSIZE = 10*1024*1024;
 	
 	public ProductMgr() {
@@ -108,6 +113,26 @@ public class ProductMgr {
 	
 	/////admin mode///////
 	//Product Insert : 상품 저장
+	public boolean insertProduct(HttpServletRequest req) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		boolean flag=false;
+		try {
+			MultipartRequest multi = new MultipartRequest(req,UPLOAD,
+					MAXSIZE,ENCTYPE, new DefaultFileRenamePolicy());
+			con = pool.getConnection();
+			sql = "";
+			pstmt = con.prepareStatement(sql);
+			int cnt = pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return flag;
+	}
 	
 	//Product Update : 상품 수정
 	

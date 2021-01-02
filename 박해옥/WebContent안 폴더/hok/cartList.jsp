@@ -58,16 +58,20 @@
 					<td><%=pName%></td>
 					<td><input name="ordAm" style="text-align: right;" value="<%=ordAm %>" size="3">개</td>
 					<td><%=UtilMgr.monFormat(subTotal)%> 원</td>
-					<td><input type="button" value="수정" size="3" onclick="javascript:cartUpdate(this.form)">
-					/<input type="button" value="삭제" size="3" onclick="javascript:cartDelete(this.form)"></td>
-					<td><a href="javascript:productDetail('%=proNum%>')">상세보기</a></td>
+					<td><input type="button" value="수정" size="3" onclick="javascript:cartUpdate(this.form)" 
+					style="background-color:#E0F2F7">
+					/<input type="button" value="삭제" size="3" onclick="javascript:cartDelete(this.form)" 
+					style="background-color:#E0F2F7"></td>
+					<td><input type="button" value="상세보기" style="background-color:#E0F2F7" 
+						onclick="productDetail('<%=pbean.getProNum()%>')"></td>
+					<input type="hidden" name="price" value="<%=pbean.getPrice() %>">		
 					<input type="hidden" name="flag">
 				</form>
 			</tr>
 			<%}//while%> 
 			<tr>
 				<td colspan="4" align="right">총 주문 금액: <%=UtilMgr.monFormat(totalPrice)%>원</td>
-				<td align="center"><a href="sallList.jsp">주문하기</a></td>
+				<td align="center" bgcolor="#E0F2F7"><a href="sallList.jsp">주문하기</a></td>
 			</tr>
 		
 		   <%}//else%>

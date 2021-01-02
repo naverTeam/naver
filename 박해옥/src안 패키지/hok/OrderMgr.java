@@ -12,8 +12,36 @@ public class OrderMgr {
 			pool = DBConnectionMgr.getInstance();
 	}
 	
-	//Order Insert : 주문
+public void insertOrder(OrderBean order) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String sql = null;
+		try {
+			con = pool.getConnection();
+			sql = "insert tblorder (id,proNum,ordAm,payMent, ordDay,state) "
+					+ "values(?,?,?,?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1,order.getId());//주문id
+			pstmt.setInt(2,order.getProNum());//상품번호
+			pstmt.setInt(3,order.getOrdAm());//주문 수량
+			pstmt.setInt(4,order.getPayment());//결재금액
+			pstmt.setString(5,UtilMgr.getDay());//주문 날짜
+			//접수중(1),접수(2),입금확인(3),배송준비(4),배송중(5),완료(6)
+			pstmt.setString(6,"1");
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return;
+		
+	}
 	
+	//Order Insert : 주문
+	/*
 	public void insertOrder(OrderBean order) {
 		
 		Connection con = null;
@@ -50,7 +78,7 @@ public class OrderMgr {
 		return;
 		
 	}
-	
+	*/
 	//Order List : 주문 리스트
 	public Vector<OrderBean> getOrderList(String id) {
 		Connection con = null;
@@ -70,6 +98,7 @@ public class OrderMgr {
 				order.setId(rs.getString("id"));//주문한 사람
 				order.setProNum(rs.getInt("proNum"));//주문상품번호
 				order.setOrdAm(rs.getInt("ordAm"));//주문수량
+				order.setPayment(rs.getInt("payment"));//주문수량
 				order.setOrdDay(rs.getString("ordDay"));//주문날짜
 				order.setState(rs.getString("state"));//주문 상태
 				vlist.addElement(order);
@@ -87,6 +116,35 @@ public class OrderMgr {
 	//-------------admin mode-------------------//
 	
 	//Order All List : 모든 고객 주문 리스트
+	public Vector<OrderBean> getOrderList(){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		Vector<OrderBean> vlist = new Vector<OrderBean>();
+		try {
+			con = pool.getConnection();
+			sql = "select * from tblOrder order by ordNum desc";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				OrderBean order = new OrderBean();
+				order.setOrdNum(rs.getInt("ordNum"));//주문번호
+				order.setId(rs.getString("id"));//주문 id
+				order.setProNum(rs.getInt("proNum"));//주문한 상품번호
+				order.setOrdDay(rs.getString("ordDay"));
+				order.setState(rs.getString("state"));
+				vlist.addElement(order);
+											
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return vlist;
+	}
 	
 	//Order Detail : 주문 상세 정보
 	

@@ -30,13 +30,14 @@
 <tr><td ><b>상품수량 : <%=pbean.getProAm() %> &nbsp;   판매량 : <%=pbean.getProAm()-pbean.getStock() %> 
     &nbsp;재고량: <%=pbean.getStock() %></b></td></tr>
  <tr><td><b>구매수량 : </b><input name="ordAm" size="5" value="1"  style = "text-align:center;">개&nbsp;
-<input type="submit"  value="장바구니 담기"></td></tr>
+<input type="submit"  value="장바구니 담기" style="background-color:#E0F2F7"></td></tr>
 <input type="hidden" name="proNum" value="<%=pbean.getProNum() %>">
+<input type="hidden" name=price value="<%=pbean.getPrice() %>">
 <input type="hidden"  name="flag" value="insert">
 </form>
-<tr><td> <br><br> <input type="button" value="구매후기"> &nbsp; &nbsp;
- <input type="button" value="문의하기"> &nbsp;&nbsp;
- <input type="button" value="판매자정보" onclick="sallerInfo()"></td></tr>
+<tr><td> <br><br> <input type="button" value="구매후기" style="background-color:#E0F2F7"> &nbsp; &nbsp;
+ <input type="button" value="문의하기" style="background-color:#E0F2F7"> &nbsp;&nbsp;
+ <input type="button" value="판매자정보" onclick="sallerInfo()" style="background-color:#E0F2F7"></td></tr>
  </table>
 </td>
 </tr>

@@ -37,7 +37,7 @@ for(int i=0; i<pvlist.size();i++){
 <td><b>재고수량:<%=UtilMgr.monFormat(pbean.getStock()) %> </b></td>
 </tr>
 <tr>
-<td><input type="button" value="상세보기" 
+<td><input type="button" value="상세보기" style="background-color:#E0F2F7" 
 onclick="productDetail('<%=pbean.getProNum()%>')">
 </td>
 </td>

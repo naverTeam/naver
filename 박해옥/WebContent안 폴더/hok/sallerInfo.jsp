@@ -16,7 +16,7 @@
   	<tr align="center"><td> 판 매 자 주 소 : <%=address %></td></tr>
   	<tr align="center"><td> 판매자 전화번호 : <%=phone %></td></tr>
   	<tr><td align="center"><br><br>
-  	<input type="button" value="돌아가기" onClick="history.back()">
+  	<input type="button" value="돌아가기" onClick="history.back()" style="background-color:#E0F2F7">
   	 </td></tr>
   	
   <!--  <tr><td align="center">[돌아가기]</b></td></tr>  --> 

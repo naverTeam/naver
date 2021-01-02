@@ -16,16 +16,10 @@
 		if(!hCart.isEmpty()){
 			while(hCartKey.hasMoreElements()){
 				//out.println("상품번호 : " + hCartKey.nextElement() + "<br>");
-				//장바구니에 주문번호 키값으로 주문객체(proNum,id,ordAm) 리턴
+				//장바구니에 주문번호 키값으로 주문객체 리턴
 				OrderBean order = hCart.get(hCartKey.nextElement());
-				//db 주문처리
-				orderMgr.insertOrder(order);
-				//재고 정리
-				pMgr.reduceProduct(order);
-				//장바구니에 주문한 상품 삭제
-				cMgr.deleteCart(order);
-			}//while
-			msg = "주문처리 하였습니다."	;
+				}//while
+			msg = "주문하러 갑니다. ";
 		}else{
 			msg="장바구니가 비었습니다.";
 		}//else if
@@ -33,5 +27,5 @@
 %>
 <script>
 	alert("<%=msg%>");
-	location.href="orderList.jsp";
+	location.href="salList.jsp";
 </script>
