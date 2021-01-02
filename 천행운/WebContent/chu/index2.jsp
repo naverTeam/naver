@@ -96,15 +96,12 @@
 								bVlist = blogPostMgr.getMainList(topic);
 								for(int i=0; i<bVlist.size(); i++){
 									BlogPostBean bean = bVlist.get(i);
-									String bId = bean.getId();
-									int postNo = bean.getPostNo();
-									int cateNum = bean.getPostCNum();
 									String bTitle = bean.getPostTitle();
 									String bImg = bean.getPostImg();
 									String bDesc = bean.getPostText();
 						%>
 							<div class="blogRightItem">
-								<a href="../blog/blog_<%=bId %>.jsp?cateNum=<%=cateNum %>&postNo=<%=postNo %>" class="fullLink-row">
+								<a href="#" class="fullLink-row">
 									<img class="thumb-md" src="../blog/data/<%=bImg %>" alt="img">
 									<span class="spanHeader-md"><%=bTitle %></span>
 								</a>

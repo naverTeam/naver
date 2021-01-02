@@ -17,6 +17,7 @@
 	align-items: center;
 	justify-content: center;
 }
+
 .fullLink-row {
 	width: 100%;
 	height: 100%;
@@ -350,6 +351,10 @@ body {
 	margin-bottom: 5px;
 	list-style: none;
 }
+.pCategory-head {
+	margin-bottom: 5px;
+	list-style: none;
+}
 .blog-profileImg {
 	width: 185px;
 	height: 125px;
@@ -384,6 +389,8 @@ body {
 	height: 50px;
 	border: 1px solid #e4e8eb;
 }
+
+
 .blogCategory {
 	width: 25%;
 	height: 100%;

@@ -7,12 +7,13 @@
 <%
 		request.setCharacterEncoding("EUC-KR");
 		String keyWord = request.getParameter("keyWord");
+		String id = (String) session.getAttribute("id");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="EUC-KR">
-	<title>search</title>
+	<title>이미지 검색결과</title>
 	<link rel="stylesheet" href="./resources/css/style.css">
 	<script src="./resources/js/script.js"></script>
 </head>
@@ -28,7 +29,17 @@
 				<input type="text" name="keyWord" value="<%=keyWord %>" style="width: 533px; height: 40px; border: none;">
 				<input type="button" onclick="javascript:check()" style="width: 60px; height: 60px; border: 0;">			 
 			</form>
-			<div style="margin-left: 350px;">로그인</div>
+			
+			
+			<%if(id!=null&&!id.equals("")){ %>
+			
+			<div style="margin-left: 350px;"><a href="../joon/logout.jsp">로그아웃</a></div>
+			
+			<%} else { %>
+			
+			<div style="margin-left: 350px;"><a href="../joon/login.jsp">로그인</a></div>
+			
+			<%} %>
 		</div>
 		
 		<div id="categoryWrap">

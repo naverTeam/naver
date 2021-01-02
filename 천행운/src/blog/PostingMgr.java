@@ -12,7 +12,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class PostingMgr {
 	private DBConnectionMgr pool;
-	public static final String SAVEFOLDER = "C:/Jsp/naver/WebContent/blog/data/";
+	public static String SAVEFOLDER = "C:/Jsp/naver/WebContent/blog/data/";
 	public static final String ENCTYPE = "EUC-KR";
 	public static int MAXSIZE = 10*1024*1024;
 	
@@ -24,13 +24,17 @@ public class PostingMgr {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
+		
+		
 		try {
-			File dir = new File(SAVEFOLDER);
+			MultipartRequest multi = 
+					new MultipartRequest(req, SAVEFOLDER, MAXSIZE, ENCTYPE, new DefaultFileRenamePolicy());	
+			String id= multi.getParameter("hiddenid");//히든으로 넘기는 값
+			String myFolder = SAVEFOLDER+id;
+			File dir = new File(myFolder);
 			if(!dir.exists())
 				dir.mkdirs();
 			
-			MultipartRequest multi = 
-					new MultipartRequest(req, SAVEFOLDER, MAXSIZE, ENCTYPE, new DefaultFileRenamePolicy());
 			String[] fileName = new String[5];
 			
 			int fileSize = 0;
@@ -43,7 +47,7 @@ public class PostingMgr {
 			sql = "INSERT blog_post (id, postTitle, postText, postImg, postCNum, postTopic, postDate, postLike, postView)"
 					+ "VALUES (?, ?, ?, ?, ?, ?, now(), 0, 0);";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, multi.getParameter("bid"));
+			pstmt.setString(1, multi.getParameter("hiddenid"));
 			pstmt.setString(2, multi.getParameter("title"));
 			pstmt.setString(3, multi.getParameter("text"));
 			for (int i = 0; i < fileName.length; i++) {

@@ -9,7 +9,7 @@
 <jsp:useBean id="cateMgr" class="blog.CateMgr"/>
 <jsp:useBean id="postMgr" class="blog.BlogPostMgr"/>
 <%
-		String id = "cjsgoddns";
+		String id = "cjsgoddns11";
 		blogBean = blogMgr.getBlogPage(id);
 		String blogBanner = blogBean.getBannerImg();
 		String blogProfileDesc = blogBean.getProfileDesc();
@@ -76,15 +76,11 @@
 					<a href="blog_<%=id%>_posting.jsp">글쓰기 </a><small style="padding: 5px;"> / </small>
 					<a href="blog_<%=id%>_setting.jsp"> 설정</a>
 				</div>
-				<%}else{ %>
-				<div style="margin-top: 5px;">
-					<a href="neighborProc.jsp">이웃신청 </a>
-				</div>
 				<%} %>
 				<div class="blog-postCategorys">					
 					
 						<div>
-							<div class="pCategory-head"><strong>카테고리</strong></div>
+							<div class="pCategory"><strong>카테고리</strong></div>
 							<%
 									Vector<CateBean> cateVlist = new Vector<CateBean>();
 									cateVlist = cateMgr.getBlogCategory(id);
