@@ -3,19 +3,19 @@
 <%
 	request.setCharacterEncoding("EUC-KR");
 	
-	String stotalPrice = (String)request.getParameter("totalPrice");//결재금액
+	String stotalPrice = request.getParameter("totalPrice");//결재금액
 	int totalPrice = Integer.parseInt(stotalPrice);//결재금액 숫자로 전환
-	String ordPhone = (String)request.getParameter("ordPhone");
-	String payMe = (String)request.getParameter("payMe");
-	String payName = (String)request.getParameter("payName");
-	String zipcode = (String)request.getParameter("zipcode");
-	String devAddress = (String)request.getParameter("devAd1");
-	String devAd2 = (String)request.getParameter("devAd2");
+	String ordPhone = request.getParameter("ordPhone");
+	String payMe = request.getParameter("payMe");
+	String payName = request.getParameter("payName");
+	String zipcode = request.getParameter("czipcode");
+	String devAddress = request.getParameter("cdevAd1");
+	String devAd2 = request.getParameter("cdevAd2");
 	devAddress += "  "; devAddress += devAd2; 
-	String devAd3 = (String)request.getParameter("devAd3");
+	String devAd3 = request.getParameter("cdevAd3");
 	devAddress += "  "; devAddress += devAd3; 
-	String devNa = (String)request.getParameter("devNa");
-	String devPhone = (String)request.getParameter("devPhone");
+	String devNa = request.getParameter("devNa");
+	String devPhone = request.getParameter("devPhone");
 	String email = "phok75@naver.com";
 	
 
@@ -32,14 +32,18 @@
     <script>
     
     var payMe = "<%=payMe%>";
+    var paid_amount =0;
+    var apply_num=0;
 
     if(payMe  == "무통장입금"){
         alert(" [ 농협 00000-00000-0000 네이버몰 ]로 [ <%=totalPrice%>원 ]을 입금하여주세요");
         
-        location.href = "orderProc.jsp";
-        }else{
+        <%--int paid_amount =0;--%>
+       
+       location.href = "orderProc2.jsp?apply_num=0&paid_amount=<%=totalPrice%>&ordPhone=<%=ordPhone%>&payMe=<%=payMe%>&payName=<%=payName%>&zipcode=<%=zipcode%>&devAddress=<%=devAddress%>&devName=<%=devNa%>&devPhone=<%=devPhone%>";
+        	}else{
     $(function(){
-    	alert("<%=payMe%>")
+    	alert("<%=payMe%>");
         var IMP = window.IMP; // 생략가능
         IMP.init('iamport'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
         var msg;
@@ -83,7 +87,8 @@
                     }
                 });
                 //성공시 이동할 페이지
-               location.href='<%=request.getContextPath()%>/hok/orderProc.jsp?apply_num='+rsp.apply_num+'&paid_amount='+rsp.paid_amount;
+                //alert(rsp.apply_num);
+                location.href='<%=request.getContextPath()%>/hok/orderProc2.jsp?apply_num='+rsp.apply_num+'&paid_amount='+rsp.paid_amount+'&ordPhone=<%=ordPhone%>&payMe=<%=payMe%>&payName=<%=payName%>&zipcode=<%=zipcode%>&devAddress=<%=devAddress%>&devName=<%=devNa%>&devPhone=<%=devPhone%>';  
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;

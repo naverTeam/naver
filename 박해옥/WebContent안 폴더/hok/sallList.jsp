@@ -74,7 +74,7 @@
 	<tr>
 	<td align="center" bgcolor="#FFFFCC">
 		<!--  action="orderProc.jsp"-->
-		<form name="sallForm" method="post" action="payProc.jsp" >
+		<form name="sallForm" method="post" action="payProc2.jsp" >
 		<table width="95%" align="center" bgcolor="#FFFF99" border="1">
 				<tr><td width="20%" align="center"><b>결 제 금 액 </b></td>
 				<td width="80%"><input name="totalPrice" value="<%=totalPrice%>" 

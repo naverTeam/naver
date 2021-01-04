@@ -19,6 +19,23 @@ public class OrderBean {
 	private String devPhone;
 	private String ordDay;
 	private String payDay;
+	private int applynum;
+	private int paid_amount;
+	
+	
+	
+	public int getApplynum() {
+		return applynum;
+	}
+	public void setApplynum(int applynum) {
+		this.applynum = applynum;
+	}
+	public int getPaid_amount() {
+		return paid_amount;
+	}
+	public void setPaid_amount(int paid_amount) {
+		this.paid_amount = paid_amount;
+	}
 	public int getOrdNum() {
 		return ordNum;
 	}

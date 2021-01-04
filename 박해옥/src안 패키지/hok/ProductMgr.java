@@ -97,7 +97,8 @@ public class ProductMgr {
 		String sql = null;
 		try {
 			con = pool.getConnection();
-			sql = "update tblProduct set stock=stock-? where no=?";
+			sql = "update tblProduct set stock=stock-?,"
+					+ "salAm=proAm-stock where proNum=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1,order.getOrdAm());
 			pstmt.setInt(2,order.getProNum());
