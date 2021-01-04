@@ -1,13 +1,19 @@
+<%@page import="in.QuestionBean"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
-<%request.setCharacterEncoding("EUC-KR");
-
-String id = (String)session.getAttribute("id");
+<%
+		request.setCharacterEncoding("EUC-KR");
+		int qnum=0;
+		if(request.getParameter("qnum")!=null){
+		qnum = Integer.parseInt(request.getParameter("qnum"));
+		}
+		String id = (String)session.getAttribute("id");
+	  QuestionBean bean = (QuestionBean)session.getAttribute("bean");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>질문하기</title>
+<title>수정하기</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
 
@@ -229,8 +235,14 @@ background-color: aliceblue;
 
 </style>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
 <script>
+
+
+
 $(document).ready(function(){
+	$("input:radio[name='directory']:radio[value='<%=bean.getDirectory()%>']").prop('checked', true); // 선택하기
+	
 	var fileTarget = $('.filebox .upload-hidden');
 	
 	fileTarget.on('change', function(){ // 값이 변경되면
@@ -243,6 +255,10 @@ $(document).ready(function(){
 	$(this).siblings('.upload-name').val(filename);
 	});
 	});
+	
+window.onload = function () {  //수정시에는 next함수 바로 실행
+	next();
+}
 function next() {
 	var e = document.getElementById("next");
 	e.style.display = 'none';
@@ -260,11 +276,11 @@ function dir(id) {
 	e.style.color = '#40c700';
 }
 </script>
-</head>
+</head> 
 <body>
 <%@ include file="header.jsp" %>
-<div id="body"> 
-<form id="Frm" method="post" action="question" enctype="multipart/form-data">
+<div id="body">  
+<form id="Frm" method="post" action="question_up" enctype="multipart/form-data">
 <input type="hidden" value="<%=id%>" name="id">
 <hr style="margin-top:0px;margin-bottom: 20px;">
 <div id="title">
@@ -272,13 +288,11 @@ function dir(id) {
 <img  src="img/question.png" style="width: 40px;height: 40px;margin-top: 70px;
 margin-left:100px;border-radius: 10px;">
 <a style="font-size: 23px;color:#40c700;font-weight: 900;">질문</a>
-<input type="text" name="title" id="titletext">
+<input type="text" name="title" id="titletext" value="<%=bean.getTitle()%>">
 </div>
 <div id="textarea">
 <textarea id="ta" rows="25" cols="99"
- name="content" placeholder=" 
-    
-    <%=id%>님 궁금한 내용을 질문해 주세요."></textarea><br>
+ name="content"><%=bean.getContent()%></textarea><br>
 
 <div class="filebox"> 
 <input type="text" class="upload-name" value="파일선택" disabled="disabled">
@@ -295,62 +309,63 @@ margin-left:100px;border-radius: 10px;">
 <h2 style="margin-left: 30px;">카테고리</h2>
 <hr style="width: 80%;height: 3px;">
 <span id="s1">
-<input type="radio" id="1" name="directory" value="교육,학문" name="directory">
+<input type="radio" id="1" name="directory" value="교육,학문">
 <label for="1" id="l1"><span></span>교육,학문</label><br>
-<input type="radio" id="2" name="directory" value="컴퓨터통신" name="directory">
+<input type="radio" id="2" name="directory" value="컴퓨터통신">
 <label for="2"><span></span>컴퓨터통신</label><br>
-<input type="radio" id="3" name="directory" value="게임" name="directory">
+<input type="radio" id="3" name="directory" value="게임">
 <label for="3"><span></span>게임</label><br>
-<input type="radio" id="4" name="directory" value="엔터테이먼트,예술" name="directory">
+<input type="radio" id="4" name="directory" value="엔터테이먼트,예술" >
 <label for="4"><span></span>엔터테이먼트,예술</label><br>
-<input type="radio" id="5" name="directory" value="생활" name="directory">
+<input type="radio" id="5" name="directory" value="생활" >
 <label for="5"><span></span>생활</label><br>
-<input type="radio" id="6" name="directory" value="건강" name="directory">
+<input type="radio" id="6" name="directory" value="건강">
 <label for="6"><span></span>건강</label><br>
-<input type="radio" id="7" name="directory" value="사회,정치" name="directory">
+<input type="radio" id="7" name="directory" value="사회,정치" >
 <label for="7"><span></span>사회,정치</label><br>
 </span>
 <span id="s2">
-<input type="radio" id="8" name="directory" value="경제" name="directory">
+<input type="radio" id="8" name="directory" value="경제">
 <label for="8"><span></span>경제</label><br>
-<input type="radio" id="9" name="directory" value="여행" name="directory">
+<input type="radio" id="9" name="directory" value="여행">
 <label for="9"><span></span>여행</label><br>
-<input type="radio" id="10" name="directory" value="스포츠,레저" name="directory">
+<input type="radio" id="10" name="directory" value="스포츠,레저">
 <label for="10"><span></span>스포츠,레저</label><br>
-<input type="radio" id="11" name="directory" value="쇼핑" name="directory">
+<input type="radio" id="11" name="directory" value="쇼핑" >
 <label for="11"><span></span>쇼핑</label><br>
-<input type="radio" id="12" name="directory" value="연애,결혼" name="directory">
+<input type="radio" id="12" name="directory" value="연애,결혼" >
 <label for="12"><span></span>연애,결혼</label><br>
-<input type="radio" id="13" name="directory" value="자동차" name="directory">
+<input type="radio" id="13" name="directory" value="자동차">
 <label for="13"><span></span>자동차</label><br>
-<input type="radio" id="14" name="directory" value="직업,취업" name="directory">
+<input type="radio" id="14" name="directory" value="직업,취업" >
 <label for="14"><span></span>직업,취업</label><br>
 </span>
 <span id="s3">
-<input type="radio" id="15" name="directory" value="안드로이드폰" name="directory">
+<input type="radio" id="15" name="directory" value="안드로이드폰">
 <label for="15"><span></span>안드로이드폰</label><br>
-<input type="radio" id="16" name="directory" value="사람과 그룹" name="directory">
+<input type="radio" id="16" name="directory" value="사람과 그룹" >
 <label for="16"><span></span>사람과 그룹</label><br>
-<input type="radio" id="17" name="directory" value="대학 입시,진학" name="directory">
+<input type="radio" id="17" name="directory" value="대학 입시,진학">
 <label for="17"><span></span>대학 입시,진학</label><br>
-<input type="radio" id="18" name="directory" value="자동차구입" name="directory">
+<input type="radio" id="18" name="directory" value="자동차구입" >
 <label for="18"><span></span>자동차구입</label><br>
-<input type="radio" id="19" name="directory" value="모바일게임" name="directory">
+<input type="radio" id="19" name="directory" value="모바일게임" >
 <label for="19"><span></span>모바일게임</label><br>
-<input type="radio" id="20" name="directory" value="영어 공부,시험" name="directory">
+<input type="radio" id="20" name="directory" value="영어 공부,시험">
 <label for="20"><span></span>영어 공부,시험</label><br>
-<input type="radio" id="21" name="directory" value="스마트폰" name="directory">
+<input type="radio" id="21" name="directory" value="스마트폰">
 <label for="21"><span></span>스마트폰</label><br>
 </span>
 </div>
 
 <div id="point">
-<a id="pointlabel">추가내공</a> <input type="text" id="pointtext" name="point" placeholder="현재 보유내공 : 60">
+<a id="pointlabel">추가내공</a> <input type="text" id="pointtext" name="point"  value="<%=bean.getPoint()%> (내공은 수정할수 없습니다.)" disabled>
 <input type="button" value="추가" id="addpoint">
 </div>
 
-<input type="submit" id="submit" value="질문하기">
+<input type="submit" id="submit" value="수정하기">
 </div><!-- title -->
+ <input type='hidden' name="qnum" value="<%=qnum%>">
 </form>
 </div><!-- body -->
 <button id="next" onclick="next()">다음</button>

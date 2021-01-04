@@ -1,6 +1,8 @@
 <%@ page  contentType="text/html; charset=EUC-KR"%>
-<%request.setCharacterEncoding("EUC-KR");%>
-<%String id ="test"; %>
+<%request.setCharacterEncoding("EUC-KR");
+
+String id2 = (String)session.getAttribute("id");
+		%>
 <!--메인 배너-->
 <script>
 function dismenu() {
@@ -24,10 +26,10 @@ function dismenu() {
 
 
 <span id="loginset">
-<%if(id==null){ %>
+<%if(id2==null){ %>
 <button type="button" class="login" onclick="location.href='../joon/login.jsp' ">로그인</button>
-<%} else{%>
-<a id="loginon">idtest님</a>
+<%} else{%> 
+<a id="loginon"><%=id2%></a>
 <button type="button" id="call"/>
 <%} %>
 <button type="button" class="menubar" onclick="dismenu()">

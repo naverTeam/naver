@@ -1,12 +1,22 @@
+<%@page import="in.UtilMgr"%>
+<%@page import="in.AnswerBean"%>
+<%@page import="java.util.Vector"%>
 <%@page import="in.QuestionBean"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
-<%request.setCharacterEncoding("EUC-KR");%>
+<%request.setCharacterEncoding("EUC-KR");%> 
 <jsp:useBean id="mgr" class="in.QuestionMgr" />
+<jsp:useBean id="amgr" class="in.AnswerMgr" />
 <%
     int qnum = Integer.parseInt(request.getParameter("qnum"));
+	mgr.hitsAdd(qnum);
 	QuestionBean bean = mgr.boardRead(qnum);
-
-%>
+	String id = "";
+	if(session.getAttribute("id")!=null){
+	id = (String)session.getAttribute("id");
+	}
+	//읽어온 게시물을 수정 및 삭제를 위해 세션에 저장
+	session.setAttribute("bean", bean);
+%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +41,7 @@ width:800px;
 height:90%;
 padding-top:50px;
 margin: 0px auto;
+border-spacing: 0px;
 }
 #answer{
 width: 900px;
@@ -44,6 +55,13 @@ width:800px;
 height:90%;
 padding-top:50px;
 margin: 0px auto;
+}
+.answerList{
+width: 900px;
+height: 100%;
+background-color: white;
+margin: 20px auto;
+border: 1px solid #ddd;
 }
 #ta{
 background-color: aliceblue;
@@ -65,8 +83,77 @@ font-size: 20px;
 font-weight: bold;
 border-radius: 10px;
 }
+#tag:link{
+color:#888;
+text-align: right;
+font-size: 15px;
+text-decoration: none
+}
+#tag:visited{
+color:#888;
+}
+#tag:hover{
+color:#40c700;
+}
+.upbtn{
+display:none;
+margin-top:20px;
+margin-left:570px;
+margin-bottom:10px;
+ width: 100px;
+height: 50px;
+background-color: #40c700;
+border: 0px;
+color:white;
+outline: none;
+cursor: pointer;
+font-size: 20px;
+font-weight: bold;
+border-radius: 10px;
+}
+.cbtn{
+display:none;
+margin-top:20px;
+margin-left:10px;
+margin-bottom:10px;
+width: 100px;
+height: 50px;
+background-color: #40c700;
+border: 0px;
+color:white;
+outline: none;
+cursor: pointer;
+font-size: 20px;
+font-weight: bold;
+border-radius: 10px;
+}
+#btnspan{
+float:left;
+}
 </style>
+
 <script>
+function update(aid) {
+	var e = document.getElementById(aid);
+	
+	if(e.style.display=='block'){
+	e.style.display='none';
+	document.getElementById(1000+aid).style.display='block';
+	document.getElementById(10000+aid).style.display='block';
+	document.getElementById(11000+aid).style.display='block';
+	}else if(e.style.display='none'){
+		e.style.display='block';
+		document.getElementById(1000+aid).style.display='none';
+		document.getElementById(10000+aid).style.display='none';
+		document.getElementById(11000+aid).style.display='none';
+	}
+	
+}
+function down(filename) {
+	document.downFrm.filename.value=filename;
+	document.downFrm.submit();
+}
+
 function Cal(boardDate) {
 	 let today = new Date();   
 	 let year = today.getFullYear(); // 현재년도
@@ -75,16 +162,35 @@ function Cal(boardDate) {
 	 let hours = today.getHours(); // 현재시
 	 let minutes = today.getMinutes();  // 현재분
 	 let seconds = today.getSeconds();  // 현재초
-	 let ymd = boardDate.substring(0,boardDate.lastIndexOf(" "));//게시물 년월일
+	 
+	 let y = boardDate.substring(0,4); //게시글 년도
+	 let mon ="";                     //게시글 월
+	 let d ="";                     //게시글 일
+	 
+	 if(boardDate.substring(5,6)==0){     //한자리 수라면 0 제거
+		 mon = boardDate.substring(6,7);
+	 }else{
+		 mon = boardDate.substring(5,7);
+	 }
+	 
+	 if(boardDate.substring(8,9)==0){     //한자리 수라면 0 제거
+		 d = boardDate.substring(9,10);
+	 }else{
+		 d = boardDate.substring(8,10);
+	 }
+
 	 let h = boardDate.substring(10,13);//게시물 시
 	 let m = boardDate.substring(14,16);//게시물 분
 	 let s = boardDate.substring(17,19);//게시물 초
+	 
 	 if(s.substring(0,1)==0)  //한자리수라면 앞의 0자르기
 		 s=s.substring(1,2);
 	 
-	 var b = year+"-"+month+"-"+date;  //현재 년월일
-	 if(b!=ymd){
-	    return ymd;
+	 var nymd = year+"-"+month+"-"+date;  //현재 년월일
+	 var bymd = y+"-"+mon+"-"+d;  //게시글 년월일
+	 
+	 if(nymd!=bymd){
+	    return bymd;
 	 }else if(hours-h>=2){
 		return hours-h+"시간전";
 	 }else if(hours-h==1){
@@ -93,12 +199,12 @@ function Cal(boardDate) {
 		 return minutes==m?seconds-s+"초전":minutes-m+"분전";
 	 }
 }
-</script>
+</script> 
 </head>
 <body>
 <%@ include file="header.jsp" %>
 <div id="body">
-<hr style="margin-top:0px;margin-bottom: 20px;">
+<hr style="margin-top:0px;margin-bottom: 20px;"> 
 <div id="board">
 <table id = "qTable">
 	<tr><td colspan="4">
@@ -106,11 +212,19 @@ function Cal(boardDate) {
 	<a style="font-size: 25px;font-weight: bold;color:#444;"><%=bean.getTitle() %>
 	<span style="color:#40c700;"> [ <%=bean.getPoint() %> ]</span></a>
 	</td></tr>
-	<tr><td colspan="4" style="padding-top: 50px;padding-bottom: 60px;"><pre>
+		<%if(bean.getFilename()!=null&&!bean.getFilename().equals("")){ %>
+	<tr><td colspan="4" align="right">
+	<img  src="img/down.png" style="width: 30px;height: 25px;">
+	<a href="javascript:down('<%=bean.getFilename() %>')">
+	<%=bean.getFilename() %></a>
+	<font color="blue">(<%=UtilMgr.intFormat(bean.getFilesize()) %>bytes)</font>
+	</td></tr>
+	<%} %>
+	<tr><td colspan="4" style="padding-top: 50px;padding-bottom: 30px;border-bottom: 2px solid #40c700;"><pre>
 	<%=bean.getContent() %>
 	<pre></td></tr>
 <tr>
-	<td width="100px" style="padding-bottom: 50px;">
+	<td width="100px" style="padding-bottom: 50px; font-weight: bold;" >
 		<%=bean.getId() %>
 	</td>
 	<td width="100px" style="padding-bottom: 50px;">
@@ -120,6 +234,10 @@ function Cal(boardDate) {
 		답변 <%=bean.getAnswer_count()%>
 	</td>
 	<td width="500px" align="right" style="padding-bottom: 50px;">
+	<%if(id.equals(bean.getId())){ %>
+	<a id="tag" href="naver_question_up.jsp?qnum=<%=qnum%>">[수정]</a>
+	<a id="tag" href="delete_q.jsp?qnum=<%=qnum%>">[삭제]</a>
+	<%} %>
 		<script>
 			document.write(Cal('<%=bean.getDate()%>'));  //날짜계산함수
 		</script>
@@ -129,10 +247,11 @@ function Cal(boardDate) {
 </div>
 <div id="answer">
 <form method="post" name="aFrm" action="answerProc.jsp">
+<input type="hidden" name="id" value="<%=id %>">
 <table id="aTable">
 <tr><td>
 <img  src="img/question.png" style="width: 40px;height: 40px;border-radius: 10px;">
-	<a style="font-size: 25px;font-weight: bold;color:#444;">session id 님 답변해주세요.</a>
+	<a style="font-size: 25px;font-weight: bold;color:#444;"><%=id%> 님 답변해주세요.</a>
 </td></tr>
 <tr>
 <td style="padding-top: 30px;"><textarea id="ta" cols="99" rows="20" name="content"></textarea></td>
@@ -145,8 +264,53 @@ function Cal(boardDate) {
 </table>
 </form>
 </div>
+<%Vector<AnswerBean> vlist = amgr.getAnswerList(qnum); 
+	for(int i=0;i<vlist.size();i++){ 
+	AnswerBean abean = vlist.get(i);
+	int aid = 100+i;
+	%>
+	
+<div class="answerList">
+<table id="aTable">
+<tr><td><img  src="img/question.png" style="width: 40px;height: 40px;border-radius: 10px;">
+	<a style="font-size: 25px;font-weight: bold;color:#444;"><%=abean.getId()%>님 답변</a><a style="margin-left: 480px;">[<%=abean.getGrade() %> 등급]</a></td></tr>
+<tr><td id="<%=aid%>" width="800px"style="display:block;
+padding-top: 50px;padding-bottom: 50px;border-bottom: 2px solid #40c700;"><pre><%=abean.getContent() %></pre></td></tr>
 
+
+<form method="post" action="naver_answer_up.jsp">
+<tr><td style="padding-top: 20px;"><textarea cols="110" rows="15" id="<%=1000+aid%>"
+ style="display:none;background-color: aliceblue;" name="content"><%=abean.getContent()%></textarea>
+ </td></tr>
+ <tr><td>
+<span id="btnspan"><input type="submit" value="수정하기" id="<%=10000+aid%>" class="upbtn"></span>
+ <span id="btnspan">
+ <input type="button" value="취소하기" id="<%=11000+aid%>" class="cbtn" onclick="update(<%=aid%>)"></span>
+ <input type="hidden" value="<%=abean.getAnum()%>" name="anum">
+ <input type="hidden" value="<%=qnum%>" name="qnum">
+ </td></tr>
+ </form>
+ 
+ 
+<tr><td  align="right" style="padding-bottom:50px;">
+
+<%if(id.equals(abean.getId())){ %>
+	<a id="tag" href="javascript:update(<%=aid%>)">[수정]</a>
+	<a id="tag" href="delete_a.jsp?anum=<%=abean.getAnum()%>&qnum=<%=qnum%>">[삭제]</a>
+	<%} %>
+		<script>
+		document.write(Cal('<%=abean.getDate()%>'));  //날짜계산함수
+		</script>
+		</td></tr>
+</table>
 </div>
+<%} %>
+</div>
+
+<form method="post" name="downFrm" action="download.jsp">
+	<input type="hidden" name="filename">
+</form>
+
 <!-- my menu -->
 <span id="menutable" style="display:none" >
 	<table>

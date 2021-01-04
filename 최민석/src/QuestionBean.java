@@ -11,7 +11,21 @@ public class QuestionBean {
 		private int answer_count;
 		private int hits;
 		private String date;
+		private String filename;
+		private int filesize;
 		
+		public String getFilename() {
+			return filename;
+		}
+		public void setFilename(String filename) {
+			this.filename = filename;
+		}
+		public int getFilesize() {
+			return filesize;
+		}
+		public void setFilesize(int filesize) {
+			this.filesize = filesize;
+		}
 		public int getQnum() {
 			return qnum;
 		}

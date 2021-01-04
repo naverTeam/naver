@@ -5,13 +5,15 @@
     pageEncoding="EUC-KR"%>
     <jsp:useBean id="mgr" class="in.QuestionMgr" />
   <%
-   request.setCharacterEncoding("EUC-KR");
+	request.setCharacterEncoding("EUC-KR");
+	String id = (String)session.getAttribute("id");
+	
   int totalRecord = 0;//총게시물수
 	int numPerPage = 10;//페이지당 레코드 개수(5,10,15,30)
 	int pagePerBlock = 10;//블럭당 페이지 개수
-	int totalPage = 0;//총 페이지 개수
+	int totalPage = 0;//총 페이지 개수 
 	int totalBlock =0;//총 블럭 개수
-	int nowPage = 1;//현재 페이지
+	int nowPage = 1;//현재 페이지 
 	int nowBlock = 1;//현재 블럭
 	
 	
@@ -26,7 +28,7 @@
 	}
 	
 	
-	totalRecord = mgr.getTotalCount();
+	totalRecord = mgr.getTotalCount(dir);
 	
 	//요청된 numPerPage 처리
 	if(request.getParameter("numPerPage")!=null){
@@ -234,6 +236,9 @@ border: 1px solid #ccc;
 color:blue;
 cursor: pointer;
 }
+#id{
+font-weight: bold;
+}
 
 </style>
 <script type="text/javascript">
@@ -246,16 +251,35 @@ cursor: pointer;
 	 let hours = today.getHours(); // 현재시
 	 let minutes = today.getMinutes();  // 현재분
 	 let seconds = today.getSeconds();  // 현재초
-	 let ymd = boardDate.substring(0,boardDate.lastIndexOf(" "));//게시물 년월일
+	 
+	 let y = boardDate.substring(0,4); //게시글 년도
+	 let mon ="";                     //게시글 월
+	 let d ="";                     //게시글 일
+	 
+	 if(boardDate.substring(5,6)==0){     //한자리 수라면 0 제거
+		 mon = boardDate.substring(6,7);
+	 }else{
+		 mon = boardDate.substring(5,7);
+	 }
+	 
+	 if(boardDate.substring(8,9)==0){     //한자리 수라면 0 제거
+		 d = boardDate.substring(9,10);
+	 }else{
+		 d = boardDate.substring(8,10);
+	 }
+
 	 let h = boardDate.substring(10,13);//게시물 시
 	 let m = boardDate.substring(14,16);//게시물 분
 	 let s = boardDate.substring(17,19);//게시물 초
+	 
 	 if(s.substring(0,1)==0)  //한자리수라면 앞의 0자르기
 		 s=s.substring(1,2);
 	 
-	 var b = year+"-"+month+"-"+date;  //현재 년월일
-	 if(b!=ymd){
-	    return ymd;
+	 var nymd = year+"-"+month+"-"+date;  //현재 년월일
+	 var bymd = y+"-"+mon+"-"+d;  //게시글 년월일
+	 
+	 if(nymd!=bymd){
+	    return bymd;
 	 }else if(hours-h>=2){
 		return hours-h+"시간전";
 	 }else if(hours-h==1){
@@ -266,6 +290,7 @@ cursor: pointer;
 }
 	 function boardevent(dir) {
 		document.readFrm.dir.value = dir;
+		document.readFrm.nowPage.value= 1;
 		document.readFrm.submit();
 	}
 	 function boardlist(where) {
@@ -292,10 +317,10 @@ cursor: pointer;
 	}
 </script>
 </head>
-
+ 
 
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="header.jsp" %> 
 <div id="body">
 <hr style="margin-top:0px;margin-bottom: 20px;">
 <span class="relative" id="margin">
@@ -408,7 +433,11 @@ cursor: pointer;
 	%>
 	<tr id="questionBoard" onclick="boardRead('<%=bean.getQnum()%>')">
 		<td style="font-weight:bold;font-size: 18px;"width="330px"><%=bean.getTitle() %> 
-		<span style="color:#40c700;"> [ <%=bean.getPoint() %> ]</span></td>
+		<span style="color:#40c700;"> [ <%=bean.getPoint() %> ]</span>
+		<%if(bean.getFilename()!=null){ %>
+		<img  src="img/down.png" style="width: 20px;height: 20px;">
+		<%} %>
+		</td>
 		<td width="50px" style="color:#888;">답변<%=bean.getAnswer_count() %></td>
 		<td width="110px" style="color:#888;"><%=bean.getDirectory() %></td>
 		<td width="80px" style="text-align: right;color:#888;" id="test">
@@ -463,14 +492,34 @@ cursor: pointer;
 
 <!-- 프로필 -->
 <div id="profile">
-
+<%if(id==null){ %>
 <div style="padding-top: 20px;padding-left: 30px;background-color:aliceblue;height: 169px;">
 <p style="color:#888;">질문과 답변을 하고싶다면,</p>
-<button id="nlogin" type="button" onclick="location.href='../joon/login.jsp' "/><br><br><br><br>
-<p id="new" style="color:#888;text-align: right;font-size: 15px;">회원가입</p>
+<button id="nlogin" type="button" onclick="location.href='../joon/login.jsp' "/><br><br><br><br><br>
+<a id="new" style="margin-left:190px;color:#888;text-align: right;font-size: 15px;" href="../joon/member.jsp">회원가입</a>
 </div>
 <hr style="margin-top:0px;">
-
+<%}else{ %>
+<div style="padding-top: 20px;padding-left: 30px;background-color:aliceblue;height: 220px;">
+<table id="myprof">
+<tr><td>
+	<img  src="img/question.png" style="width: 40px;height: 40px;border-radius: 10px;">
+	<a id="id"><%=id%></a>
+</td>
+<form action="logout.jsp">
+<td align="right" width="140px"><input type="submit" value="로그아웃"></td></tr>
+</form>
+<tr>
+<td style="font-weight: bold;padding-top: 10px;padding-bottom: 10px;">나의 지식iN</td>
+</tr>
+<tr><td>나의 질문 : </td></tr>
+<tr><td>나의 답변 : </td></tr>
+<tr><td>나의 내공 : </td></tr>
+<tr><td>나의 랭킹 : </td></tr>
+</table>
+</div>
+<hr style="margin-top:0px;">
+<%} %>
 <div style="padding-top: 20px;padding-left: 20px;padding-right: 20px;">
 <p style="font-weight: bold">지식iN 인기태그</p>
 <p><span class="tag">#사업자등록증</span>
