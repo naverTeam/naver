@@ -17,10 +17,19 @@
 	align-items: center;
 	justify-content: center;
 }
-.fullLink-col:hover {
-	cursor: pointer;
+.fullLink-col-bg {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
-.fullLink-col:visited {
+.fullLink-col-bg:hover {
+	cursor: pointer;
+	background: red;
+}
+.fullLink-col-bg:checked {
 	background: red;
 }
 .fullLink-row {

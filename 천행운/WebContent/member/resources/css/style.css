@@ -1,0 +1,114 @@
+@charset "EUC-KR";
+* a {
+	text-decoration: none;
+	color: #8e8e8e;
+}
+
+* a:visited {
+	color: #8e8e8e;
+}
+html {
+	height: 100%;
+}
+body {
+	margin: 0px;
+	min-width: 1190px;
+	height: 100%;
+}
+
+#root {
+	overflow: hidden;
+    min-width: 1190px;
+    height: 100%;
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: #f5f6f7;
+}
+#loginArea {
+	height: 50%;
+	overflow: hidden;
+    min-width: 1190px;
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#ready {
+	height: 50%;
+}
+.top {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.middle {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.loginBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+	width: 450px;
+	height: 50px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.logInBtn {
+	width: 459px;
+	background: #03c75a;
+	height: 50px;
+	border: none;
+	font-size: 24px;
+	color: white;
+}
+.logInput {
+	width: 450px;
+	height: 50px;
+}
+.logInput:hover {
+	cursor: pointer;
+}
+.low {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.textBtn {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+.container {
+	overflow: hidden;
+    min-width: 450px;
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.label {
+	overflow: hidden;
+    min-width: 450px;
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	margin-bottom: 5px;
+}
+.signInput {
+	width: 450px;
+	height: 50px;
+	margin-bottom: 5px;
+	font-size: 17px;
+}
+.signInput:hover {
+	cursor: pointer;
+}

@@ -1,4 +1,10 @@
+<%@page import="blog.BlogPostBean"%>
+<%@page import="java.util.Vector"%>
+<%@page import="blog.NeighborBean"%>
 <%@ page contentType="text/html; charset=EUC-KR"%>
+<jsp:useBean id="neighborMgr" class="blog.NeighborMgr"/>
+<jsp:useBean id="postBean" class="blog.BlogPostBean"/>
+<jsp:useBean id="postMgr" class="blog.BlogPostMgr"/>
 
 <%
 		request.setCharacterEncoding("EUC-KR");
@@ -36,35 +42,45 @@
 			<div class="conLeft">
 			<%
 						String id = (String) session.getAttribute("id");//id로 로그인상태 확인 후 출력문 결정
-						String neighbor = "";//neighbor로 이웃 확인 후 출력문 결정
+						NeighborBean neighborBean = neighborMgr.getNeighborList(id);//neighbor로 이웃 확인 후 출력문 결정
+						String neighbor = neighborBean.getNeighborId();
 						//3가지 경우의 수
 						//로그인 했다
 						//로그인 했는데 이웃이 없다
 						//로그인 안했다
 						if(id!=null && !id.equals("")) {
-							if(neighbor!=null && !neighbor.equals("")){					
+							if(neighbor!=null && !neighbor.equals("")){
 			%>
 								<div class="blogWrap">
 								이웃의 새 글입니다.
 								<div class="blogItems">					
 									<div class="blogLeft">
-										<div class="blogLeftItem">
-											<a href="#" class="fullLink-col">
-												<img class="thumb-lg" src="" alt="img">
-												<span class="spanHeader-lg">dd</span>
-												<span class="spanDesc">cc</span>
+									
+									<%
+											
+											Vector<NeighborBean> nVList = neighborMgr.getRandomNeighbor(id);																					
+											for(int i=0; i<nVList.size(); i++){
+												NeighborBean nBean = nVList.get(i);//이웃 아이디 6개 중 i행을 가져온다
+												String nid = nBean.getNeighborId(); //nid에 담는다
+												
+												postBean = postMgr.getNewPost(nid);//nid를 넣어 새글 가져오기
+												String postHead = postBean.getPostTitle();
+												String postText = postBean.getPostText();
+												int postNum = postBean.getPostNo();
+												int cateNum = postBean.getPostCNum();
+												
+									%>
+										<div class="blogLeftItem" style="margin-top: 5px; margin-bottom: 5px;">
+											<a href="blog_<%=nid %>.jsp?cateNum=<%=cateNum %>&postNum=<%=postNum %>" class="fullLink-col">
+												<img class="thumb-lg-blog" src="" alt="img">
+												<span class="spanHeader-lg-blog"><%=postHead %></span>
+												<%-- <span class="spanDesc"><%=postText %></span> --%>
 											</a>
 										</div>
+												
+										<%} %>
 									</div>
-									<div class="blogRight">
-										<div class="blogRightItem">
-											<a href="#" class="fullLink-col">
-												<img class="thumb-lg" src="" alt="img">
-												<span class="spanHeader-lg">dd</span>
-												<span class="spanDesc">cc</span>
-											</a>
-										</div>
-									</div>
+									
 								</div>
 							</div>				
 							<%	} else { %>
@@ -81,59 +97,39 @@
 				<%	} %>
 				<div class="blogWrap">
 					이런 이웃은 어때요
+					
 					<div class="blogItems">					
 						<div class="blogLeft">
 						
+						<%
+								Vector<BlogPostBean> popVlist = postMgr.getPopList(id);
+								int cnt = 0;
+								for(int i=0; i<popVlist.size(); i++){									
+									BlogPostBean bean = popVlist.get(i);
+									String popId = bean.getId();//글쓴이 아이디 저장
+									boolean flag = neighborMgr.getNeighborList(id, popId);
+									if(flag==false){
+										cnt = cnt+1;
+										String popHead = bean.getPostTitle();
+										String popImg = bean.getPostImg();
+										String popDesc = bean.getPostText();
+									
+						%>
 							<div class="blogLeftItem">
 								<a href="#" class="fullLink-col">
-									<img class="thumb-lg" src="" alt="img">
-									<span class="spanHeader-lg">dd</span>
-									<span class="spanDesc">cc</span>
+									<img class="thumb-lg-blog" src="" alt="img">
+									<span class="spanHeader-lg-blog"><%=popHead %></span>
+									<span class="spanDesc"><%=popDesc %></span>
 								</a>
 							</div>
-							<div class="blogLeftItem">
-								<a href="#" class="fullLink-col">
-									<img class="thumb-lg" src="" alt="img">
-									<span class="spanHeader-lg">dd</span>
-									<span class="spanDesc">cc</span>
-								</a>
-							</div>
-							<div class="blogLeftItem">
-								<a href="#" class="fullLink-col">
-									<img class="thumb-lg" src="" alt="img">
-									<span class="spanHeader-lg">dd</span>
-									<span class="spanDesc">cc</span>
-								</a>
-							</div>
+							<%	} %>
+							<%if(cnt==6) break; %>
+						<%	} %>
+							
 							
 						</div>
 						
 						
-						<div class="blogRight">
-						
-							<div class="blogRightItem">
-								<a href="#" class="fullLink-col">
-									<img class="thumb-lg" src="" alt="img">
-									<span class="spanHeader-lg">dd</span>
-									<span class="spanDesc">cc</span>
-								</a>
-							</div>
-							<div class="blogRightItem">
-								<a href="#" class="fullLink-col">
-									<img class="thumb-lg" src="" alt="img">
-									<span class="spanHeader-lg">dd</span>
-									<span class="spanDesc">cc</span>
-								</a>
-							</div>
-							<div class="blogRightItem">
-								<a href="#" class="fullLink-col">
-									<img class="thumb-lg" src="" alt="img">
-									<span class="spanHeader-lg">dd</span>
-									<span class="spanDesc">cc</span>
-								</a>
-							</div>
-						
-						</div>
 					</div>
 				</div>
 			</div>
@@ -155,6 +151,7 @@
 				<%} else { %>
 				<div class="loginBox">
 					<div class="loginBoxTop">
+						
 						<input class="loginButton" onclick="location.href='../joon/login.jsp'" type="button" value="로그인">
 					</div>
 					<div class="loginBoxBottom">

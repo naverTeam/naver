@@ -1,7 +1,7 @@
 <%@page import="java.io.FileOutputStream"%>
 <%@page import="java.io.OutputStreamWriter"%>
 <%@page import="java.io.BufferedWriter"%>
-<%@page import="joinmember.BlogTemplate"%>
+<%@page import="blog.BlogTemplate"%>
 <%@ page contentType="text/html; charset=EUC-KR"%>
 <jsp:useBean id="blogMgr" class="blog.BlogMgr"/>
 <jsp:useBean id="blogBean" class="blog.BlogBean"/>

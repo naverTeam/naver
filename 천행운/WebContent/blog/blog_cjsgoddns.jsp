@@ -20,7 +20,10 @@
 		if(strPostNum==null) strPostNum="0";
 		int postNum = Integer.parseInt(strPostNum);
 		
-		int cateNum = UtilMgr.parseInt(request, "cateNum");
+		String strCateNum =request.getParameter("cateNum");
+		int cateNum =0;
+		if(strCateNum!=null&&!strCateNum.equals(""))
+			cateNum = UtilMgr.parseInt(request, "cateNum");
 		
 %>
 <%
@@ -81,11 +84,12 @@
 			document.readFrm.submit();
 		}
 		function read(num) {
-			document.readFrm.num.value = num;
+			document.readFrm.postNum.value = num;
 			document.readFrm.action = "blog_<%=id%>.jsp";
 			document.readFrm.submit();
 		}
 	</script>
+
 </head>
 <body>
 	<div id="root">
@@ -202,6 +206,15 @@
 					<div class="postTitle">
 						<span class="postSpan-lg">제목: <%=postTitle %></span>
 					</div>
+					<%if(sid!=null&&sid.equals(id)){ %>
+					<div style="display: flex; flex-direction: row; justify-content: flex-end; align-items: self-end;">
+					<form action="blog_<%=id %>_modify.jsp" method="post">
+						<input type="submit" value="수정하기">
+						<input type="hidden" name="postTitle" value="<%=postTitle %>">
+						<input type="hidden" name="postText" value="<%=postText %>">
+					</form>
+					</div>
+					<%} %>
 					<div class="postContents">
 						<%=postText %>
 					</div>
@@ -295,7 +308,7 @@
 			<input type="hidden" name="numPerPage" value="<%=numPerPage%>">
 			<input type="hidden" name="cateNum" value="<%=cateNum%>">
 			<input type="hidden" name="category" value="<%=cateName%>">
-			<input type="hidden" name="postNum" value="<%=postNo%>">
+			<input type="hidden" name="postNum" value="<%=postNum%>">
 		</form>
 	</div>
 </body>

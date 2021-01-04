@@ -63,13 +63,13 @@
 				
 					<div class="blogCategoryBar">
 						<div class="blogCategory">
-							<input type="submit" name="topic" value="IT" class="fullLink-col" style="background: #19ce60;"></div>
+							<input type="submit" name="topic" value="IT" class="fullLink-col-bg"></div>
 						<div class="blogCategory">
-							<input type="submit" name="topic"  value="일상" class="fullLink-col"></div>
+							<input type="submit" name="topic"  value="일상" class="fullLink-col-bg"></div>
 						<div class="blogCategory">
-							<input type="submit" name="topic"  value="취미" class="fullLink-col"></div>
+							<input type="submit" name="topic"  value="취미" class="fullLink-col-bg"></div>
 						<div class="blogCategory">
-							<input type="submit" name="topic"  value="요리" class="fullLink-col"></div>
+							<input type="submit" name="topic"  value="요리" class="fullLink-col-bg"></div>
 					</div>
 					
 				</form>

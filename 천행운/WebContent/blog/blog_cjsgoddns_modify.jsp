@@ -15,6 +15,10 @@
 		String blogProfileDesc = blogBean.getProfileDesc();
 		String blogProfileImg = blogBean.getProfileImage();
 		String sid = (String) session.getAttribute("id");
+		
+		String postTitle = request.getParameter("postTitle");
+		String postText = request.getParameter("postText");
+		
 		//현재 로그인한 세션 아이디와 블로그소유주 아이디가 동일하지 않으면
 		//이 블로그의 웰컴 페이지로 넘김 (비정상적 접근)
 		if(id!=sid&&!id.equals(sid))
@@ -113,7 +117,7 @@
 				<div class="postWrap">
 					<form name="postFrm" method="post" action="postingProc.jsp" enctype="multipart/form-data">
 						<input type="text" name="title" style="font-size: 20px; width: 99%; height: 40px;"
-									placeholder="제목을 입력하세요">
+									value="<%=postTitle%>">
 						<div style="display: flex; justify-content: flex-end;">
 							<select name="category">
 								<option>카테고리
@@ -133,7 +137,6 @@
   						<input multiple="multiple" type="file" name="filename[]">
   						<input type="hidden" name="hiddenid" value="<%=id%>">
   						<input type="submit" value="저장">
-  						
 					</form>
 				</div>
 				
@@ -143,19 +146,19 @@
 </body>
 <script>
 $('#summernote').summernote({
-        placeholder: '내용을 입력하세요',
-        tabsize: 2,
-        height: 120,
-        toolbar: [
-          ['style', ['style']],
-          ['font', ['bold', 'underline', 'clear']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['table', ['table']],
-          ['insert', ['link', 'picture', 'video']],
-          ['view', ['fullscreen', 'codeview', 'help']]
-        ]
-      });
-
+    placeholder: '내용을 입력하세요',
+    tabsize: 2,
+    height: 120,
+    toolbar: [
+      ['style', ['style']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture', 'video']],
+      ['view', ['fullscreen', 'codeview', 'help']]
+    ]
+  });
+$('#summernote').summernote('editor.insertText', '<%=postText%>');      
 </script>  
 </html>
