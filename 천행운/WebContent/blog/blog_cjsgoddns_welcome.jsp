@@ -38,12 +38,12 @@
 				</div>
 				<div class="blog-navbar-right">
 					<%if(sid!=null&&!sid.equals("")){ %>
-					<div><a href="../joon/logout.jsp">로그아웃</a></div>
+					<div><a href="../member/logout.jsp">로그아웃</a></div>
 						<%if(sid!=id&&!sid.equals(id)){ %>
 					<div><a href="blog_<%=sid%>.jsp">내 블로그</a></div>
 						<%} %>
 					<%}else{ %> 
-					<div><a href="../joon/login.jsp">로그인</a></div>
+					<div><a href="../member/login.jsp">로그인</a></div>
 					<%} %>
 				</div>
 			</div>

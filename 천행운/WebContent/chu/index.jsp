@@ -126,7 +126,10 @@
 				<div class="loginBox">
 					<div class="loginBoxTop" style="flex-direction: column;">
 						<div><strong><%=id %></strong>님 환영합니다.</div>
-						<div><a href="../joon/logout.jsp">로그아웃</a></div>
+						<div>
+							<a href="../member/logout.jsp">로그아웃</a><span style="margin: 5px;"></span>
+							<a href="../member/myAccount.jsp">회원정보</a>
+						</div>						
 					</div>
 					<div class="loginBoxBottom" style="justify-content: space-around;">
 						<div class="loginBoxBottom-item">My 지식인</div>
@@ -138,7 +141,10 @@
 					<div class="loginBox">
 					<div class="loginBoxTop" style="flex-direction: column; height: 30%;">
 						<div><strong><%=id %></strong>님 환영합니다.</div>
-						<div><a href="../joon/logout.jsp">로그아웃</a></div>
+						<div>
+							<a href="../member/logout.jsp">로그아웃</a>
+							<a href="../member/myAccount.jsp">회원정보</a>
+						</div>
 					</div>
 					<div><strong>나만의 블로그를 만들어보세요!</strong></div>
 					<div class="loginBoxBottom" style="justify-content: space-around;">
@@ -152,21 +158,19 @@
 				<%} else {//로그인 하지 않은 경우 %>
 				<div class="loginBox">
 					<div class="loginBoxTop">
-						<input class="loginButton" onclick="location.href='../joon/login.jsp'" type="button" value="로그인">
+						<input class="loginButton" onclick="location.href='../member/login.jsp'" type="button" value="로그인">
 					</div>
 					<div class="loginBoxBottom">
 						<div class="loginBoxBottomLeft">
-							<span style="margin-left: 10px;"><a href="../joon/member.jsp">회원가입</a></span>
+							<span style="margin-left: 10px;"><a href="../member/member.jsp">회원가입</a></span>
 						</div>
 						<div class="loginBoxBottomRight">
-							<span style="margin-right: 10px;"><a href="#">ID 찾기</a></span>
+							<span style="margin-right: 10px;"><a href="../member/find_id.jsp">ID/PWD 찾기</a></span>
 						</div>
 					</div>
 				</div>
 				<%} %>
 					
-				
-				
 				<div class="weatherBox">날씨</div>
 				<div class="shopBox">
 				<%

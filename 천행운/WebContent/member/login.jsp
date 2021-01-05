@@ -21,10 +21,10 @@
 			<div class="middle">
 				<form action="loginProc.jsp">
 					<div class="loginBox">
-						<input type="text" placeholder="아이디" class="logInput">
+						<input type="text" name="id" placeholder="아이디" class="logInput">
 					</div>
 					<div class="loginBox">
-						<input type="text" placeholder="비밀번호" class="logInput">
+						<input type="text" name="pwd" placeholder="비밀번호" class="logInput">
 					</div>
 					<div class="loginBox">
 						<input type="submit" value="로그인" class="logInBtn">
@@ -32,9 +32,9 @@
 				</form>
 			</div>
 			<div class="low">
-				<div class="textBtn"><a href="">아이디 찾기</a></div>
-				<div class="textBtn"><a href="">비밀번호 찾기</a></div>
-				<div class="textBtn"><a href="">회원가입</a></div>
+				<div class="textBtn"><a href="find_id.jsp">아이디 찾기</a></div>
+				<div class="textBtn"><a href="find_pwd.jsp">비밀번호 찾기</a></div>
+				<div class="textBtn"><a href="member.jsp">회원가입</a></div>
 			</div>
 		</div>
 		<div id="ready">

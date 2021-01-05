@@ -53,7 +53,7 @@
 					<select>
 						<option>ÀÌ¿ôºí·Î±×
 					</select>
-					<div><a href="../joon/logout.jsp">·Î±×¾Æ¿ô</a></div>
+					<div><a href="../member/logout.jsp">·Î±×¾Æ¿ô</a></div>
 				</div>
 			</div>
 		</div>

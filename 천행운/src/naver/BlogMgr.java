@@ -12,57 +12,7 @@ public class BlogMgr {
 	public BlogMgr() {
 		pool = DBConnectionMgr.getInstance();
 	}
-	
-	//메인 블로그 세 개 가져오기
-	public Vector<BlogBean>getMainList() {
-		Vector<BlogBean> vlist = new Vector<BlogBean>();
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		try {
-			con = pool.getConnection();
-			sql = "select * from naverblog limit 0,3";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				BlogBean bean = new BlogBean();
-				bean.setbTitle(rs.getString("btitle"));
-				bean.setbDesc(rs.getString("bdesc"));
-				bean.setbImg(rs.getString("bimg"));
-				vlist.addElement(bean);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, pstmt, rs);
-		}
-		return vlist;
-	}
-	//메인 큰 블로그 하나 가져오기
-	public BlogBean getHotBlog() {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = null;
-		BlogBean bean = new BlogBean();
-		try {
-			con = pool.getConnection();
-			sql = "select * from naverblog where num=7";
-			pstmt = con.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				bean.setbTitle(rs.getString("btitle"));
-				bean.setbImg(rs.getString("bimg"));
-				bean.setbDesc(rs.getString("bdesc"));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			pool.freeConnection(con, pstmt, rs);
-		}
-		return bean;
-	}
+
 	//통합검색결과 페이지로 블로그 5개 가져오기
 	public Vector<BlogBean> getBlogInSearch(String keyWord){
 		Connection con = null;

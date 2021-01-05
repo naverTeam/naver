@@ -10,11 +10,15 @@
 <jsp:useBean id="postMgr" class="blog.BlogPostMgr"/>
 <%
 		String id = "cjsgoddns";
+		String sid = (String) session.getAttribute("id");
 		blogBean = blogMgr.getBlogPage(id);
 		String blogBanner = blogBean.getBannerImg();
 		String blogProfileDesc = blogBean.getProfileDesc();
 		String blogProfileImg = blogBean.getProfileImage();
-		
+		//현재 로그인한 세션 아이디와 블로그소유주 아이디가 동일하지 않으면
+		//이 블로그의 웰컴 페이지로 넘김 (비정상적 접근)
+		if(id!=sid&&!id.equals(sid))
+			response.sendRedirect("blog_"+id+"_welcome.jsp");
 %>
 
 <!DOCTYPE html>
@@ -44,7 +48,7 @@
 					<select>
 						<option>이웃블로그
 					</select>
-					<div><a href="../joon/logout.jsp">로그아웃</a></div> 
+					<div><a href="../member/logout.jsp">로그아웃</a></div> 
 				</div>
 			</div>
 		</div>

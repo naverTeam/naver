@@ -1,11 +1,11 @@
 package blog;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Vector;
 
-import naver.BlogBean;
 
 public class BlogPostMgr {
 	private DBConnectionMgr pool;
@@ -14,7 +14,7 @@ public class BlogPostMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	//메인페이지 영역////////////////////////////////////
-	//큰 블로그 하나 가져오기
+	//주제별 큰 블로그 하나 가져오기
 	public BlogPostBean getHotPost(String topic) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -41,7 +41,7 @@ public class BlogPostMgr {
 			}
 			return bean;
 		}
-	//작은 블로그 세개 가져오기
+	//주제별 작은 블로그 세개 가져오기
 	public Vector<BlogPostBean> getMainList(String topic) {
 		Vector<BlogPostBean> vlist = new Vector<BlogPostBean>();
 		Connection con = null;
@@ -64,6 +64,37 @@ public class BlogPostMgr {
 				bean.setPostText(rs.getString("postText"));
 				vlist.addElement(bean);
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return vlist;
+	}
+	//추천이웃을 위한 글 가져오기
+	public Vector<BlogPostBean> getPopList(String id){
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		Vector<BlogPostBean> vlist = new Vector<BlogPostBean>();
+		try {
+			con = pool.getConnection();
+			sql = "SELECT * FROM blog_post WHERE NOT id=? GROUP BY id ORDER BY postLike";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				BlogPostBean bean = new BlogPostBean();
+				bean.setId(rs.getString("id"));
+				bean.setPostTitle(rs.getString("postTitle"));
+				bean.setPostText(rs.getString("postText"));
+				bean.setPostCNum(rs.getInt("postCNum"));
+				bean.setPostNo(rs.getInt("postNo"));
+				bean.setPostImg(rs.getString("postImg"));
+				vlist.addElement(bean);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -103,11 +134,11 @@ public class BlogPostMgr {
 		BlogPostBean bean = new BlogPostBean();
 		try {
 			con = pool.getConnection();
-			sql = "SELECT * FROM blog_post WHERE id=? AND postNo=(SELECT MAX(postNo) FROM blog_post);";
+			sql = "SELECT * FROM blog_post WHERE id=?  ORDER BY postNo DESC";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if(rs.first()) {
 				bean.setId(rs.getString("id"));
 				bean.setPostNo(rs.getInt("postNo"));
 				bean.setPostTitle(rs.getString("postTitle"));
@@ -288,7 +319,7 @@ public class BlogPostMgr {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setInt(2, cateNum);
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -335,6 +366,8 @@ public class BlogPostMgr {
 		}
 		return bean;
 	}
+	//주제별 인기글 가져오기
+	
 	//테스트 데이터 집어넣기용
 	public void insertTestData(int cateNum) {
 		Connection con = null;

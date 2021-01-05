@@ -39,14 +39,17 @@ ROW_FORMAT=COMPACT
 
 CREATE TABLE `navermember` (
 	`id` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
-	`pswd1` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
-	`pswd2` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
+	`pwd` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
 	`name` CHAR(20) NOT NULL COLLATE 'euckr_korean_ci',
-	`birth_yy` CHAR(4) NOT NULL COLLATE 'euckr_korean_ci',
+	`birth_yyyy` CHAR(4) NOT NULL COLLATE 'euckr_korean_ci',
 	`birth_mm` CHAR(2) NOT NULL COLLATE 'euckr_korean_ci',
 	`birth_dd` CHAR(2) NOT NULL COLLATE 'euckr_korean_ci',
 	`gender` CHAR(6) NOT NULL DEFAULT '0' COLLATE 'euckr_korean_ci',
-	`mobile` CHAR(50) NOT NULL DEFAULT '0' COLLATE 'euckr_korean_ci'
+	`phone` CHAR(50) NOT NULL DEFAULT '0' COLLATE 'euckr_korean_ci',
+	`questionCnt` INT(11) NOT NULL DEFAULT '0',
+	`answerCnt` INT(11) NOT NULL DEFAULT '0',
+	`inPoint` INT(11) NOT NULL DEFAULT '1000',
+	PRIMARY KEY (`id`) USING BTREE
 )
 COLLATE='euckr_korean_ci'
 ENGINE=InnoDB

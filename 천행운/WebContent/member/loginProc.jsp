@@ -2,18 +2,18 @@
     pageEncoding="EUC-KR"%>
 <%@ page import ="joinmember.MemberMgr" %>
 
-<jsp:useBean id="mgr" class="joinmember.MemberMgr"/>
-<jsp:useBean id="bean" class="joinmember.MemberBean"/>
+<jsp:useBean id="mgr" class="member.MemberMgr"/>
+<jsp:useBean id="bean" class="member.MemberBean"/>
     
 <%
 
 request.setCharacterEncoding("EUC-KR");
 String cPath = request.getContextPath();
 String id = request.getParameter("id");
-String pswd1 = request.getParameter("pw");
+String pwd = request.getParameter("pwd");
 String msg = "로그인 실패";
 
-boolean result = mgr.loginMember(id,pswd1);
+boolean result = mgr.loginMember(id,pwd);
 if(result){
   session.setAttribute("id",id);
   msg = "로그인 성공";
