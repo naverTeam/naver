@@ -16,7 +16,7 @@
 	devAddress += "  "; devAddress += devAd3; 
 	String devNa = request.getParameter("devNa");
 	String devPhone = request.getParameter("devPhone");
-	String email = "phok75@naver.com";
+	String email = request.getParameter("email");
 	
 
 %>
@@ -40,7 +40,7 @@
         
         <%--int paid_amount =0;--%>
        
-       location.href = "orderProc2.jsp?apply_num=0&paid_amount=<%=totalPrice%>&ordPhone=<%=ordPhone%>&payMe=<%=payMe%>&payName=<%=payName%>&zipcode=<%=zipcode%>&devAddress=<%=devAddress%>&devName=<%=devNa%>&devPhone=<%=devPhone%>";
+       location.href = "orderProc2.jsp?apply_num=0&paid_amount=<%=totalPrice%>&ordPhone=<%=ordPhone%>&payMe=<%=payMe%>&payName=<%=payName%>&zipcode=<%=zipcode%>&devAddress=<%=devAddress%>&devName=<%=devNa%>&devPhone=<%=devPhone%>&email=<%=email%>";
         	}else{
     $(function(){
     	alert("<%=payMe%>");
@@ -88,7 +88,7 @@
                 });
                 //성공시 이동할 페이지
                 //alert(rsp.apply_num);
-                location.href='<%=request.getContextPath()%>/hok/orderProc2.jsp?apply_num='+rsp.apply_num+'&paid_amount='+rsp.paid_amount+'&ordPhone=<%=ordPhone%>&payMe=<%=payMe%>&payName=<%=payName%>&zipcode=<%=zipcode%>&devAddress=<%=devAddress%>&devName=<%=devNa%>&devPhone=<%=devPhone%>';  
+                location.href='<%=request.getContextPath()%>/hok/orderProc2.jsp?apply_num='+rsp.apply_num+'&paid_amount='+rsp.paid_amount+'&ordPhone=<%=ordPhone%>&payMe=<%=payMe%>&payName=<%=payName%>&zipcode=<%=zipcode%>&devAddress=<%=devAddress%>&devName=<%=devNa%>&devPhone=<%=devPhone%>&email=<%=email%>';  
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;

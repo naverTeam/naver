@@ -51,8 +51,8 @@ public void insertOrder(OrderBean order) {
 			con = pool.getConnection();
 			sql = "insert tblorder (id,proNum,ordAm, ordDay,state,"
 					+ "payMent,ordPhone,payMe,payName,devAddress,"
-					+ "zipcode,devName,devPhone,applynum,paid_amount) "
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "zipcode,devName,devPhone,applynum,paid_amount,email) "
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1,order.getId());//주문id
 			pstmt.setInt(2,order.getProNum());//상품번호
@@ -70,6 +70,7 @@ public void insertOrder(OrderBean order) {
 			pstmt.setString(13,order.getDevPhone());//받는사람 전화번호
 			pstmt.setInt(14, order.getApplynum());//결재값
 			pstmt.setInt(15, order.getPaid_amount());//결재금액
+			pstmt.setString(16,order.getEmail());//주문자 이메일주소
 			pstmt.executeUpdate();
 
 		} catch (Exception e) {
@@ -134,6 +135,8 @@ public void insertOrder(OrderBean order) {
 				order.setOrdNum(rs.getInt("ordNum"));//주문번호
 				order.setId(rs.getString("id"));//주문 id
 				order.setProNum(rs.getInt("proNum"));//주문한 상품번호
+				order.setOrdAm(rs.getInt("ordAm"));
+				order.setPayment(rs.getInt("payment"));
 				order.setOrdDay(rs.getString("ordDay"));
 				order.setState(rs.getString("state"));
 				vlist.addElement(order);
@@ -209,7 +212,7 @@ public void insertOrder(OrderBean order) {
 		boolean flag=false;
 		try {
 			con = pool.getConnection();
-			sql = "delete from tblOrder whrer ordNum=?";
+			sql = "delete from tblOrder where ordNum=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, ordNum);
 			if(pstmt.executeUpdate()==1) flag=true;

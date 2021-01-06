@@ -1,31 +1,41 @@
+	function inputCheck(){
 
-
-
-function inputCheck(){
-
-	f=document.sallForm;
-	if(f.ordPhone.value.trim() ==""){
-		alert("주문하시는분 전화번호를 입력해주세요.");
-		f.ordPhone.focus();
+	f=document.proForm;
+	if(f.proName.value.trim() ==""){
+		alert("상품이름을  입력해주세요.");
+		f.proName.focus();
 		return;
 	}
 	
-	if(f.payMe.value.trim()==""){
-		alert("결재방법을 입력해주세요.");
-		f.payMe.focus();
+	if(f.price.value.trim()==""){
+		alert("상품가격을 입력해주세요.");
+		f.price.focus();
 		return;
 	}
 	
-	if(f.payName.value.trim()==""){
-		alert("입금자 또는 카드 명의자 이름을 입력해주세요");
-		f.payName.focus();
+	if(f.proAm.value.trim()==""){
+		alert("상품수량을 입력해주세요");
+		f.proAm.focus();
 		return;
 	}
-	if(f.payName.value.trim()==""){
-		alert("이메일주소를 입력해주세요");
+	if(f.id.value.trim()==""){
+		alert("id를 입력해주세요");
+		f.id.focus();
+		return;
+	}
+	
+	if(f.email.value.trim()==""){
+		alert("이메일 주소를 입력해주세요");
 		f.email.focus();
 		return;
 	}
+	
+	if(f.name.value.trim()==""){
+		alert("판매자이름 또는 상호를 입력해주세요");
+		f.name.focus();
+		return;
+	}
+	
 	
 	if(f.zipcode.value.trim()==""){
 		alert("우편번호를 입력해주세요");
@@ -33,30 +43,36 @@ function inputCheck(){
 		return;
 	}
 	
-	
 	if(f.devAd1.value.trim()==""){
 		alert("주소를 입력해주세요");
 		f.devAd1.focus();
 		return;
 	}
-	
-	if(f.devAd3.value.trim()==""){
-		alert("상세주소를  입력해주세요");
-		f.devAd3.focus();
-		return;
-	}
-
-	if(f.devNa.value.trim()==""){
-			alert("받는사람 이름을 입력해주세요");
-			f.devNa.focus();
+		
+	if(f.proPhone.value.trim()==""){
+			alert("판매자 전화번호를 입력해주세요");
+			f.proPhone.focus();
 			return;
 		}
-	if(f.devPhone.value.trim()==""){
-			alert("받는사람 전화번호 입력해주세요");
-			f.devPhone.focus();
+	if(f.bankNa.value.trim()==""){
+			alert("은행명을 입력해주세요");
+			f.bankNa.focus();
 			return;
 		}
 		
+	if(f.accNo.value.trim()==""){
+			alert("계좌번호를 입력해주세요");
+			f.accNo.focus();
+			return;
+		}	
+	
+	if(f.accHo.value.trim()==""){
+			alert("예금주 이름을 입력해주세요");
+			f.accHo.focus();
+			return;
+		}
+		
+			
 	f.czipcode.value = document.getElementById('zipcode').value;
 	f.cdevAd1.value = document.getElementById('devAd1').value;
 	f.cdevAd2.value = document.getElementById('devAd2').value;
@@ -73,38 +89,43 @@ function inputCheck(){
 }
 
 
+	
 
+//product 
 
-
-function win_close(){
-	self.close();
-}
-
-
-//Product
 	function productDetail(proNum) {
 		document.detail.proNum.value=proNum;
 		document.detail.submit();
 	}
 
-//saller
-	function sallerInfo(){
-		document.frmsaller.submit();
+	function productDelete(proNum) {
+		document.del.proNum.value=proNum;
+		document.del.submit();
+	}
+
+	function productUpdate(proNum){
+		document.update.proNum.value=proNum;
+		document.update.submit();
+	}
+
+
+//order
+
+	function orderDetail(ordNum){
+		document.detail.ordNum.value=ordNum;
+		document.detail.submit();	
 	}
 	
-//Cart
-	function cartUpdate(form){
+	function orderUpdate(form){
 		form.flag.value="update"
 		form.submit();
 	}
 	
-	function cartDelete(form) {
+	function orderDelete(form) {
 		form.flag.value="delete";
 		form.submit();
 	}
-
-//OrderList
-
+	
 
 function execPostcode() {
 	new daum.Postcode({
@@ -136,3 +157,5 @@ function execPostcode() {
 		}
 	}).open();
 }
+
+//order end

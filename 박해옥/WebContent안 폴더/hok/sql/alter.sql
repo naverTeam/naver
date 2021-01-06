@@ -7,3 +7,6 @@ ADD applynum INT;
 ALTER TABLE tblorder 
 ADD paid_amount INT;
 
+ALTER TABLE tblproduct 
+MODIFY filename TEXT;
+

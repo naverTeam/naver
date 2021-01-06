@@ -90,6 +90,8 @@
 				 </td></tr>
 				 <tr><td align="center"><b>입 금 자 명 </b> </td>
 				<td><input name="payName" size="15" ></td></tr>	
+				<tr><td align="center"><b>이메일주소 </b> </td>
+				<td><input name="email" size="30" ></td></tr>	
 				<tr><td align="center"><b>배송지 주소 </b> </td>
 				
 				<td><input   id="zipcode" size="10"  readonly > </input>

@@ -30,6 +30,7 @@
 				order.setDevPhone(order1.getDevPhone());
 				order.setApplynum(order1.getApplynum());
 				order.setPaid_amount(order1.getPaid_amount());
+				order.setEmail(order1.getEmail());
 				//db 林巩贸府
 				orderMgr.insertOrder2(order);
 				//犁绊 沥府
