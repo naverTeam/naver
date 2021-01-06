@@ -12,7 +12,38 @@ public class QuestionBean {
 		private int hits;
 		private String date;
 		private String filename;
+		private String filedata;
 		private int filesize;
+		private String filename2;
+		private String filedata2;
+		private int filesize2;
+		
+		public String getFiledata() {
+			return filedata;
+		}
+		public void setFiledata(String filedata) {
+			this.filedata = filedata;
+		}
+		public String getFilename2() {
+			return filename2;
+		}
+		public void setFilename2(String filename2) {
+			this.filename2 = filename2;
+		}
+		public String getFiledata2() {
+			return filedata2;
+		}
+		public void setFiledata2(String filedata2) {
+			this.filedata2 = filedata2;
+		}
+		public int getFilesize2() {
+			return filesize2;
+		}
+		public void setFilesize2(int filesize2) {
+			this.filesize2 = filesize2;
+		}
+	
+		
 		
 		public String getFilename() {
 			return filename;

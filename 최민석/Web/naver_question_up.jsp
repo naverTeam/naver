@@ -8,6 +8,7 @@
 		}
 		String id = (String)session.getAttribute("id");
 	  QuestionBean bean = (QuestionBean)session.getAttribute("bean");
+	 
 %>
 <!DOCTYPE html>
 <html>
@@ -89,9 +90,8 @@ height: 50px;
 background-color:white;
 border: 2px solid #777;
  border-radius: 7px;
- position: absolute;
- top:800px;
- left:900px;
+ margin-bottom:50px;
+ margin-left:300px;
  cursor: pointer;
 }
 #next:hover{
@@ -189,13 +189,56 @@ border: 2px solid #777;
  margin-bottom: 50px;
  display:none;
 }
-#submit:hover{
-background-color: aliceblue;
+.fileimg{
+width: 200px;
+height: 200px;
+border:3px solid white;
 }
-
+#debtn{
+ width: 80px;
+ height: 30px;
+margin-left: 10px;
+margin-bottom: 200px;
+background-color: brown;
+color:white;
+border: 2px solid #888;
+border-radius: 5px;
+}
+#debtn:hover{
+background-color: orange;
+cursor: pointer;
+}
+#debtn2{
+ width: 80px;
+ height: 30px;
+margin-left: 10px;
+margin-bottom: 200px;
+background-color: brown;
+color:white;
+border: 2px solid #888;
+border-radius: 5px;
+}
+#debtn2:hover{
+background-color: orange;
+cursor: pointer;
+}
+#filedata7{
+	border:3px solid #40c700;
+	width: 275px;
+	height: 30px;
+	}
+	#filedata8{
+	border:3px solid #40c700;
+	width: 275px;
+	height: 30px;
+	}
+#submit:hover{background-color: aliceblue;}
+#image_container{display: none;}
+#image_container2{display:none;}
 #s1{float:left;width:33%;margin-left: 10px;margin-top: 20px;}
 #s2{float:left;width:33%;margin-top: 20px;}
 #s3{float:left;width:30%;margin-top: 20px;}
+
 .filebox input[type="file"] {
  /* 파일 필드 숨기기 */ position: absolute;
   width: 1px; height: 1px; padding: 0;
@@ -203,6 +246,7 @@ background-color: aliceblue;
     clip:rect(0,0,0,0); border: 0; }
     
 .filebox label {
+ width:50px;
  display: inline-block;
  padding: .5em .75em;
  color: #40c700; font-size: inherit;
@@ -211,7 +255,6 @@ background-color: aliceblue;
  background-color: #fdfdfd;
  cursor: pointer;
  border: 2px solid #777;
- margin-bottom:120px;
  border-radius: .25em; }
  
  .filebox label:hover{
@@ -230,20 +273,87 @@ background-color: aliceblue;
  border-radius: .25em;
  -webkit-appearance: none;
  /* 네이티브 외형 감추기 */ -moz-appearance: none;
- appearance: none; 
-  margin-bottom:120px;}
-
+ appearance: none; }
+  
+.filebox .upload-name2 {
+ display: inline-block;
+ padding: .5em .75em;
+ /* label의 패딩값과 일치 */ font-size: inherit;
+ font-family: inherit;
+ line-height: normal;
+ vertical-align: middle;
+ background-color: #f5f5f5;
+ border: 1px solid #ebebeb;
+ border-bottom-color: #e2e2e2;
+ border-radius: .25em;
+ -webkit-appearance: none;
+ /* 네이티브 외형 감추기 */ -moz-appearance: none;
+ appearance: none; 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script>
-
-
-
+function deleteT() {
+	$(".td1").remove();
+}
+function deleteT2() {
+	$(".td2").remove();
+}
+function setThumbnail(event) {
+	 
+	var reader = new FileReader();
+	reader.onload = function(event) {
+		
+		var md = document.getElementById("mfile");
+		md.style.height="400px";
+		var view = document.getElementById("image_container");
+		view.style.display="block";
+		var view = document.getElementById("fileup2");
+		view.style.display="block";
+		
+			var img = document.getElementById("imgtest");
+			img.setAttribute("src", event.target.result);
+			//document.querySelector("div#image_container").appendChild(img);
+		 
+		};
+		reader.readAsDataURL(event.target.files[0]);
+		}
+ function setT() {
+	 var md = document.getElementById("mfile");
+		md.style.height="100px";
+		var view = document.getElementById("image_container");
+		view.style.display="none";
+		var view = document.getElementById("fileup2");
+		view.style.display="block";
+}
+ function setThumbnail2(event) {
+		var reader = new FileReader();
+		reader.onload = function(event) {
+			var view = document.getElementById("image_container2");
+			view.style.display="block";
+			var md = document.getElementById("mfile");
+			md.style.height="400px";
+				var tt = document.getElementById("imgtest2");
+				tt.setAttribute("src", event.target.result);
+				//document.querySelector("div#image_container2").appendChild(img);
+			 
+			};
+			reader.readAsDataURL(event.target.files[0]);
+			}
+ 
+ 
+ function setT2() {
+	 var md = document.getElementById("mfile");
+		md.style.height="100px";
+		var view = document.getElementById("image_container2");
+		view.style.display="none";
+}
+ 
+ 
 $(document).ready(function(){
-	$("input:radio[name='directory']:radio[value='<%=bean.getDirectory()%>']").prop('checked', true); // 선택하기
-	
 	var fileTarget = $('.filebox .upload-hidden');
+	var fileTarget2 = $('.filebox .upload-hidden2');
+	$("input:radio[name='directory']:radio[value='<%=bean.getDirectory()%>']").prop('checked', true); // 카테고리 선택하기
 	
 	fileTarget.on('change', function(){ // 값이 변경되면
 		if(window.FileReader){ // modern browser
@@ -251,9 +361,74 @@ $(document).ready(function(){
 		} else { // old IE
 			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
 			}
+		$(".td1").remove();
+		if(document.getElementById("filedata7")==null){
+		var input1 = document.createElement('input');
+		input1.setAttribute("type","text");
+		input1.setAttribute("name","filedata");
+		input1.setAttribute("id","filedata7");
+		input1.setAttribute("placeholder","이미지 정보입력");
+		var div1 = document.getElementById("image_container");
+		div1.appendChild(input1);
+		}
+	var fileType=filename.substring(filename.length-3,filename.length); //파일확장자 추출
+	var ktype2="";
+	if(document.getElementById('disnone2').value!=null){
+	var  k2 = document.getElementById('disnone2').value;
+	 ktype2=k2.substring(k2.length-3,k2.length);
+	}
+	
+	if(fileType=='jpg'||fileType=='png'){   //파일확장자 검사하여 미리보기 끄고 켜기
+		setThumbnail(event);
+	}else{
+		if(ktype2=='jpg'||ktype2=='png'){
+			var view2 = document.getElementById("image_container");
+			view2.style.display="none";
+		}else{
+		setT();
+		}
+	}
 	// 추출한 파일명 삽입
 	$(this).siblings('.upload-name').val(filename);
 	});
+	
+	fileTarget2.on('change', function(){ // 값이 변경되면
+		if(window.FileReader){ // modern browser
+			var filename2 = $(this)[0].files[0].name;
+		} else { // old IE
+			var filename2 = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
+			}
+		$(".td2").remove();
+		if(document.getElementById("filedata8")==null){
+			var input2 = document.createElement('input');
+			input2.setAttribute("type","text");
+			input2.setAttribute("name","filedata2");
+			input2.setAttribute("id","filedata8");
+			input2.setAttribute("placeholder","이미지 정보입력");
+			var div2 = document.getElementById("image_container2");
+			div2.appendChild(input2);
+			}
+		var fileType2=filename2.substring(filename2.length-3,filename2.length); //파일확장자 추출
+		var  k = document.getElementById('disnone').value;
+		var ktype=k.substring(k.length-3,k.length);
+		
+	
+		
+		if(fileType2=='jpg'||fileType2=='png'){   //파일확장자 검사하여 미리보기 끄고 켜기
+			setThumbnail2(event);
+		}else{
+			if(ktype=='jpg'||ktype=='png'){
+					var view = document.getElementById("image_container2");
+					view.style.display="none";
+			}else{
+			setT2();
+			}
+		}
+	
+	// 추출한 파일명 삽입
+	$(this).siblings('.upload-name2').val(filename2);
+	});
+	
 	});
 	
 window.onload = function () {  //수정시에는 next함수 바로 실행
@@ -293,11 +468,63 @@ margin-left:100px;border-radius: 10px;">
 <div id="textarea">
 <textarea id="ta" rows="25" cols="99"
  name="content"><%=bean.getContent()%></textarea><br>
+ 
+ <table>
+<%if(bean.getFilename()!=null){%>
+	<tr><td width="210px" style="padding-top: 50px;">
+	
+	<span class="td1">
+	원본 파일명 : <%=bean.getFilename()%><br>
+	<img class="fileimg" src="fileupload/<%=bean.getFilename()%>"
+	 onclick="doImgPop('fileupload/<%=bean.getFilename()%>')"><br>
+	 <%if(bean.getFiledata()!=null&&!bean.getFiledata().equals("")){ %>
+	<%} %>
+	</span>
+	</td>
+	<td width="200px" style="margin-top: -100px;"><button type="button" id="debtn" onclick="deleteT()" class="td1">Delete</button></td>
+	<%} %>
+	
+	<%if(bean.getFilename2()!=null){%>
+	<td style="padding-top: 50px;"  class="td2">
+	
+	<span  class="td2">
+	원본 파일명 : <%=bean.getFilename2()%><br>
+	<img  class="fileimg" src="fileupload/<%=bean.getFilename2()%>" 
+	onclick="doImgPop('fileupload/<%=bean.getFilename2()%>')"><br>
+	<%if(bean.getFiledata2()!=null&&!bean.getFiledata2().equals("")){ %>
+	<%} %>
+	</span>
+	</td>
+	<td  width="100px" style="margin-top: -100px;"><button type="button" id="debtn2" onclick="deleteT2()"  class="td2">Delete</button></td>
+	<% }%>
+	</tr></table>
+	
+	
+<h2 style="margin-top: 50px;">파일 수정하기</h2>
+<div id="mfile" style="width: 720px;height:100px;margin-bottom:50px;">
 
-<div class="filebox"> 
-<input type="text" class="upload-name" value="파일선택" disabled="disabled">
+<div class="filebox" style="float: left;" > 
+<input type="text" class="upload-name" value="파일명" disabled="disabled" id="disnone">
 <label for="ex_filename">업로드</label> 
-<input type="file" id="ex_filename" class="upload-hidden" name="filename">
+<input type="file" id="ex_filename" class="upload-hidden" name="filename1">
+ <div id="image_container" style="width: 285px;height: 300px;">
+ <img src="img/question.png" style="width: 285px;height: 300px;" id="imgtest">
+<input type="text" name="filedata"  style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
+ 
+ </div>
+ </div>
+ 
+ <div class="filebox" style="float:right;" id="fileup2">
+<input type="text" class="upload-name2" value="파일명" disabled="disabled" id="disnone2">
+<label for="ex_filename2">업로드</label> 
+<input type="file" id="ex_filename2" class="upload-hidden2" name="filename2">
+ <div id="image_container2" style="width: 285px;height: 300px;">
+ <img style="width: 285px;height: 300px;" id="imgtest2">
+ <input type="text" name="filedata2"  style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
+ 
+</div>
+</div>
+
 </div>
 
 <div id="tag">

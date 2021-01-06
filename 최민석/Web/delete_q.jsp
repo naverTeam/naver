@@ -10,6 +10,6 @@
 		}
 		%>
 <script>
-   alert('게시물이 삭제 되었습니다.'');
+   alert('게시물이 삭제 되었습니다.');
    location.href="naverin_main.jsp"; 
 </script>

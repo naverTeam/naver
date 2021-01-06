@@ -73,11 +73,10 @@ background-size:30px 30px;
 }
 #loginon{
 font-size:20px;
-display:inline-flex;
-cursor: pointer;
+text-decoration: none;
 }
 #loginon:hover{
-text-decoration: underline;
+text-decoration: none;	
 }
 .menubar{
 cursor:pointer;

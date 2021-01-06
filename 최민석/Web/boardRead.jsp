@@ -8,6 +8,7 @@
 <jsp:useBean id="amgr" class="in.AnswerMgr" />
 <%
     int qnum = Integer.parseInt(request.getParameter("qnum"));
+	
 	mgr.hitsAdd(qnum);
 	QuestionBean bean = mgr.boardRead(qnum);
 	String id = "";
@@ -41,7 +42,10 @@ width:800px;
 height:90%;
 padding-top:50px;
 margin: 0px auto;
-border-spacing: 0px;
+border: 2px soild blue;
+}
+#qTable td{
+border: 2px soild blue;
 }
 #answer{
 width: 900px;
@@ -130,9 +134,52 @@ border-radius: 10px;
 #btnspan{
 float:left;
 }
+.fileimg{
+width: 200px;
+height: 200px;
+border:3px solid white;
+}
+.fileimg:hover{
+border:3px solid #40c700;
+cursor: pointer;
+}
 </style>
 
 <script>
+
+function doImgPop(img){
+	 img1= new Image();
+	 img1.src=(img);
+	 imgControll(img);
+	}
+	 
+	function imgControll(img){
+	 if((img1.width!=0)&&(img1.height!=0)){
+	    viewImage(img);
+	  }
+	  else{
+	     controller="imgControll('"+img+"')";
+	     intervalID=setTimeout(controller,20);
+	  }
+	}
+
+	function viewImage(img){
+	 W=img1.width;
+	 H=img1.height;
+	 O="width="+W+",height="+H+",scrollbars=yes";
+	 imgWin=window.open("","",O);
+	 imgWin.document.write("<html><head><title>이미지상세보기</title></head>");
+	 imgWin.document.write("<body topmargin=0 leftmargin=0>");
+	 imgWin.document.write("<img src="+img+" onclick='self.close()' style='cursor:pointer;' title ='클릭하시면 창이 닫힙니다.'>");
+	 imgWin.document.close();
+	}
+	
+function imgclick() {
+var img = document.getElementsByClassName('fileimg'); 
+for (var x = 0; x < img.length; x++) {
+	img.item(x).onclick=function() {window.open(this.src)}; 
+	}
+}
 function update(aid) {
 	var e = document.getElementById(aid);
 	
@@ -212,6 +259,7 @@ function Cal(boardDate) {
 	<a style="font-size: 25px;font-weight: bold;color:#444;"><%=bean.getTitle() %>
 	<span style="color:#40c700;"> [ <%=bean.getPoint() %> ]</span></a>
 	</td></tr>
+	
 		<%if(bean.getFilename()!=null&&!bean.getFilename().equals("")){ %>
 	<tr><td colspan="4" align="right">
 	<img  src="img/down.png" style="width: 30px;height: 25px;">
@@ -220,9 +268,46 @@ function Cal(boardDate) {
 	<font color="blue">(<%=UtilMgr.intFormat(bean.getFilesize()) %>bytes)</font>
 	</td></tr>
 	<%} %>
+	
+	<%if(bean.getFilename2()!=null&&!bean.getFilename2().equals("")){ %>
+	<tr><td colspan="4" align="right">
+	<img  src="img/down.png" style="width: 30px;height: 25px;">
+	<a href="javascript:down('<%=bean.getFilename2() %>')">
+	<%=bean.getFilename2() %></a>
+	<font color="blue">(<%=UtilMgr.intFormat(bean.getFilesize2()) %>bytes)</font>
+	</td></tr>
+	<%} %>
+	
+	
+	<%if(bean.getFilename()!=null){%>
+	<tr><td width="400px">
+	
+	<span>
+	<img class="fileimg" src="fileupload/<%=bean.getFilename()%>"
+	 onclick="doImgPop('fileupload/<%=bean.getFilename()%>')" title="확대"><br>
+	 <%if(bean.getFiledata()!=null&&!bean.getFiledata().equals("")){ %>
+	<label style="color: #888;">*<%=bean.getFiledata()%></label>
+	<%} %>
+	</span>
+	</td>
+	<%} %>
+	
+	<%if(bean.getFilename2()!=null){%>
+	<td>
+	<span>
+	<img  class="fileimg" src="fileupload/<%=bean.getFilename2()%>" 
+	onclick="doImgPop('fileupload/<%=bean.getFilename2()%>')" title="확대"><br>
+	<%if(bean.getFiledata2()!=null&&!bean.getFiledata2().equals("")){ %>
+	<label style="color:#888;">*<%=bean.getFiledata2()%></label>
+	<%} %>
+	</span>
+	</td>
+	<% }%>
+	</tr>
 	<tr><td colspan="4" style="padding-top: 50px;padding-bottom: 30px;border-bottom: 2px solid #40c700;"><pre>
 	<%=bean.getContent() %>
-	<pre></td></tr>
+	</pre></td></tr>
+	
 <tr>
 	<td width="100px" style="padding-bottom: 50px; font-weight: bold;" >
 		<%=bean.getId() %>
@@ -341,6 +426,9 @@ padding-top: 50px;padding-bottom: 50px;border-bottom: 2px solid #40c700;"><pre><
 			<td>날씨</td>
 			<td>책</td>
 			<td>스포츠</td>
+		</tr>
+			<tr>
+		<td colspan="4" align="center" style="border-top: 1px solid #888;" onclick="location.href='logout.jsp'">로그아웃</td>
 		</tr>
 	</table>
 </span>

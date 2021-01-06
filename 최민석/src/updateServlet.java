@@ -28,6 +28,7 @@ public class updateServlet extends HttpServlet {
 		mgr.updateQuestion(multi);
 		int qnum = Integer.parseInt(multi.getParameter("qnum"));
 		response.sendRedirect("boardRead.jsp?qnum="+qnum);
+		System.out.println("servlet"+qnum);
 		
 			 
 			 

@@ -29,10 +29,10 @@ function dismenu() {
 <%if(id2==null){ %>
 <button type="button" class="login" onclick="location.href='../joon/login.jsp' ">로그인</button>
 <%} else{%> 
-<a id="loginon"><%=id2%></a>
-<button type="button" id="call"/>
+<span id="loginon"><font color="#40c700"><%=id2%></font> 님 반갑습니다.</span>
+<button type="button" id="call"></button>
 <%} %>
-<button type="button" class="menubar" onclick="dismenu()">
+<button type="button" class="menubar" onclick="dismenu()"></button>
 </span>
 </div>
 </form>

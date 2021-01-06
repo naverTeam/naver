@@ -83,9 +83,8 @@ height: 50px;
 background-color:white;
 border: 2px solid #777;
  border-radius: 7px;
- position: absolute;
- top:800px;
- left:900px;
+ margin-bottom:50px;
+ margin-left:300px;
  cursor: pointer;
 }
 #next:hover{
@@ -183,13 +182,14 @@ border: 2px solid #777;
  margin-bottom: 50px;
  display:none;
 }
-#submit:hover{
-background-color: aliceblue;
-}
-
+#submit:hover{background-color: aliceblue;}
+#fileup2{display: none;}
+#image_container{display: none;}
+#image_container2{display:none;}
 #s1{float:left;width:33%;margin-left: 10px;margin-top: 20px;}
 #s2{float:left;width:33%;margin-top: 20px;}
 #s3{float:left;width:30%;margin-top: 20px;}
+
 .filebox input[type="file"] {
  /* 파일 필드 숨기기 */ position: absolute;
   width: 1px; height: 1px; padding: 0;
@@ -197,6 +197,7 @@ background-color: aliceblue;
     clip:rect(0,0,0,0); border: 0; }
     
 .filebox label {
+ width:50px;
  display: inline-block;
  padding: .5em .75em;
  color: #40c700; font-size: inherit;
@@ -205,7 +206,6 @@ background-color: aliceblue;
  background-color: #fdfdfd;
  cursor: pointer;
  border: 2px solid #777;
- margin-bottom:120px;
  border-radius: .25em; }
  
  .filebox label:hover{
@@ -224,14 +224,83 @@ background-color: aliceblue;
  border-radius: .25em;
  -webkit-appearance: none;
  /* 네이티브 외형 감추기 */ -moz-appearance: none;
- appearance: none; 
-  margin-bottom:120px;}
-
+ appearance: none; }
+  
+.filebox .upload-name2 {
+ display: inline-block;
+ padding: .5em .75em;
+ /* label의 패딩값과 일치 */ font-size: inherit;
+ font-family: inherit;
+ line-height: normal;
+ vertical-align: middle;
+ background-color: #f5f5f5;
+ border: 1px solid #ebebeb;
+ border-bottom-color: #e2e2e2;
+ border-radius: .25em;
+ -webkit-appearance: none;
+ /* 네이티브 외형 감추기 */ -moz-appearance: none;
+ appearance: none; 	}
+  
 </style>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
+
+
+
+ function setThumbnail(event) {
+	 
+	var reader = new FileReader();
+	reader.onload = function(event) {
+		
+		var md = document.getElementById("mfile");
+		md.style.height="400px";
+		var view = document.getElementById("image_container");
+		view.style.display="block";
+		var view = document.getElementById("fileup2");
+		view.style.display="block";
+		
+			var img = document.getElementById("imgtest");
+			img.setAttribute("src", event.target.result);
+			//document.querySelector("div#image_container").appendChild(img);
+		 
+		};
+		reader.readAsDataURL(event.target.files[0]);
+		}
+ function setT() {
+	 var md = document.getElementById("mfile");
+		md.style.height="100px";
+		var view = document.getElementById("image_container");
+		view.style.display="none";
+		var view = document.getElementById("fileup2");
+		view.style.display="block";
+}
+ function setThumbnail2(event) {
+		var reader = new FileReader();
+		reader.onload = function(event) {
+			var view = document.getElementById("image_container2");
+			view.style.display="block";
+			var md = document.getElementById("mfile");
+			md.style.height="400px";
+				var tt = document.getElementById("imgtest2");
+				tt.setAttribute("src", event.target.result);
+				//document.querySelector("div#image_container2").appendChild(img);
+			 
+			};
+			reader.readAsDataURL(event.target.files[0]);
+			}
+ 
+ 
+ function setT2() {
+	 var md = document.getElementById("mfile");
+		md.style.height="100px";
+		var view = document.getElementById("image_container2");
+		view.style.display="none";
+}
+ 
+ 
 $(document).ready(function(){
 	var fileTarget = $('.filebox .upload-hidden');
+	var fileTarget2 = $('.filebox .upload-hidden2');
 	
 	fileTarget.on('change', function(){ // 값이 변경되면
 		if(window.FileReader){ // modern browser
@@ -239,11 +308,58 @@ $(document).ready(function(){
 		} else { // old IE
 			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
 			}
+	
+	var fileType=filename.substring(filename.length-3,filename.length); //파일확장자 추출
+	var ktype2="";
+	if(document.getElementById('disnone2').value!=null){
+	var  k2 = document.getElementById('disnone2').value;
+	 ktype2=k2.substring(k2.length-3,k2.length);
+	}
+	
+	if(fileType=='jpg'||fileType=='png'){   //파일확장자 검사하여 미리보기 끄고 켜기
+		setThumbnail(event);
+	}else{
+		if(ktype2=='jpg'||ktype2=='png'){
+			var view2 = document.getElementById("image_container");
+			view2.style.display="none";
+		}else{
+		setT();
+		}
+	}
 	// 추출한 파일명 삽입
 	$(this).siblings('.upload-name').val(filename);
 	});
+	
+	fileTarget2.on('change', function(){ // 값이 변경되면
+		if(window.FileReader){ // modern browser
+			var filename2 = $(this)[0].files[0].name;
+		} else { // old IE
+			var filename2 = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
+			}
+		var fileType2=filename2.substring(filename2.length-3,filename2.length); //파일확장자 추출
+		var  k = document.getElementById('disnone').value;
+		var ktype=k.substring(k.length-3,k.length);
+		
+	
+		
+		if(fileType2=='jpg'||fileType2=='png'){   //파일확장자 검사하여 미리보기 끄고 켜기
+			setThumbnail2(event);
+		}else{
+			if(ktype=='jpg'||ktype=='png'){
+					var view = document.getElementById("image_container2");
+					view.style.display="none";
+			}else{
+			setT2();
+			}
+		}
+	
+	// 추출한 파일명 삽입
+	$(this).siblings('.upload-name2').val(filename2);
 	});
-function next() {
+	
+	});
+	
+function nextt(){
 	var e = document.getElementById("next");
 	e.style.display = 'none';
 	var e = document.getElementById("tag");
@@ -264,36 +380,61 @@ function dir(id) {
 <body>
 <%@ include file="header.jsp" %>
 <div id="body"> 
-<form id="Frm" method="post" action="question" enctype="multipart/form-data">
+<form id="Frm" method="post" action="question" enctype="multipart/form-data" name="mFrm">
 <input type="hidden" value="<%=id%>" name="id">
 <hr style="margin-top:0px;margin-bottom: 20px;">
+
 <div id="title">
+
 <div>
 <img  src="img/question.png" style="width: 40px;height: 40px;margin-top: 70px;
 margin-left:100px;border-radius: 10px;">
 <a style="font-size: 23px;color:#40c700;font-weight: 900;">질문</a>
 <input type="text" name="title" id="titletext">
 </div>
-<div id="textarea">
-<textarea id="ta" rows="25" cols="99"
- name="content" placeholder=" 
-    
-    <%=id%>님 궁금한 내용을 질문해 주세요."></textarea><br>
 
-<div class="filebox"> 
-<input type="text" class="upload-name" value="파일선택" disabled="disabled">
+<div id="textarea">
+<textarea rows="20" cols="100" name="content" id="ta" placeholder="
+
+     <%=id%>님 질문해주세요."></textarea>
+
+
+<h2 style="margin-top: 50px;">파일 업로드</h2>
+<div id="mfile" style="width: 720px;height:100px;margin-bottom:50px;">
+
+<div class="filebox" style="float: left;" > 
+<input type="text" class="upload-name" value="파일명" disabled="disabled" id="disnone">
 <label for="ex_filename">업로드</label> 
-<input type="file" id="ex_filename" class="upload-hidden" name="filename">
+<input type="file" id="ex_filename" class="upload-hidden" name="filename1">
+ <div id="image_container" style="width: 285px;height: 300px;">
+ <img src="img/question.png" style="width: 285px;height: 300px;" id="imgtest">
+ <input type="text" name="filedata"  style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
+ </div>
+ </div>
+ 
+ <div class="filebox" style="float:right;" id="fileup2">
+<input type="text" class="upload-name2" value="파일명" disabled="disabled" id="disnone2">
+<label for="ex_filename2">업로드</label> 
+<input type="file" id="ex_filename2" class="upload-hidden2" name="filename2">
+ <div id="image_container2" style="width: 285px;height: 300px;">
+ <img style="width: 285px;height: 300px;" id="imgtest2">
+<input type="text"  name="filedata2" style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
 </div>
+</div>
+
+</div>
+<button type="button" id="next" onclick="nextt()">다음</button>
+
+
 
 <div id="tag">
 <a id="taglabel">태그</a> <input type="text" id="tagtext">
-<input type="button" value="추가" id="add">
+<input type="button" value="추가" id="add"">
 </div>
 
 <div id="directory">
 <h2 style="margin-left: 30px;">카테고리</h2>
-<hr style="width: 80%;height: 3px;">
+<hr style="width: 80%;height: 3px;margin-left: 0px;">
 <span id="s1">
 <input type="radio" id="1" name="directory" value="교육,학문" name="directory">
 <label for="1" id="l1"><span></span>교육,학문</label><br>
@@ -348,12 +489,12 @@ margin-left:100px;border-radius: 10px;">
 <a id="pointlabel">추가내공</a> <input type="text" id="pointtext" name="point" placeholder="현재 보유내공 : 60">
 <input type="button" value="추가" id="addpoint">
 </div>
-
 <input type="submit" id="submit" value="질문하기">
 </div><!-- title -->
 </form>
+
 </div><!-- body -->
-<button id="next" onclick="next()">다음</button>
+
 
 
 
@@ -393,6 +534,9 @@ margin-left:100px;border-radius: 10px;">
 			<td>날씨</td>
 			<td>책</td>
 			<td>스포츠</td>
+		</tr>
+			<tr>
+		<td colspan="4" align="center" style="border-top: 1px solid #888;" onclick="location.href='logout.jsp'">로그아웃</td>
 		</tr>
 	</table>
 </span>

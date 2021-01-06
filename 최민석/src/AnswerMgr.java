@@ -110,4 +110,69 @@ public class AnswerMgr {
 				pool.freeConnection(con, pstmt);
 			}
 		}
+		
+		//¿À´ÃÀÇ ´äº¯ °¹¼ö
+				public int getQuestionCnt(){
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					int cnt=0;
+					try {
+						con = pool.getConnection();
+						sql = "SELECT COUNT(*) FROM `in_question` WHERE DATE_FORMAT(date, \"%Y-%m-%d\") = CURDATE()";
+						pstmt = con.prepareStatement(sql);
+					    rs = pstmt.executeQuery();
+					    if(rs.next())
+					    cnt = rs.getInt("COUNT(*)");
+					}catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return cnt;
+				}
+				
+		//¿À´ÃÀÇ ´äº¯ °¹¼ö
+		public int getAnswerCnt(){
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = null;
+			int cnt=0;
+			try {
+				con = pool.getConnection();
+				sql = "SELECT COUNT(*) FROM `in_answer` WHERE DATE_FORMAT(date, \"%Y-%m-%d\") = CURDATE()";
+				pstmt = con.prepareStatement(sql);
+			    rs = pstmt.executeQuery();
+			    if(rs.next())
+			    cnt = rs.getInt("COUNT(*)");
+			}catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+			return cnt;
+		}
+		//¸ðµç ´äº¯ °¹¼ö
+				public int getAllAnswerCnt(){
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					int cnt=0;
+					try {
+						con = pool.getConnection();
+						sql = "SELECT COUNT(*) FROM `in_answer`";
+						pstmt = con.prepareStatement(sql);
+					    rs = pstmt.executeQuery();
+					    if(rs.next())
+					    cnt = rs.getInt("COUNT(*)");
+					}catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return cnt;
+				}
 }

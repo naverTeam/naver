@@ -41,29 +41,42 @@ public class QuestionMgr {
 				MultipartRequest multi = 
 						new MultipartRequest(req, SAVEFOLDER,MAXSIZE,ENCTYPE
 								,new DefaultFileRenamePolicy());
-				String filename = null;
+				String filename1 = null;
+				String filename2 = null;
 				int filesize = 0;
-				if(multi.getFilesystemName("filename")!=null) {
+				int filesize2 = 0;
+				
+				if(multi.getFilesystemName("filename1")!=null) {
 					//게시물에 파일 업로드
-					filename = multi.getFilesystemName("filename");
-					filesize = (int)multi.getFile("filename").length();
+					filename1 = multi.getFilesystemName("filename1");
+					filesize = (int)multi.getFile("filename1").length();
 				}
+				if(multi.getFilesystemName("filename2")!=null) {
+					//게시물에 파일 업로드
+					filename2 = multi.getFilesystemName("filename2");
+					filesize2 = (int)multi.getFile("filename2").length();
+				}
+				
 				String content  = multi.getParameter("content");
 				content = UtilMgr.replace(content, "<", "&lt;");
 		
 				/////////////////////////////////////
 				con = pool.getConnection();
 				sql = "insert in_question(id,title,content,directory,";
-				sql += "point,date,filename,filesize)";
-				sql += "values(?, ?, ?, ?, ?, now(),?,?)";
+				sql += "point,date,filename,filedata,filesize,filename2,filedata2,filesize2)";
+				sql += "values(?, ?, ?, ?, ?, now(),?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1,multi.getParameter("id"));
 				pstmt.setString(2, multi.getParameter("title"));
 				pstmt.setString(3, content);
 				pstmt.setString(4, multi.getParameter("directory"));
 				pstmt.setString(5, multi.getParameter("point"));
-				pstmt.setString(6, filename);
-				pstmt.setInt(7, filesize);
+				pstmt.setString(6, filename1);
+				pstmt.setString(7, multi.getParameter("filedata"));
+				pstmt.setInt(8, filesize);
+				pstmt.setString(9, filename2);
+				pstmt.setString(10, multi.getParameter("filedata2"));
+				pstmt.setInt(11, filesize2);
 				pstmt.executeUpdate();
 
 			} catch (Exception e) {
@@ -183,7 +196,11 @@ public class QuestionMgr {
 				bean.setHits(rs.getInt("hits")+1);
 				bean.setPoint(rs.getInt("point"));
 				bean.setFilename(rs.getString("filename"));
+				bean.setFiledata(rs.getString("filedata"));
 				bean.setFilesize(rs.getInt("filesize"));
+				bean.setFilename2(rs.getString("filename2"));
+				bean.setFiledata2(rs.getString("filedata2"));
+				bean.setFilesize2(rs.getInt("filesize2"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -233,7 +250,6 @@ public class QuestionMgr {
 			return;
 		}
 		//질문 삭제
-		//GuestBook Delete
 		public void deleteQuestion(int qnum) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -263,9 +279,17 @@ public class QuestionMgr {
 				String title=multi.getParameter("title");
 				String directory=multi.getParameter("directory");
 				String content=multi.getParameter("content");
-				String filename=multi.getFilesystemName("filename");
+				String filename=multi.getFilesystemName("filename1");
+				String filedata=multi.getFilesystemName("filedata");
+				String filename2=multi.getFilesystemName("filename2");
+				String filedata2=multi.getFilesystemName("filedata2");
+				System.out.println("file1data"+filedata);
+				System.out.println("filename"+filename);
+				System.out.println("file2data"+filedata2);
+				System.out.println("filename2"+filename2);
 				
-				if(filename!=null&&!filename.equals("")) {
+				if(filename!=null&&!filename.equals("")) {  //파일1을 수정할때 
+					if(filename2==null||filename2.equals("")) {   //파일 2는 수정 하지않을때 
 					//파일이 업로드 수정이되면 기존에 파일은 삭제한다
 					QuestionBean bean = boardRead(qnum); 
 					String tempfile=bean.getFilename();
@@ -276,23 +300,88 @@ public class QuestionMgr {
 							UtilMgr.delete(SAVEFOLDER+tempfile);
 						}
 					}
-					int filesize = (int)multi.getFile("filename").length();
-					sql = "update in_question set title=?, content=?, directory=?, filename=?, filesize=? where qnum=?";
+					int filesize = (int)multi.getFile("filename1").length();
+					sql = "update in_question set title=?, content=?, directory=?, filename=?,filedata=?, filesize=?,filedata2=? where qnum=?";
 					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, title);
 					pstmt.setString(2, content);
 					pstmt.setString(3, directory);
 					pstmt.setString(4, filename);
-					pstmt.setInt(5, filesize);
-					pstmt.setInt(6,qnum);
-				}else {
-					sql = "update in_question set title=?, content=?, directory=? where qnum=?";
-					pstmt = con.prepareStatement(sql);
-					pstmt.setString(1, title);
-					pstmt.setString(2, content);
-					pstmt.setString(3, directory);
-					pstmt.setInt(4, qnum);
+					pstmt.setString(5, filedata);
+					pstmt.setInt(6, filesize);
+					pstmt.setString(7, filedata2);
+					pstmt.setInt(8,qnum);
+					System.out.println("1수정2수정아님");
+					}else if(filename2!=null&&!filename.equals("")) { //파일 2도 수정할때 
+						QuestionBean bean = boardRead(qnum); 
+						String tempfile=bean.getFilename();
+						String tempfile2=bean.getFilename2();
+						if(tempfile!=null&&!tempfile.equals("")) {
+							 //기존에 파일이 있다면
+							File f = new File(SAVEFOLDER+tempfile);
+							if(f.exists()) {
+								UtilMgr.delete(SAVEFOLDER+tempfile);
+							}
+						}
+						if(tempfile2!=null&&!tempfile2.equals("")) {
+							 //기존에 파일이 있다면
+							File f2 = new File(SAVEFOLDER+tempfile2);
+							if(f2.exists()) {
+								UtilMgr.delete(SAVEFOLDER+tempfile2);
+							}
+						}
+						int filesize = (int)multi.getFile("filename1").length();
+						int filesize2 = (int)multi.getFile("filename2").length();
+						sql = "update in_question set title=?, content=?, directory=?, filename=?,filedata=?, filesize=?, filename2=?,filedata2=?, filesize2=?  where qnum=?";
+						pstmt = con.prepareStatement(sql);
+						pstmt.setString(1, title);
+						pstmt.setString(2, content);
+						pstmt.setString(3, directory);
+						pstmt.setString(4, filename);
+						pstmt.setString(5, filedata);
+						pstmt.setInt(6, filesize);
+						pstmt.setString(7, filename2);
+						pstmt.setString(8, filedata2);
+						pstmt.setInt(9, filesize2);
+						pstmt.setInt(10,qnum);
+						System.out.println("1수정2수정");
+					}
+				}else if(filename==null||filename.equals("")) {   //파일 1는 수정 하지않을때 
+					 if(filename2!=null&&!filename2.equals("")) {    //파일 2는 수정할때
+						 QuestionBean bean = boardRead(qnum); 
+						 String tempfile2=bean.getFilename2();
+						 if(tempfile2!=null&&!tempfile2.equals("")) {
+							 //기존에 파일이 있다면
+							File f2 = new File(SAVEFOLDER+tempfile2);
+							if(f2.exists()) {
+								UtilMgr.delete(SAVEFOLDER+tempfile2);
+							}
+						}
+							int filesize2 = (int)multi.getFile("filename2").length();
+							sql = "update in_question set title=?, content=?, directory=?,filedata=?, filename2=?,filedata2=?, filesize2=?  where qnum=?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, title);
+							pstmt.setString(2, content);
+							pstmt.setString(3, directory);
+							pstmt.setString(4, filedata);
+							pstmt.setString(5, filename2);
+							pstmt.setString(6, filedata2);
+							pstmt.setInt(7, filesize2);
+							pstmt.setInt(8,qnum);
+							System.out.println("1수정아님2수정");
+					 }else {  //파일 1, 2 모두 수정하지 않을때 
+							sql = "update in_question set title=?, content=?, directory=?,filedata=?,filedata2=? where qnum=?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, title);
+							pstmt.setString(2, content);
+							pstmt.setString(3, directory);
+							pstmt.setString(4, filedata);
+							pstmt.setString(5, filedata2);
+							pstmt.setInt(6, qnum);
+							System.out.println("1수정아님2수정아님");
+						}
 				}
+				
 				pstmt.executeUpdate();
 
 			} catch (Exception e) {

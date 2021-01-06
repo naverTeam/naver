@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
     <jsp:useBean id="mgr" class="in.QuestionMgr" />
+    <jsp:useBean id="amgr" class="in.AnswerMgr" />
   <%
 	request.setCharacterEncoding("EUC-KR");
 	String id = (String)session.getAttribute("id");
@@ -242,7 +243,14 @@ font-weight: bold;
 
 </style>
 <script type="text/javascript">
-
+function sysdate() {
+	 let today = new Date(); 
+	 let year = today.getFullYear(); // 현재년도
+	 let month = today.getMonth() + 1;  // 현재월
+	 let date = today.getDate();  // 현재날짜
+	 var nymd = year+"."+month+"."+date;  //현재 년월일
+	 return nymd;
+}
  function Cal(boardDate) {
 	 let today = new Date();   
 	 let year = today.getFullYear(); // 현재년도
@@ -535,10 +543,10 @@ font-weight: bold;
 <hr>
 <div style="padding-left: 30px;">
 <h4>오늘의 질문과 답변</h4>
-<span id="total">123,123/123,123</span><br>
-<span  id="total_date">2020.12.28</span>
+<span id="total"><%=amgr.getQuestionCnt()%>/<%=amgr.getAnswerCnt()%></span><br>
+<span  id="total_date"><script>document.write(sysdate())</script></span>
 <h4>누적 답변수</h4>
-<span id="total">123,123,123,123</span><br>
+<span id="total"><%=amgr.getAllAnswerCnt() %></span><br>
 <span id="total_date">since 2002</span>
 </div>
 </div>
@@ -581,6 +589,9 @@ font-weight: bold;
 			<td>날씨</td>
 			<td>책</td>
 			<td>스포츠</td>
+		</tr>
+		<tr>
+		<td colspan="4" align="center" style="border-top: 1px solid #888;" onclick="location.href='logout.jsp'">로그아웃</td>
 		</tr>
 	</table>
 </span>
