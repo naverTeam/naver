@@ -24,11 +24,18 @@ public class updateServlet extends HttpServlet {
 		MultipartRequest multi= new MultipartRequest(request, QuestionMgr.SAVEFOLDER,
 				QuestionMgr.MAXSIZE,QuestionMgr.ENCTYPE,new DefaultFileRenamePolicy());
 		//수정처리
-		QuestionMgr mgr = new QuestionMgr(); 
-		mgr.updateQuestion(multi);
 		int qnum = Integer.parseInt(multi.getParameter("qnum"));
+		QuestionMgr mgr = new QuestionMgr();
+		if(multi.getParameter("delete")!=null) {
+		if(multi.getParameter("delete").equals("delete")) {
+			mgr.deleteFile1(qnum);
+		}}
+		if(multi.getParameter("delete2")!=null) {
+		if(multi.getParameter("delete2").equals("delete")) {
+			mgr.deleteFile2(qnum);
+		}}
+		mgr.updateQuestion(multi);
 		response.sendRedirect("boardRead.jsp?qnum="+qnum);
-		System.out.println("servlet"+qnum);
 		
 			 
 			 

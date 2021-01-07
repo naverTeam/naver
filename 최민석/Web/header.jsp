@@ -14,14 +14,15 @@ function dismenu() {
 	}
 }
 </script>
-<form>
+<form method="post" action="searchList.jsp">
 <div id="mainbanner">
 
 <span id="mainbanner_icon">
 <input type="button" class="naver" onclick="location.href='../chu/index.jsp' ">
 <input type="button" class="in" onclick="location.href='naverin_main.jsp' ">
-<input type="text" class="text" style="margin-top: 30px">
-<input type="submit" class="search" value="">
+<input type="text" class="text" style="margin-top: 30px" name="searchKey">
+<input type="submit" class="search"  value="">
+
 </span>
 
 

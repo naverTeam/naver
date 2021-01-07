@@ -4,17 +4,21 @@ CREATE TABLE `in_question` (
 	`title` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci',
 	`content` VARCHAR(1000) NOT NULL COLLATE 'euckr_korean_ci',
 	`directory` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci',
-	`point` INT(11) NOT NULL DEFAULT '0',
+	`point` INT(11) NULL,
 	`answer_count` INT(50) NULL DEFAULT '0',
 	`hits` INT(11) NULL DEFAULT '0',
 	`date` DATETIME NOT NULL,
 	`filename` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	`filedata` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
 	`filesize` INT(11) NULL,
+	`filename2` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	`filedata2` VARCHAR(50) NULL COLLATE 'euckr_korean_ci',
+	`filesize2` INT(11) NULL,
 	PRIMARY KEY (`qnum`) USING BTREE
 )
 COLLATE='euckr_korean_ci'
 ENGINE=InnoDB
-AUTO_INCREMENT=835
+AUTO_INCREMENT=864
 ;
 
 
@@ -34,23 +38,8 @@ CREATE TABLE `in_answer` (
 )
 COLLATE='euckr_korean_ci'
 ENGINE=InnoDB
-AUTO_INCREMENT=44
+AUTO_INCREMENT=49
 ;
 
-
-
-CREATE TABLE `in_comment` (
-	`cnum` INT(11) NOT NULL AUTO_INCREMENT,
-	`anum` INT(11) NOT NULL,
-	`id` VARCHAR(50) NOT NULL COLLATE 'euckr_korean_ci',
-	`content` VARCHAR(1000) NOT NULL COLLATE 'euckr_korean_ci',
-	`date` DATETIME NULL,
-	PRIMARY KEY (`cnum`) USING BTREE,
-	INDEX `anum` (`anum`) USING BTREE,
-	CONSTRAINT `anum` FOREIGN KEY (`anum`) REFERENCES `naver`.`in_answer` (`anum`) ON UPDATE RESTRICT ON DELETE RESTRICT
-)
-COLLATE='euckr_korean_ci'
-ENGINE=InnoDB
-;
 
 

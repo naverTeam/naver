@@ -279,31 +279,37 @@ function Cal(boardDate) {
 	<%} %>
 	
 	
-	<%if(bean.getFilename()!=null){%>
+	<%if(bean.getFilename()!=null&&!bean.getFilename().equals("")){
+	String f1 = bean.getFilename();
+	String fn1 = f1.substring(f1.length()-3,f1.length());
+	if(fn1.equals("jpg")||fn1.equals("png")){%>
 	<tr><td width="400px">
-	
 	<span>
 	<img class="fileimg" src="fileupload/<%=bean.getFilename()%>"
 	 onclick="doImgPop('fileupload/<%=bean.getFilename()%>')" title="확대"><br>
-	 <%if(bean.getFiledata()!=null&&!bean.getFiledata().equals("")){ %>
+	 <%if(bean.getFiledata()!=null&&!bean.getFiledata().equals("")&&!bean.getFiledata().equals("null")){ %>
 	<label style="color: #888;">*<%=bean.getFiledata()%></label>
 	<%} %>
 	</span>
 	</td>
-	<%} %>
+	<%} }%>
 	
-	<%if(bean.getFilename2()!=null){%>
+	<%if(bean.getFilename2()!=null&&!bean.getFilename2().equals("")){
+	String f2 = bean.getFilename2();
+	String fn2 = f2.substring(f2.length()-3,f2.length());
+	if(fn2.equals("jpg")||fn2.equals("png")){%>
 	<td>
 	<span>
 	<img  class="fileimg" src="fileupload/<%=bean.getFilename2()%>" 
 	onclick="doImgPop('fileupload/<%=bean.getFilename2()%>')" title="확대"><br>
-	<%if(bean.getFiledata2()!=null&&!bean.getFiledata2().equals("")){ %>
+	<%if(bean.getFiledata2()!=null&&!bean.getFiledata2().equals("")&&!bean.getFiledata2().equals("null")){ %>
 	<label style="color:#888;">*<%=bean.getFiledata2()%></label>
 	<%} %>
 	</span>
 	</td>
-	<% }%>
+	<% }}%>
 	</tr>
+	
 	<tr><td colspan="4" style="padding-top: 50px;padding-bottom: 30px;border-bottom: 2px solid #40c700;"><pre>
 	<%=bean.getContent() %>
 	</pre></td></tr>
@@ -318,7 +324,7 @@ function Cal(boardDate) {
 	<td width="100px" style="padding-bottom: 50px;">
 		답변 <%=bean.getAnswer_count()%>
 	</td>
-	<td width="500px" align="right" style="padding-bottom: 50px;">
+	<td width="400px" align="right" style="padding-bottom: 50px;">
 	<%if(id.equals(bean.getId())){ %>
 	<a id="tag" href="naver_question_up.jsp?qnum=<%=qnum%>">[수정]</a>
 	<a id="tag" href="delete_q.jsp?qnum=<%=qnum%>">[삭제]</a>

@@ -166,6 +166,7 @@ background-size:270px 60px;
   #boardtable{
  margin-bottom: 50px;
  width: 720px;
+  border-spacing: 0px;
  }
  #sidebar{
  float:left;
@@ -441,7 +442,9 @@ function sysdate() {
 	%>
 	<tr id="questionBoard" onclick="boardRead('<%=bean.getQnum()%>')">
 		<td style="font-weight:bold;font-size: 18px;"width="330px"><%=bean.getTitle() %> 
-		<span style="color:#40c700;"> [ <%=bean.getPoint() %> ]</span>
+		<%if(bean.getPoint()!=0){ %>
+		<span style="color:#40c700;font-weight: bold;"> [<%=bean.getPoint() %>]</span>
+		<%} %> 
 		<%if(bean.getFilename()!=null){ %>
 		<img  src="img/down.png" style="width: 20px;height: 20px;">
 		<%} %>

@@ -59,7 +59,9 @@ public class QuestionMgr {
 				
 				String content  = multi.getParameter("content");
 				content = UtilMgr.replace(content, "<", "&lt;");
-		
+				int point =0;
+				if(multi.getParameter("point")!=null&&!multi.getParameter("point").equals(""))
+				 point = Integer.parseInt(multi.getParameter("point"));
 				/////////////////////////////////////
 				con = pool.getConnection();
 				sql = "insert in_question(id,title,content,directory,";
@@ -70,7 +72,7 @@ public class QuestionMgr {
 				pstmt.setString(2, multi.getParameter("title"));
 				pstmt.setString(3, content);
 				pstmt.setString(4, multi.getParameter("directory"));
-				pstmt.setString(5, multi.getParameter("point"));
+				pstmt.setInt(5, point);
 				pstmt.setString(6, filename1);
 				pstmt.setString(7, multi.getParameter("filedata"));
 				pstmt.setInt(8, filesize);
@@ -86,6 +88,74 @@ public class QuestionMgr {
 			}
 		}
 		
+		//게시물 제목검색
+		public Vector<QuestionBean> getSearchTitleList(String searchKey){
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = null;
+			Vector<QuestionBean> vlist = new Vector<QuestionBean>();
+			try {
+				con = pool.getConnection();
+				sql = "SELECT * FROM in_question WHERE  title like ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, "%"+searchKey+"%");
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					QuestionBean bean = new QuestionBean();
+					bean.setQnum(rs.getInt("qnum"));
+					bean.setId(rs.getString("id"));
+					bean.setTitle(rs.getString("title"));
+					bean.setContent(rs.getString("content"));
+					bean.setAnswer_count(rs.getInt("answer_count"));
+					bean.setDirectory(rs.getString("directory"));
+					bean.setDate(rs.getString("date"));
+					bean.setPoint(rs.getInt("point"));
+					bean.setFilename(rs.getString("filename"));
+					vlist.addElement(bean);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+			return vlist;
+		}
+		
+		//게시물 내용검색
+				public Vector<QuestionBean> getSearchContentList(String searchKey){
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					Vector<QuestionBean> vlist = new Vector<QuestionBean>();
+					try {
+						con = pool.getConnection();
+						sql = "SELECT * FROM in_question WHERE  content like ?";
+						pstmt = con.prepareStatement(sql);
+						pstmt.setString(1, "%"+searchKey+"%");
+						rs = pstmt.executeQuery();
+						while(rs.next()) {
+							QuestionBean bean = new QuestionBean();
+							bean.setQnum(rs.getInt("qnum"));
+							bean.setId(rs.getString("id"));
+							bean.setTitle(rs.getString("title"));
+							bean.setContent(rs.getString("content"));
+							bean.setAnswer_count(rs.getInt("answer_count"));
+							bean.setDirectory(rs.getString("directory"));
+							bean.setDate(rs.getString("date"));
+							bean.setPoint(rs.getInt("point"));
+							bean.setFilename(rs.getString("filename"));
+							vlist.addElement(bean);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return vlist;
+				}
+				
 		// 게시물 가져오기
 	public Vector<QuestionBean> getQuestionList(int start,int end,String dir,int where){
 		Connection con = null;
@@ -267,7 +337,62 @@ public class QuestionMgr {
 			}
 			return;
 		}
-		
+		//파일1 삭제
+		public void deleteFile1(int qnum) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			String sql = null;
+			try { 
+				QuestionBean bean = boardRead(qnum); 
+				 String tempfile=bean.getFilename();
+				 File f = new File(SAVEFOLDER+tempfile);
+					if(f.exists()) {
+						UtilMgr.delete(SAVEFOLDER+tempfile);
+					}
+			 
+				con = pool.getConnection();
+				sql = "update in_question set filename=?,filedata=?,filesize=? where qnum=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, "");
+				pstmt.setString(2, "");
+				pstmt.setInt(3,0);
+				pstmt.setInt(4, qnum);
+			    pstmt.executeUpdate();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt);
+			}
+			return;
+		}
+		//파일2 삭제
+				public void deleteFile2(int qnum) {
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					String sql = null;
+					try { 
+						QuestionBean bean = boardRead(qnum); 
+						 String tempfile2=bean.getFilename2();
+						 File f = new File(SAVEFOLDER+tempfile2);
+							if(f.exists()) {
+								UtilMgr.delete(SAVEFOLDER+tempfile2);
+							}
+					 
+						con = pool.getConnection();
+						sql = "update in_question set filename2=?,filedata2=?,filesize2=? where qnum=?";
+						pstmt = con.prepareStatement(sql);
+						pstmt.setString(1, "");
+						pstmt.setString(2, "");
+						pstmt.setInt(3,0);
+						pstmt.setInt(4, qnum);
+					    pstmt.executeUpdate();
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt);
+					}
+					return;
+				}
 		//질문 수정
 		public void updateQuestion(MultipartRequest multi) {
 			Connection con = null;
@@ -280,13 +405,18 @@ public class QuestionMgr {
 				String directory=multi.getParameter("directory");
 				String content=multi.getParameter("content");
 				String filename=multi.getFilesystemName("filename1");
-				String filedata=multi.getFilesystemName("filedata");
 				String filename2=multi.getFilesystemName("filename2");
-				String filedata2=multi.getFilesystemName("filedata2");
-				System.out.println("file1data"+filedata);
-				System.out.println("filename"+filename);
-				System.out.println("file2data"+filedata2);
-				System.out.println("filename2"+filename2);
+				String filedata=multi.getParameter("filedata");
+				String filedata2=multi.getParameter("filedata2");
+				String ofiledata = "";
+				String ofiledata2 = "";
+				
+				if(multi.getParameter("ofiledata")!=null) {
+					ofiledata = multi.getParameter("ofiledata");
+				}
+				if(multi.getParameter("ofiledata2")!=null) {
+					ofiledata2 = multi.getParameter("ofiledata2");
+				}
 				
 				if(filename!=null&&!filename.equals("")) {  //파일1을 수정할때 
 					if(filename2==null||filename2.equals("")) {   //파일 2는 수정 하지않을때 
@@ -309,9 +439,10 @@ public class QuestionMgr {
 					pstmt.setString(4, filename);
 					pstmt.setString(5, filedata);
 					pstmt.setInt(6, filesize);
-					pstmt.setString(7, filedata2);
+					pstmt.setString(7, ofiledata2);
 					pstmt.setInt(8,qnum);
 					System.out.println("1수정2수정아님");
+					
 					}else if(filename2!=null&&!filename.equals("")) { //파일 2도 수정할때 
 						QuestionBean bean = boardRead(qnum); 
 						String tempfile=bean.getFilename();
@@ -350,6 +481,7 @@ public class QuestionMgr {
 					 if(filename2!=null&&!filename2.equals("")) {    //파일 2는 수정할때
 						 QuestionBean bean = boardRead(qnum); 
 						 String tempfile2=bean.getFilename2();
+						
 						 if(tempfile2!=null&&!tempfile2.equals("")) {
 							 //기존에 파일이 있다면
 							File f2 = new File(SAVEFOLDER+tempfile2);
@@ -363,7 +495,7 @@ public class QuestionMgr {
 							pstmt.setString(1, title);
 							pstmt.setString(2, content);
 							pstmt.setString(3, directory);
-							pstmt.setString(4, filedata);
+							pstmt.setString(4, ofiledata);
 							pstmt.setString(5, filename2);
 							pstmt.setString(6, filedata2);
 							pstmt.setInt(7, filesize2);
@@ -375,8 +507,8 @@ public class QuestionMgr {
 							pstmt.setString(1, title);
 							pstmt.setString(2, content);
 							pstmt.setString(3, directory);
-							pstmt.setString(4, filedata);
-							pstmt.setString(5, filedata2);
+							pstmt.setString(4, ofiledata);
+							pstmt.setString(5, ofiledata2);
 							pstmt.setInt(6, qnum);
 							System.out.println("1수정아님2수정아님");
 						}
@@ -390,5 +522,6 @@ public class QuestionMgr {
 				pool.freeConnection(con, pstmt);
 			}
 		}
+		
 }
 

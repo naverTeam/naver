@@ -222,14 +222,9 @@ border-radius: 5px;
 background-color: orange;
 cursor: pointer;
 }
-#filedata7{
+.oldfiledata{
 	border:3px solid #40c700;
-	width: 275px;
-	height: 30px;
-	}
-	#filedata8{
-	border:3px solid #40c700;
-	width: 275px;
+	width: 205px;
 	height: 30px;
 	}
 #submit:hover{background-color: aliceblue;}
@@ -293,11 +288,43 @@ cursor: pointer;
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script>
+function td1c() {
+	var e3 =document.getElementById("tdd1");
+	e3.style.color="red";
+}
+function td2c() {
+	var e4 =document.getElementById("tdd1");
+	e4.style.color="#000";
+}
+function td3c() {
+	var e3 =document.getElementById("tdd2");
+	e3.style.color="red";
+}
+function td4c() {
+	var e34 =document.getElementById("tdd2");
+	e34.style.color="#000";
+}
 function deleteT() {
+	
 	$(".td1").remove();
+	var input11 = document.createElement('input');
+	input11.setAttribute("type","hidden");
+	input11.setAttribute("name","delete");
+	input11.setAttribute("value","delete");
+	
+	var fr = document.getElementById("tag");
+	fr.appendChild(input11);
+	
 }
 function deleteT2() {
 	$(".td2").remove();
+	var input12 = document.createElement('input');
+	input12.setAttribute("type","hidden");
+	input12.setAttribute("name","delete2");
+	input12.setAttribute("value","delete");
+	
+	var fr = document.getElementById("tag");
+	fr.appendChild(input12);
 }
 function setThumbnail(event) {
 	 
@@ -362,15 +389,7 @@ $(document).ready(function(){
 			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
 			}
 		$(".td1").remove();
-		if(document.getElementById("filedata7")==null){
-		var input1 = document.createElement('input');
-		input1.setAttribute("type","text");
-		input1.setAttribute("name","filedata");
-		input1.setAttribute("id","filedata7");
-		input1.setAttribute("placeholder","이미지 정보입력");
-		var div1 = document.getElementById("image_container");
-		div1.appendChild(input1);
-		}
+		
 	var fileType=filename.substring(filename.length-3,filename.length); //파일확장자 추출
 	var ktype2="";
 	if(document.getElementById('disnone2').value!=null){
@@ -399,15 +418,7 @@ $(document).ready(function(){
 			var filename2 = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
 			}
 		$(".td2").remove();
-		if(document.getElementById("filedata8")==null){
-			var input2 = document.createElement('input');
-			input2.setAttribute("type","text");
-			input2.setAttribute("name","filedata2");
-			input2.setAttribute("id","filedata8");
-			input2.setAttribute("placeholder","이미지 정보입력");
-			var div2 = document.getElementById("image_container2");
-			div2.appendChild(input2);
-			}
+		
 		var fileType2=filename2.substring(filename2.length-3,filename2.length); //파일확장자 추출
 		var  k = document.getElementById('disnone').value;
 		var ktype=k.substring(k.length-3,k.length);
@@ -466,36 +477,47 @@ margin-left:100px;border-radius: 10px;">
 <input type="text" name="title" id="titletext" value="<%=bean.getTitle()%>">
 </div>
 <div id="textarea">
-<textarea id="ta" rows="25" cols="99"
+<textarea id="ta" rows="25" cols="102"
  name="content"><%=bean.getContent()%></textarea><br>
  
- <table>
-<%if(bean.getFilename()!=null){%>
+ <table id="asa">
+<%if(bean.getFilename()!=null&&!bean.getFilename().equals("")){%>
 	<tr><td width="210px" style="padding-top: 50px;">
 	
-	<span class="td1">
+	<span class="td1" id="tdd1">
 	원본 파일명 : <%=bean.getFilename()%><br>
+	<%String f1 = bean.getFilename();
+	String fn1 = f1.substring(f1.length()-3,f1.length());
+	if(fn1.equals("jpg")||fn1.equals("png")){%>
 	<img class="fileimg" src="fileupload/<%=bean.getFilename()%>"
-	 onclick="doImgPop('fileupload/<%=bean.getFilename()%>')"><br>
-	 <%if(bean.getFiledata()!=null&&!bean.getFiledata().equals("")){ %>
-	<%} %>
+	 onclick="doImgPop('fileupload/<%=bean.getFilename()%>')"><br><%} %>
+	 <input type="text" class="oldfiledata" name="ofiledata" placeholder="이미지 정보" value="<%=bean.getFiledata()%>">
 	</span>
 	</td>
-	<td width="200px" style="margin-top: -100px;"><button type="button" id="debtn" onclick="deleteT()" class="td1">Delete</button></td>
-	<%} %>
+	<td width="200px" style="margin-top: -100px;"><button type="button"
+    id="debtn" onclick="deleteT()" onmouseover="td1c()" onmouseout="td2c()"     class="td1">Delete</button></td>
+	<%}else{ %>
+	<tr><td width="410px" style="padding-top: 50px;" >
+	<span class="td1" height="200px"></span><td>
+		 <%} %>
 	
-	<%if(bean.getFilename2()!=null){%>
+	
+	
+	<%if(bean.getFilename2()!=null&&!bean.getFilename2().equals("")){%>
 	<td style="padding-top: 50px;"  class="td2">
 	
-	<span  class="td2">
+	<span  class="td2" id="tdd2">
 	원본 파일명 : <%=bean.getFilename2()%><br>
+	<%String f2 = bean.getFilename2();
+	String fn2 = f2.substring(f2.length()-3,f2.length());
+	if(fn2.equals("jpg")||fn2.equals("png")){%> 
 	<img  class="fileimg" src="fileupload/<%=bean.getFilename2()%>" 
-	onclick="doImgPop('fileupload/<%=bean.getFilename2()%>')"><br>
-	<%if(bean.getFiledata2()!=null&&!bean.getFiledata2().equals("")){ %>
-	<%} %>
+	onclick="doImgPop('fileupload/<%=bean.getFilename2()%>')"><br><%} %>
+	 <input type="text" class="oldfiledata" name="ofiledata2" placeholder="이미지 정보" value="<%=bean.getFiledata2()%>">
 	</span>
 	</td>
-	<td  width="100px" style="margin-top: -100px;"><button type="button" id="debtn2" onclick="deleteT2()"  class="td2">Delete</button></td>
+	<td  width="100px" style="margin-top: -100px;"><button type="button" id="debtn2" 
+	onclick="deleteT2()" onmouseover="td3c()" onmouseout="td4c()" class="td2">Delete</button></td>
 	<% }%>
 	</tr></table>
 	
@@ -509,7 +531,7 @@ margin-left:100px;border-radius: 10px;">
 <input type="file" id="ex_filename" class="upload-hidden" name="filename1">
  <div id="image_container" style="width: 285px;height: 300px;">
  <img src="img/question.png" style="width: 285px;height: 300px;" id="imgtest">
-<input type="text" name="filedata"  style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
+<input type="text" name="filedata" style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
  
  </div>
  </div>
