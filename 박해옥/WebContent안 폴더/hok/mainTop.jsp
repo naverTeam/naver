@@ -16,8 +16,8 @@
 
 <div class="mainText" width="75%">Welcome NaverMall</div>
 <table width="75%" align="center" bgcolor="#FFFF99">
-  <tr bgcolor="#FFCC00"> 
-  	<th>naverȨ</th>
+  <tr bgcolor="#01DF3A"> 
+  	<th><a href="../chu/index.jsp">naverȨ</a></th>
     <th><%=log%></th>
     <th><%=reg%></th>
     <th align="center" valign="bottom">

@@ -4,6 +4,8 @@ public class BCommentBean {
  
 	private int cnum;
 	private int num;
+	private int pronum;
+	private int ordnum;
 	private String name;
 	private String comment;
 	private String regdate;
@@ -18,6 +20,19 @@ public class BCommentBean {
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	
+	public int getPronum() {
+		return pronum;
+	}
+	public void setPronum(int pronum) {
+		this.pronum = pronum;
+	}
+	public int getOrdnum() {
+		return ordnum;
+	}
+	public void setOrdnum(int ordnum) {
+		this.ordnum = ordnum;
 	}
 	public String getName() {
 		return name;

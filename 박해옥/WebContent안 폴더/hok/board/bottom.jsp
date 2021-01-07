@@ -5,6 +5,5 @@
   NaverMall 전화번호 : 000-0000-0000&nbsp;&nbsp;&nbsp;
   NaverMall email ; NaverMall@naver.com
    </td>
-  <th><a href="admin/index.jsp">관리자</a></th>
-  </tr>
+   </tr>
 </table>

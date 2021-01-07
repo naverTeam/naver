@@ -10,7 +10,7 @@
 <div class="mainText"  >Welcome NaverMall</div>
 <table width="75%" align="center" bgcolor="#FFFF99">
   <tr bgcolor="#01DF3A"> 
-    <th><a href="../index.jsp">碱俏隔权</a></th>
+    <th><a href="../productList.jsp">碱俏隔权</a></th>
     <th><a href="adminLogout.jsp">肺弊酒眶</a></th>
     <th><a href="productMgr.jsp">惑前包府</a></th>
     <th><a href="orderMgr.jsp">林巩包府</a></th>
