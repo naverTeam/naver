@@ -28,7 +28,7 @@ function dismenu() {
 
 <span id="loginset">
 <%if(id2==null){ %>
-<button type="button" class="login" onclick="location.href='../joon/login.jsp' ">로그인</button>
+<button type="button" class="login" onclick="location.href='../member/login.jsp' ">로그인</button>
 <%} else{%> 
 <span id="loginon"><font color="#40c700"><%=id2%></font> 님 반갑습니다.</span>
 <button type="button" id="call"></button>
@@ -42,11 +42,11 @@ function dismenu() {
 <div>
 <table class="submenubar">
 	<tr>
-		<td class="td" align="center" width="20px">홈</td>
+		<td class="td" align="center" width="20px" onclick="location.href='naverin_main.jsp'">홈</td>
 		<td class="td" align="center" width="40px">Q&A</td>
 		<td class="td" align="center" width="70px">답변하기</td>
 		<td class="td" align="center" width="50px">베스트</td>
-		<td class="td" align="center" width="90px">명예의 전당</td>
+		<td class="td" align="center" width="90px" onclick="location.href='bestMember.jsp'">명예의 전당</td>
 		<td style="border-left: 1px solid #cccccc;"></td>
 		<td class="td" align="center" width="50px">프로필</td>
 		<td width="500px"></td>

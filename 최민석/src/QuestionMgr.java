@@ -13,6 +13,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 
 import in.UtilMgr;
+import member.MemberBean;
 import in.DBConnectionMgr;
 
 public class QuestionMgr {
@@ -26,7 +27,7 @@ public class QuestionMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	//Board Insert
+	//Question Insert
 		public void insertQuestion(HttpServletRequest req) {
 			Connection con = null;
 			PreparedStatement pstmt = null;
@@ -80,7 +81,13 @@ public class QuestionMgr {
 				pstmt.setString(10, multi.getParameter("filedata2"));
 				pstmt.setInt(11, filesize2);
 				pstmt.executeUpdate();
-
+				pstmt.close();
+				
+				sql = "update navermember set questionCnt = questionCnt+1 where id = ?";
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1, multi.getParameter("id"));
+				pstmt.executeUpdate();
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -89,7 +96,7 @@ public class QuestionMgr {
 		}
 		
 		//게시물 제목검색
-		public Vector<QuestionBean> getSearchTitleList(String searchKey){
+		public Vector<QuestionBean> getSearchTitleList(String searchKey,int start,int end,int where){
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -97,10 +104,23 @@ public class QuestionMgr {
 			Vector<QuestionBean> vlist = new Vector<QuestionBean>();
 			try {
 				con = pool.getConnection();
-				sql = "SELECT * FROM in_question WHERE  title like ?";
+				if(where==7) {
+				sql = "SELECT * FROM in_question WHERE  title like ? order by ? limit ?,?";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1, "%"+searchKey+"%");
+				pstmt.setInt(2, where);
+				pstmt.setInt(3, start);
+				pstmt.setInt(4, end);
 				rs = pstmt.executeQuery();
+				}else if(where==6||where==9) {
+					sql = "SELECT * FROM in_question WHERE  title like ? order by ? desc limit ?,?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+searchKey+"%");
+					pstmt.setInt(2, where);
+					pstmt.setInt(3, start);
+					pstmt.setInt(4, end);
+					rs = pstmt.executeQuery();
+				}
 				while(rs.next()) {
 					QuestionBean bean = new QuestionBean();
 					bean.setQnum(rs.getInt("qnum"));
@@ -122,8 +142,29 @@ public class QuestionMgr {
 			return vlist;
 		}
 		
+		public int getTitleCount(String searchKey) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = null;
+			int totalCount = 0;
+			try {
+				con = pool.getConnection();
+					sql = "select count(*) from in_question where title like ?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, "%"+searchKey+"%");
+				rs = pstmt.executeQuery();
+				if(rs.next()) totalCount = rs.getInt(1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+			return totalCount;
+		}
+		
 		//게시물 내용검색
-				public Vector<QuestionBean> getSearchContentList(String searchKey){
+				public Vector<QuestionBean> getSearchContentList(String searchKey,int start,int end,int where){
 					Connection con = null;
 					PreparedStatement pstmt = null;
 					ResultSet rs = null;
@@ -131,10 +172,23 @@ public class QuestionMgr {
 					Vector<QuestionBean> vlist = new Vector<QuestionBean>();
 					try {
 						con = pool.getConnection();
-						sql = "SELECT * FROM in_question WHERE  content like ?";
+						if(where==7) {
+						sql = "SELECT * FROM in_question WHERE  content like ? order by ? limit ?,?";
 						pstmt = con.prepareStatement(sql);
 						pstmt.setString(1, "%"+searchKey+"%");
+						pstmt.setInt(2, where);
+						pstmt.setInt(3, start);
+						pstmt.setInt(4, end);
 						rs = pstmt.executeQuery();
+						}else if(where==6||where==9) {
+							sql = "SELECT * FROM in_question WHERE  content like ? order by ? desc limit ?,?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, "%"+searchKey+"%");
+							pstmt.setInt(2, where);
+							pstmt.setInt(3, start);
+							pstmt.setInt(4, end);
+							rs = pstmt.executeQuery();
+						}
 						while(rs.next()) {
 							QuestionBean bean = new QuestionBean();
 							bean.setQnum(rs.getInt("qnum"));
@@ -156,6 +210,26 @@ public class QuestionMgr {
 					return vlist;
 				}
 				
+				public int getContentCount(String searchKey) {
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					int totalCount = 0;
+					try {
+						con = pool.getConnection();
+							sql = "select count(*) from in_question where content like ?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, "%"+searchKey+"%");
+						rs = pstmt.executeQuery();
+						if(rs.next()) totalCount = rs.getInt(1);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return totalCount;
+				}
 		// 게시물 가져오기
 	public Vector<QuestionBean> getQuestionList(int start,int end,String dir,int where){
 		Connection con = null;
@@ -216,7 +290,7 @@ public class QuestionMgr {
 		return vlist;
 	}
 	
-	
+	//디렉토리별 데이터갯수
 	public int getTotalCount(String dir) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -312,6 +386,7 @@ public class QuestionMgr {
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1,qnum);
 				pstmt.executeUpdate();
+				pstmt.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -522,6 +597,34 @@ public class QuestionMgr {
 				pool.freeConnection(con, pstmt);
 			}
 		}
+		
+		//회원정보 가져오기
+		public MemberBean memberRead(String id){
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = null;
+			MemberBean bean = new MemberBean();
+			try {
+				con = pool.getConnection();
+				sql = "select * from navermember where id = ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1,id);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					bean.setQuestionCnt(rs.getInt("questionCnt"));
+					bean.setAnswerCnt(rs.getInt("answerCnt"));
+					bean.setInPoint(rs.getInt("inPoint"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+			return bean;
+		}
+		
+		
 		
 }
 

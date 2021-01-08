@@ -1,3 +1,4 @@
+<%@page import="member.MemberBean"%>
 <%@page import="in.UtilMgr"%>
 <%@page import="in.QuestionBean"%>
 <%@page import="java.util.Vector"%>
@@ -59,6 +60,7 @@
 <title>네이버 지식iN</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
+td{border:1px solid blue;}
 .test{
 border:0;
 outline:0;
@@ -506,12 +508,12 @@ function sysdate() {
 <%if(id==null){ %>
 <div style="padding-top: 20px;padding-left: 30px;background-color:aliceblue;height: 169px;">
 <p style="color:#888;">질문과 답변을 하고싶다면,</p>
-<button id="nlogin" type="button" onclick="location.href='../joon/login.jsp' "/><br><br><br><br><br>
-<a id="new" style="margin-left:190px;color:#888;text-align: right;font-size: 15px;" href="../joon/member.jsp">회원가입</a>
+<button id="nlogin" type="button" onclick="location.href='../member/login.jsp' "/><br><br><br><br><br>
+<a id="new" style="margin-left:190px;color:#888;text-align: right;font-size: 15px;" href="../member/member.jsp">회원가입</a>
 </div>
 <hr style="margin-top:0px;">
 <%}else{ %>
-<div style="padding-top: 20px;padding-left: 30px;background-color:aliceblue;height: 220px;">
+<div style="padding-top: 20px;padding-left: 30px;background-color:aliceblue;height: 240px;">
 <table id="myprof">
 <tr><td>
 	<img  src="img/question.png" style="width: 40px;height: 40px;border-radius: 10px;">
@@ -523,10 +525,11 @@ function sysdate() {
 <tr>
 <td style="font-weight: bold;padding-top: 10px;padding-bottom: 10px;">나의 지식iN</td>
 </tr>
-<tr><td>나의 질문 : </td></tr>
-<tr><td>나의 답변 : </td></tr>
-<tr><td>나의 내공 : </td></tr>
-<tr><td>나의 랭킹 : </td></tr>
+<%MemberBean mbean = mgr.memberRead("aaa121212");%>
+<tr><td colspan="2">나의 질문 :  <%=mbean.getQuestionCnt()%> 건</td></tr>
+<tr><td colspan="2">나의 답변 : <%=mbean.getAnswerCnt() %> 건</td></tr>
+<tr><td colspan="2">나의 내공 : <%=mbean.getInPoint() %> 점</td></tr>
+<tr><td colspan="2">나의 랭킹 : </td></tr>
 </table>
 </div>
 <hr style="margin-top:0px;">

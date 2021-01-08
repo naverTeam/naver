@@ -30,7 +30,15 @@ public class AnswerMgr {
 			pstmt.setString(2,bean.getId());
 			pstmt.setString(3,bean.getContent());
 			if(pstmt.executeUpdate()==1)flag=true;
-
+			
+			pstmt.close();
+				
+				sql = "update navermember set AnswerCnt = AnswerCnt+1 where id = ?";
+				pstmt=con.prepareStatement(sql);
+				pstmt.setString(1, bean.getId());
+				pstmt.executeUpdate();
+		
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
