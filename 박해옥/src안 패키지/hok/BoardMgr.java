@@ -14,7 +14,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 public class BoardMgr {
 	
 	private DBConnectionMgr pool;
-	public static final String SAVEFOLDER = "C:/Jsp/naver/WebContent/hok/board/fileupload/";
+	public static final String SAVEFOLDER = "C:/Jsp/myapp/WebContent/hok/board/fileupload/";
 	public static final String ENCTYPE = "EUC-KR";
 	public static int MAXSIZE = 10*1024*1024;//10MB
 	

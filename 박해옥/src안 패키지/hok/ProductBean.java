@@ -23,6 +23,23 @@ public class ProductBean {
 	private String proDay;
 	private String filename;
 	private int filesize;
+	private int ref;
+	private int count;
+	
+	
+	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	public int getRef() {
+		return ref;
+	}
+	public void setRef(int ref) {
+		this.ref = ref;
+	}
 	public int getProNum() {
 		return proNum;
 	}

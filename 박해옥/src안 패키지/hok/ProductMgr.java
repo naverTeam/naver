@@ -21,8 +21,39 @@ public class ProductMgr {
 		pool =DBConnectionMgr.getInstance();
 	}
 	
+	//Product Total Count : 총 게시물 수
+		public int getTotalCount(String keyWord) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = null;
+			int totalCount = 0;
+			try {
+				con = pool.getConnection();
+				if(keyWord.trim().equals("")||keyWord==null) {
+					//검색이 아닌경우 
+					sql = "select count(*) from tblProduct";
+					pstmt = con.prepareStatement(sql);
+				}else {
+					sql = "select count(*) from tblProduct where "
+							+ "proName like ? ";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1,"%"+keyWord+"%");
+				}
+					rs = pstmt.executeQuery();
+					if(rs.next()) totalCount=rs.getInt(1);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+			return totalCount;
+		}
+		
+	
 	//product List
-	public Vector<ProductBean> getProductList(){
+	public Vector<ProductBean> getProductList1(String keyWord, int start, int cnt){
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -30,8 +61,21 @@ public class ProductMgr {
 		Vector<ProductBean> vlist = new Vector<ProductBean>();
 		try {
 			con = pool.getConnection();
-			sql = "select proNum,proName,price,stock,proDay,proImg,email from tblProduct order by proNum desc";
+			if(keyWord.trim().equals("") || keyWord==null) {
+				//검색이 아닐때
+			sql = "select proNum,proName,price,stock,proDay,proImg,email from tblProduct "
+					+ "order by proNum desc limit ?, ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,start);
+			pstmt.setInt(2,cnt);
+			}else {//검색일때
+				sql = "select proNum,proName,price,stock,proDay,proImg,email from tblProduct "
+						+ "where proName like ? order by proNum desc limit ?,?";
+				pstmt = con.prepareStatement(sql);	
+				pstmt.setString(1,"%"+keyWord+"%");
+				pstmt.setInt(2,start);
+				pstmt.setInt(3,cnt);
+			}
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				ProductBean bean = new ProductBean();
@@ -54,6 +98,44 @@ public class ProductMgr {
 		return vlist;
 		
 	}
+	
+	//product List
+		public Vector<ProductBean> getProductList( int start, int cnt){
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = null;
+			Vector<ProductBean> vlist = new Vector<ProductBean>();
+			try {
+				con = pool.getConnection();
+				sql = "select proNum,proName,price,stock,proDay,proImg,email from tblProduct "
+						+ "order by proNum desc  limit ?,?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1,start);
+				pstmt.setInt(2,cnt);
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					ProductBean bean = new ProductBean();
+					bean.setProNum(rs.getInt(1));
+					bean.setProName(rs.getString(2));
+					bean.setPrice(rs.getInt(3));
+					bean.setStock(rs.getInt(4));
+					bean.setProDay(rs.getString(5));
+					bean.setProImg(rs.getString(6));
+					bean.setEmail(rs.getString(7));
+					
+					vlist.addElement(bean);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				pool.freeConnection(con, pstmt, rs);
+			}
+			return vlist;
+			
+		}
+		
 	
 	//Product Detail
 	public ProductBean getProduct(int proNum) {
