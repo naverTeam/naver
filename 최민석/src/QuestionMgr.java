@@ -83,10 +83,14 @@ public class QuestionMgr {
 				pstmt.executeUpdate();
 				pstmt.close();
 				
-				sql = "update navermember set questionCnt = questionCnt+1 where id = ?";
+				//질문수 +1
+				sql = "update navermember set questionCnt = questionCnt+1,inPoint = inPoint-? where id = ?";
 				pstmt=con.prepareStatement(sql);
-				pstmt.setString(1, multi.getParameter("id"));
+				pstmt.setInt(1, point);
+				pstmt.setString(2, multi.getParameter("id"));
 				pstmt.executeUpdate();
+				pstmt.close();
+				
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -624,6 +628,34 @@ public class QuestionMgr {
 			return bean;
 		}
 		
+		
+		//통합검색결과페이지에 5개 뿌리기
+				public Vector<QuestionBean> getSearchIn(String keyWord) {
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					Vector<QuestionBean> vlist = new Vector<QuestionBean>();
+					try {
+						con = pool.getConnection();
+						sql = "select * from in_question order by ?  limit 0,5";
+						pstmt = con.prepareStatement(sql);
+						pstmt.setString(1, keyWord);
+						rs = pstmt.executeQuery();
+						while(rs.next()) {
+							QuestionBean bean = new QuestionBean();
+							bean.setTitle(rs.getString("title"));
+							bean.setContent(rs.getString("content"));
+							bean.setQnum(rs.getInt("qnum"));
+							vlist.addElement(bean);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return vlist;
+				}
 		
 		
 }

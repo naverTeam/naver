@@ -1,7 +1,15 @@
+<%@page import="member.MemberBean"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
+<jsp:useBean id="mgr" class="in.QuestionMgr" />
+<jsp:useBean id="bean" class="in.QuestionBean" />
 <%request.setCharacterEncoding("EUC-KR");
+if(session.getAttribute("id")==null){
+	
+ response.sendRedirect("../member/login.jsp?returnPage=../in/naver_question.jsp");
+}else{
 
 String id = (String)session.getAttribute("id");
+MemberBean mbean = mgr.memberRead(id);
 %>
 <!DOCTYPE html>
 <html>
@@ -10,6 +18,35 @@ String id = (String)session.getAttribute("id");
 <title>질문하기</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
 
 
 
@@ -120,7 +157,7 @@ cursor: pointer;
 #point{
 border: 1px solid #888;
 width: 720px;
-height: 100px;
+height: 110px;
 margin-top: 50px;
 display:none;
 }
@@ -375,22 +412,142 @@ function dir(id) {
 	var e = document.getElementById(id);
 	e.style.color = '#40c700';
 }
+function titleCheck() {
+	var e = document.getElementById("titletext");
+	
+	if(e.value.length<5){
+		if(document.getElementById("textcheck")==null){
+		var text = document.createElement("p");
+		text.id = "textcheck";
+		text.innerHTML="제목이 너무 짧습니다. (5자 이상)";
+		text.style.color="brown";
+		text.style.marginLeft="220px";
+		document.querySelector("div#titlediv").appendChild(text);
+		}
+	}else{
+		if(document.getElementById("textcheck")!=null){
+			$("p").remove();
+		}
+	}
+	
+}
+function pointcheck() {
+	
+	var e = document.getElementById("pointtext");
+	if(e.value<=<%=mbean.getInPoint()%>){
+		if(document.getElementById("pointcheck")==null){
+		var text = document.createElement("p");
+			text.id = "pointcheck";
+			text.style.marginLeft="100px";
+		}else{
+			var text = document.getElementById("pointcheck");
+		}
+			text.style.color="#40c700";
+			text.innerHTML="적용 되었습니다.";
+			document.querySelector("div#point").appendChild(text);
+	}else{
+		if(document.getElementById("pointcheck")==null){
+		var text = document.createElement("p");
+		text.id = "pointcheck";
+		text.style.marginLeft="100px";
+		}else{
+			var text = document.getElementById("pointcheck");
+		}
+		text.style.color="red";
+		text.innerHTML="보유 내공보다 많습니다.";
+		document.querySelector("div#point").appendChild(text);
+	}
+}
+function checkAll() {
+	if(!checkTitle(Frm.title.value)){  //제목 검사
+		return false;
+	}
+	if(!checkContent(Frm.content.value)){  //내용 검사
+		return false;
+	}
+	if(!checkDirectory(Frm.directory)){ //카테고리 검사
+		return false;
+	}
+	if(!checkPoint(Frm.point.value)){  //포인트 검사
+		return false;
+	}
+	return true;
+}
+//데이터가 공백인자 검사
+function checkExistData(value,dataname) {
+	if(value==""){
+		alert(dataname+" 입력해주세요.");
+		return false;
+	}
+	return true;
+}
+//제목 길이 검사
+function checkTitle(title) {
+		if(!checkExistData(title,"제목을"))
+			return false;
+	
+		if(title.length<5){
+		alert("제목이 너무 짧습니다.");
+		return false;
+		}
+	return true;
+}
+function checkContent(con) {
+	if(!checkExistData(con,"내용을"))
+		return false;
+	
+	if(con.length<5){
+		alert("내용이 너무 짧습니다.");
+		return false;
+	}
+	return true;
+}
+function checkDirectory(dir) {
+	for (var i = 0; i <dir.length; i++) {
+		if(dir[i].checked==true){
+			return true;
+		}
+	}
+	alert("카테고리를 선택 해주세요.");
+	return false;
+}
+function checkPoint(p) {
+	if(p<0){
+		alert("내공이 음수입니다.");
+		return false;
+	}
+	if(p><%=mbean.getInPoint()%>){
+		alert("보유내공이 부족합니다.");
+		return false;
+	}
+	return true;
+}
+function tag() {
+	alert("test");
+}
+var countries = ["Afghanistan","Albania","Algeria","Andorra",
+	"Angola","Anguilla","Antigua &amp; Barbuda",
+	"Argentina","Armenia","Aruba"];
+	
+	
+	
 </script>
 </head>
 <body>
 <%@ include file="header.jsp" %>
 <div id="body"> 
-<form id="Frm" method="post" action="question" enctype="multipart/form-data" name="mFrm">
+<form id="Frm" method="post" action="question"
+ enctype="multipart/form-data" name="mFrm" onsubmit="return checkAll();">
 <input type="hidden" value="<%=id%>" name="id">
 <hr style="margin-top:0px;margin-bottom: 20px;">
 
 <div id="title">
 
-<div>
+<div id ="titlediv">
 <img  src="img/question.png" style="width: 40px;height: 40px;margin-top: 70px;
 margin-left:100px;border-radius: 10px;">
 <a style="font-size: 23px;color:#40c700;font-weight: 900;">질문</a>
-<input type="text" name="title" id="titletext">
+<input type="text" name="title" id="titletext" onblur="titleCheck()" maxlength="20" autocomplete="off">
 </div>
 
 <div id="textarea">
@@ -408,7 +565,7 @@ margin-left:100px;border-radius: 10px;">
 <input type="file" id="ex_filename" class="upload-hidden" name="filename1">
  <div id="image_container" style="width: 285px;height: 300px;">
  <img src="img/question.png" style="width: 285px;height: 300px;" id="imgtest">
- <input type="text" name="filedata"  style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
+ <input type="text"  autocomplete="off" name="filedata"  style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
  </div>
  </div>
  
@@ -418,7 +575,7 @@ margin-left:100px;border-radius: 10px;">
 <input type="file" id="ex_filename2" class="upload-hidden2" name="filename2">
  <div id="image_container2" style="width: 285px;height: 300px;">
  <img style="width: 285px;height: 300px;" id="imgtest2">
-<input type="text"  name="filedata2" style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
+<input type="text" autocomplete="off"  name="filedata2" style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
 </div>
 </div>
 
@@ -428,10 +585,106 @@ margin-left:100px;border-radius: 10px;">
 
 
 <div id="tag">
-<a id="taglabel">태그</a> <input type="text" id="tagtext">
+<a id="taglabel">태그</a> <input type="text" id="tagtext" onkeypress="tag()">
 <input type="button" value="추가" id="add"">
 </div>
 
+<form autocomplete="off" action="">
+  <div class="autocomplete" style="width:300px;">
+    <input id="myInput" type="text" name="myCountry" placeholder="Country">
+  </div>
+  <input type="submit">
+</form>
+
+<script>
+var countries = ["Afghanistan","Albania"
+,"Algeria","Andorra","Angola",
+"Anguilla","Antigua &amp; Barbuda","Argentina"
+,"Armenia","Aruba"];
+function autocomplete(inp, arr) {
+	  var currentFocus;
+	  inp.addEventListener("input", function(e) {
+	      var a, b, i, val = this.value;
+	      closeAllLists();
+	      if (!val) { return false;}
+	      currentFocus = -1;
+	      a = document.createElement("DIV")
+	      a.setAttribute("id", this.id + "autocomplete-list");
+	      a.setAttribute("class", "autocomplete-items");
+	      this.parentNode.appendChild(a);   
+	      
+	      
+	      for (i = 0; i < arr.length; i++) {
+	        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+	          b = document.createElement("DIV");
+	          b.innerHTML = "# <strong>" + arr[i].substr(0, val.length) + "</strong>";
+	          b.innerHTML += arr[i].substr(val.length)
+	          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+	              b.addEventListener("click", function(e) {
+	              inp.value = this.getElementsByTagName("input")[0].value;
+	              closeAllLists();
+	          });
+	          a.appendChild(b);
+	        }
+	      }
+	      
+	      
+	  });
+	  
+	  
+	  inp.addEventListener("keydown", function(e) {
+	      var x = document.getElementById(this.id + "autocomplete-list"); 
+	      if (x) x = x.getElementsByTagName("div");
+	      if (e.keyCode == 40) {
+	        currentFocus++;
+	        addActive(x);
+	      } else if (e.keyCode == 38) { 
+	        currentFocus--;
+	        addActive(x);
+	      } else if (e.keyCode == 13) {
+	        e.preventDefault();
+	        if (currentFocus > -1) {
+	          if (x) x[currentFocus].click();
+	        }
+	      }
+	  });
+		
+		
+	  function addActive(x) {
+	    if (!x) return false;
+	    removeActive(x);
+	    if (currentFocus >= x.length) currentFocus = 0;
+	    if (currentFocus < 0) currentFocus = (x.length - 1);
+	    x[currentFocus].classList.add("autocomplete-active");
+	  }
+	  
+	  
+	  
+	  function removeActive(x) {
+	    for (var i = 0; i < x.length; i++) {
+	      x[i].classList.remove("autocomplete-active");
+	    }
+	  }
+	  
+	  
+	  function closeAllLists(elmnt) {
+	    var x = document.getElementsByClassName("autocomplete-items");
+	    for (var i = 0; i < x.length; i++) {
+	      if (elmnt != x[i] && elmnt != inp) {
+	      x[i].parentNode.removeChild(x[i]);
+	    }
+	  }
+	}
+	  
+	  
+	document.addEventListener("click", function (e) {
+	    closeAllLists(e.target);
+	});
+	}
+	
+autocomplete(document.getElementById("myInput"), countries);
+</script>
+  
 <div id="directory">
 <h2 style="margin-left: 30px;">카테고리</h2>
 <hr style="width: 80%;height: 3px;margin-left: 0px;">
@@ -485,9 +738,10 @@ margin-left:100px;border-radius: 10px;">
 </span>
 </div>
 
+
 <div id="point">
-<a id="pointlabel">추가내공</a> <input type="text" id="pointtext" name="point" placeholder="현재 보유내공 : 60">
-<input type="button" value="추가" id="addpoint">
+<a id="pointlabel">추가내공</a> <input type="text" id="pointtext" name="point" autocomplete="off" placeholder="현재 보유내공 : <%=mbean.getInPoint()%>">
+<input type="button" value="추가" id="addpoint" onclick="pointcheck()">
 </div>
 <input type="submit" id="submit" value="질문하기">
 </div><!-- title -->
@@ -543,3 +797,4 @@ margin-left:100px;border-radius: 10px;">
 <%@ include file="footer.jsp" %>
 </body>
 </html>
+<%}%>

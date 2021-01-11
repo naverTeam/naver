@@ -25,6 +25,15 @@
 <title>게시글</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
+ #nlogin{
+border:0;
+outline:0;
+width:270px;height:60px;
+background: url("img/nlogin.png");
+background-size:270px 60px;
+    cursor: pointer;
+    margin-left: 310px;
+}
 #body{
 background-color: #eee;
 padding-bottom: 30px;
@@ -51,6 +60,13 @@ border: 2px soild blue;
 width: 900px;
 height: 100%;
 background-color: white;
+margin: 20px auto;
+border: 1px solid #ddd;
+}
+#answer2{
+width: 900px;
+height: 220px;
+background: linear-gradient(to right, white, rgba(159,255,174,0.5)); 
 margin: 20px auto;
 border: 1px solid #ddd;
 }
@@ -246,6 +262,14 @@ function Cal(boardDate) {
 		 return minutes==m?seconds-s+"초전":minutes-m+"분전";
 	 }
 }
+function colorup() {
+	var e = document.getElementById("answer2");
+	e.style.background="linear-gradient(to right, white, rgba(0,255,1,0.5))";
+}
+function colordown() {
+	var e = document.getElementById("answer2");
+	e.style.background=" linear-gradient(to right, white, rgba(159,255,174,0.5))";
+}
 </script> 
 </head>
 <body>
@@ -301,7 +325,7 @@ function Cal(boardDate) {
 	<td>
 	<span>
 	<img  class="fileimg" src="fileupload/<%=bean.getFilename2()%>" 
-	onclick="doImgPop('fileupload/<%=bean.getFilename2()%>')" title="확대"><br>
+	onclick="doImgPop('fileupload/<%=bean.getFilename2()%>')" title="원본"><br>
 	<%if(bean.getFiledata2()!=null&&!bean.getFiledata2().equals("")&&!bean.getFiledata2().equals("null")){ %>
 	<label style="color:#888;">*<%=bean.getFiledata2()%></label>
 	<%} %>
@@ -336,6 +360,13 @@ function Cal(boardDate) {
 </tr>
 </table>
 </div>
+<%if(id==null||id.equals("")){ %>
+<div id="answer2" onmouseover="colorup()" onmouseout="colordown()">
+<p style="color:#888;margin: 50px auto;font-weight: bold"align="center">질문과 답변을 하고싶다면,</p>
+<button id="nlogin" type="button" onclick="location.href='../member/login.jsp?returnPage=../in/boardRead.jsp?qnum=<%=qnum%>' "/><br><br><br><br><br>
+
+</div>
+<%}else{ %>
 <div id="answer">
 <form method="post" name="aFrm" action="answerProc.jsp">
 <input type="hidden" name="id" value="<%=id %>">
@@ -355,6 +386,8 @@ function Cal(boardDate) {
 </table>
 </form>
 </div>
+<%} %>
+
 <%Vector<AnswerBean> vlist = amgr.getAnswerList(qnum); 
 	for(int i=0;i<vlist.size();i++){ 
 	AnswerBean abean = vlist.get(i);
@@ -364,7 +397,7 @@ function Cal(boardDate) {
 <div class="answerList">
 <table id="aTable">
 <tr><td><img  src="img/question.png" style="width: 40px;height: 40px;border-radius: 10px;">
-	<a style="font-size: 25px;font-weight: bold;color:#444;"><%=abean.getId()%>님 답변</a><a style="margin-left: 480px;">[<%=abean.getGrade() %> 등급]</a></td></tr>
+	<a style="font-size: 25px;font-weight: bold;color:#444;"><%=abean.getId()%>님 답변</a><a style="margin-left: 350px;">[<%=abean.getGrade() %> 등급]</a></td></tr>
 <tr><td id="<%=aid%>" width="800px"style="display:block;
 padding-top: 50px;padding-bottom: 50px;border-bottom: 2px solid #40c700;"><pre><%=abean.getContent() %></pre></td></tr>
 

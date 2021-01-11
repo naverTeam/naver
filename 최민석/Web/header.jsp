@@ -28,7 +28,7 @@ function dismenu() {
 
 <span id="loginset">
 <%if(id2==null){ %>
-<button type="button" class="login" onclick="location.href='../member/login.jsp' ">로그인</button>
+<button type="button" class="login" onclick="location.href='../member/login.jsp?returnPage=../in/naverin_main.jsp' ">로그인</button>
 <%} else{%> 
 <span id="loginon"><font color="#40c700"><%=id2%></font> 님 반갑습니다.</span>
 <button type="button" id="call"></button>

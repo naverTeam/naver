@@ -457,24 +457,80 @@ function next() {
 	var e = document.getElementById("submit");
 	e.style.display = 'block';
 }
+function titleCheck() {
+	var e = document.getElementById("titletext");
+	
+	if(e.value.length<5){
+		if(document.getElementById("textcheck")==null){
+		var text = document.createElement("p");
+		text.id = "textcheck";
+		text.innerHTML="제목이 너무 짧습니다. (5자 이상)";
+		text.style.color="brown";
+		text.style.marginLeft="220px";
+		document.querySelector("div#titlediv").appendChild(text);
+		}
+	}else{
+		if(document.getElementById("textcheck")!=null){
+			$("p").remove();
+		}
+	}
+	
+}
 function dir(id) {
 	var e = document.getElementById(id);
 	e.style.color = '#40c700';
+}
+function checkAll() {
+	if(!checkTitle(Frm.title.value)){  //제목 검사
+		return false;
+	}
+	if(!checkContent(Frm.content.value)){  //내용 검사
+		return false;
+	}
+}
+//데이터가 공백인자 검사
+function checkExistData(value,dataname) {
+	if(value==""){
+		alert(dataname+" 입력해주세요.");
+		return false;
+	}
+	return true;
+}
+//제목 길이 검사
+function checkTitle(title) {
+		if(!checkExistData(title,"제목을"))
+			return false;
+	
+		if(title.length<5){
+		alert("제목이 너무 짧습니다.");
+		return false;
+		}
+	return true;
+}
+function checkContent(con) {
+	if(!checkExistData(con,"내용을"))
+		return false;
+	
+	if(con.length<5){
+		alert("내용이 너무 짧습니다.");
+		return false;
+	}
+	return true;
 }
 </script>
 </head> 
 <body>
 <%@ include file="header.jsp" %>
 <div id="body">  
-<form id="Frm" method="post" action="question_up" enctype="multipart/form-data">
+<form id="Frm" method="post" action="question_up" enctype="multipart/form-data" onsubmit="return checkAll();">
 <input type="hidden" value="<%=id%>" name="id">
 <hr style="margin-top:0px;margin-bottom: 20px;">
 <div id="title">
-<div>
+<div id="titlediv">
 <img  src="img/question.png" style="width: 40px;height: 40px;margin-top: 70px;
 margin-left:100px;border-radius: 10px;">
 <a style="font-size: 23px;color:#40c700;font-weight: 900;">질문</a>
-<input type="text" name="title" id="titletext" value="<%=bean.getTitle()%>">
+<input type="text" name="title" id="titletext" onblur="titleCheck()" value="<%=bean.getTitle()%>"  autocomplete="off">
 </div>
 <div id="textarea">
 <textarea id="ta" rows="25" cols="102"
@@ -491,7 +547,7 @@ margin-left:100px;border-radius: 10px;">
 	if(fn1.equals("jpg")||fn1.equals("png")){%>
 	<img class="fileimg" src="fileupload/<%=bean.getFilename()%>"
 	 onclick="doImgPop('fileupload/<%=bean.getFilename()%>')"><br><%} %>
-	 <input type="text" class="oldfiledata" name="ofiledata" placeholder="이미지 정보" value="<%=bean.getFiledata()%>">
+	 <input type="text"  autocomplete="off" class="oldfiledata" name="ofiledata" placeholder="이미지 정보" value="<%=bean.getFiledata()%>">
 	</span>
 	</td>
 	<td width="200px" style="margin-top: -100px;"><button type="button"
@@ -513,7 +569,7 @@ margin-left:100px;border-radius: 10px;">
 	if(fn2.equals("jpg")||fn2.equals("png")){%> 
 	<img  class="fileimg" src="fileupload/<%=bean.getFilename2()%>" 
 	onclick="doImgPop('fileupload/<%=bean.getFilename2()%>')"><br><%} %>
-	 <input type="text" class="oldfiledata" name="ofiledata2" placeholder="이미지 정보" value="<%=bean.getFiledata2()%>">
+	 <input type="text"   autocomplete="off" class="oldfiledata" name="ofiledata2" placeholder="이미지 정보" value="<%=bean.getFiledata2()%>">
 	</span>
 	</td>
 	<td  width="100px" style="margin-top: -100px;"><button type="button" id="debtn2" 
@@ -531,7 +587,7 @@ margin-left:100px;border-radius: 10px;">
 <input type="file" id="ex_filename" class="upload-hidden" name="filename1">
  <div id="image_container" style="width: 285px;height: 300px;">
  <img src="img/question.png" style="width: 285px;height: 300px;" id="imgtest">
-<input type="text" name="filedata" style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
+<input type="text"  autocomplete="off" name="filedata" style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
  
  </div>
  </div>
@@ -542,7 +598,7 @@ margin-left:100px;border-radius: 10px;">
 <input type="file" id="ex_filename2" class="upload-hidden2" name="filename2">
  <div id="image_container2" style="width: 285px;height: 300px;">
  <img style="width: 285px;height: 300px;" id="imgtest2">
- <input type="text" name="filedata2"  style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
+ <input type="text"  autocomplete="off" name="filedata2"  style="width: 275px;height:30px;border:3px solid #40c700;" placeholder="이미지 정보입력">
  
 </div>
 </div>
@@ -608,7 +664,7 @@ margin-left:100px;border-radius: 10px;">
 </div>
 
 <div id="point">
-<a id="pointlabel">추가내공</a> <input type="text" id="pointtext" name="point"  value="<%=bean.getPoint()%> (내공은 수정할수 없습니다.)" disabled>
+<a id="pointlabel">추가내공</a> <input type="text" id="pointtext" name="point"   autocomplete="off"  value="<%=bean.getPoint()%> (내공은 수정할수 없습니다.)" disabled>
 <input type="button" value="추가" id="addpoint">
 </div>
 
@@ -657,6 +713,9 @@ margin-left:100px;border-radius: 10px;">
 			<td>날씨</td>
 			<td>책</td>
 			<td>스포츠</td>
+		</tr>
+			<tr>
+		<td colspan="4" align="center" style="border-top: 1px solid #888;" onclick="location.href='logout.jsp'">로그아웃</td>
 		</tr>
 	</table>
 </span>

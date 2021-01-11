@@ -11,6 +11,16 @@
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
 td{border: 1px solid green;}
+#box1 {
+    width: 200px;
+    height: 100px;
+    border: 5px solid transparent;
+    border-radius: 20px;
+    background-image: linear-gradient(#444444, #444444), linear-gradient(to right, #fbfcb9be, #ffcdf3aa, #65d3ffaa);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin: 10px;
+}
 </style>
 
 </head>
@@ -54,6 +64,10 @@ function time() {
 time();
 setInterval(time,10);
 </script>
+
+<div style="border: 5px solid red;width: 1000px;height: 500px;border-radius: 10px;background: radial-gradient(rgba(100,255,100,0.5),rgba(230, 255, 230, 0.5) ) fixed;" >
+<fieldset id="box1"> <legend>Á¶È¸¼ö top 3</legend></fieldset>
+</div>
 
 </div><!-- main div -->
 </div><!-- backdiv -->
