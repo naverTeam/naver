@@ -8,8 +8,8 @@
 <jsp:useBean id="pMgr" class="hok.ProductMgr"/>
 <%
 	request.setCharacterEncoding("EUC-KR");
-	if(session.getAttribute("idKey")==null){
-		response.sendRedirect("login.jsp");
+	if(session.getAttribute("id")==null){
+		response.sendRedirect("../member/login.jsp?returnPage=../hok/productList.jsp");
 		return;
 	}
 	

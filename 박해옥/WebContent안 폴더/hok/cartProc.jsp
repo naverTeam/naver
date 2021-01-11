@@ -5,13 +5,13 @@
 <jsp:setProperty property="*" name="order"/>
 <%
 		request.setCharacterEncoding("EUC-KR");
-		String id=(String)session.getAttribute("idKey");
+		String id=(String)session.getAttribute("id");
 		String stotalPrice = (String)request.getParameter("price");//판매금액
 		int price = Integer.parseInt(stotalPrice);//판매금액 숫자로 전환
 		int ordAm=order.getOrdAm();
 		int payMent= price * ordAm;
 		if(id==null){
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("../member/login.jsp?returnPage=../hok/productList.jsp");
 			return;
 		}
 		//누가 주문 했는지 세션에 저장된 id를 order객체에 setter한다.

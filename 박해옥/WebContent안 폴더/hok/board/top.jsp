@@ -3,11 +3,11 @@
 <link href="style.css" rel="stylesheet" type="text/css">
 <%@ page pageEncoding="EUC-KR"%>
 <%
-	String id = (String)session.getAttribute("idKey");
+	String id = (String)session.getAttribute("id");
 	
 	String log="";
-	if(id == null) log ="<a href=../login.jsp>로그인</a>";
-	else log = "<a href=../logout.jsp>로그아웃</a>";
+	if(id == null) log ="<a href=../../member/login.jsp>로그인</a>";
+	else log = "<a href=../../member/logout.jsp>로그아웃</a>";
 
 	
 %>

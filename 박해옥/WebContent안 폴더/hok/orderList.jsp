@@ -6,8 +6,8 @@
 <jsp:useBean id="orderMgr" class="hok.OrderMgr"/>
 <jsp:useBean id="pMgr" class="hok.ProductMgr" />
 <%
-	if(session.getAttribute("idKey")==null){
-		response.sendRedirect("login.jsp");
+	if(session.getAttribute("id")==null){
+		response.sendRedirect("../member/login.jsp");
 	}
 %>	
 <html>

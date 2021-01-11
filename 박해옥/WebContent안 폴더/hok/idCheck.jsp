@@ -1,27 +1,76 @@
-<%@ page contentType="text/html; charset=utf-8"%>
+<%@ page contentType="text/html; charset=EUC-KR"%>
 <jsp:useBean id="mgr" class="joinmember.MemberMgr"/>
 <%
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("EUC-KR");
 		String id = request.getParameter("id");
 		boolean result = mgr.checkId(id);
 %>
 <!doctype html>
 <html>
 <head>
-<title>ID Ï§ëÎ≥µÏ≤¥ÌÅ¨</title>
-<link href="resources/css/member.css" rel="stylesheet" type="text/css">
+	<title>ID ¡ﬂ∫π√º≈©</title>
+    <script src="https://code.jquery.com/jquery-latest.js"></script> 
+ 
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Could be more or less, depending on screen size */                          
+        }
+	</style>
 </head>
-<body bgcolor="#FFFFCC">
-<div align="center">
-<br/><b><%=id%></b>
-<%
-		if(result){
-			out.println("Îäî Ïù¥ÎØ∏ Ï°¥Ïû¨ÌïòÎäî IDÏûÖÎãàÎã§.<p/>");
-		}else{
-			out.println("Îäî ÏÇ¨Ïö© Í∞ÄÎä•Ìï©ÎãàÎã§.<p/>");
-		}
-%>
-<a href="#" onclick="self.close()">Îã´Í∏∞</a>
-</div>
+<body>
+<!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+                <p style="text-align: center; line-height: 1.5;"><br /></p>
+                <%if(result){ %>
+                <p style="text-align: center; line-height: 1.5;"><span style="font-size: 14pt;"><%=id%>¥¬ ¿ÃπÃ ¡∏¿Á«œ¥¬ æ∆¿Ãµ¿‘¥œ¥Ÿ.</span></p>
+                <%} else { %>
+                <p style="text-align: center; line-height: 1.5;"><span style="font-size: 14pt;"><%=id%>¥¬ ªÁøÎ ∞°¥…«’¥œ¥Ÿ.</span></p>
+                <%} %>
+                <p style="text-align: center; line-height: 1.5;"><br /></p>
+                <p><br /></p>
+            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" onClick="close_pop();">
+                <span class="pop_bt" style="font-size: 13pt;" >
+                     ¥›±‚
+                </span>
+            </div>
+      </div>
+ 
+    </div>
+        <!--End Modal-->
+
 </body>
+    <script type="text/javascript">
+      
+        jQuery(document).ready(function() {
+                $('#myModal').show();
+        });
+        //∆Àæ˜ Close ±‚¥…
+        function close_pop(flag) {
+             $('#myModal').hide();
+             location.href="member.jsp";
+        };
+        
+      </script>
 </html>

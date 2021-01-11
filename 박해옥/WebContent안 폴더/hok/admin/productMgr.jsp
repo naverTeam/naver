@@ -128,7 +128,7 @@ function block(block) {
 			%>
 			<tr>
 				<td colspan="6" align="center">
-					<a href="productInsert.jsp">상품등록</a>
+					<a href="productInsert.jsp"><b>[상품등록]</b></a>
 				</td>
 			</tr>
 		</table>

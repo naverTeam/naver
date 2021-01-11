@@ -8,8 +8,8 @@
 <jsp:useBean id="pMgr" class="hok.ProductMgr"></jsp:useBean>
 <%
 	request.setCharacterEncoding("EUC-KR");
-	if(session.getAttribute("idKey")==null){
-		response.sendRedirect("login.jsp");
+	if(session.getAttribute("id")==null){
+		response.sendRedirect("../member/login.jsp");
 		return;
 	}
 	Hashtable<Integer, OrderBean> hCart = cMgr.getCartList();
