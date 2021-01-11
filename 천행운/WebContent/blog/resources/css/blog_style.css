@@ -1,5 +1,7 @@
 @charset "EUC-KR";
-
+p {
+	margin-block-start: 0em;
+}
 * a {
 	text-decoration: none;
 	color: black;
@@ -17,7 +19,18 @@
 	align-items: center;
 	justify-content: center;
 }
-
+.fullLink-col-bg {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.fullLink-col-bg:hover {
+	cursor: pointer;
+	background: #adf5ca;
+}
 .fullLink-row {
 	width: 100%;
 	height: 100%;
@@ -329,6 +342,23 @@ body {
 	width: 98%;
 	background: #f9f9f9f9;
 }
+.blogWrap-topic {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	margin-top: 10px;
+	width: 98%;
+}
+.blogCategoryBar-topic {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 50px;
+    border: 1px solid #e4e8eb;
+}
 .blog-profileWrap {
 	display: flex;
 	flex-direction: column;
@@ -431,6 +461,16 @@ body {
 	max-height: 500px;
 	border: 1px solid #e4e8eb;
 }
+.blogItems-topic {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	
+	width: 100%;
+	height: 500px;
+	border: 1px solid #e4e8eb;
+}
 .blog-profileId{
 	display: flex;
 	flex-direction: row;
@@ -480,7 +520,15 @@ body {
     width: 100%;
     height: 100%;
 }
-
+.blogLeft-topic {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+	height: 100%;
+	border-right: 1px solid #e4e8eb;
+}
 .blogRight {
 	display: flex;
 	flex-direction: column;
@@ -489,7 +537,23 @@ body {
 	width: 50%;
 	height: 100%;
 }
+.blogRight-topic {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 50%;
+	height: 100%;
+}
 .blogRightItem {
+	width: 98%;
+	height: 30%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.blogRightItem-topic {
 	width: 98%;
 	height: 30%;
 	display: flex;
@@ -763,4 +827,15 @@ body {
 }
 .note-editor.note-frame {
 	width: 100%;
+}
+.non-post {
+	margin-top: 10px;
+	width: 100%;
+	height: 80px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #e4e8eb;
+	font-weight: 900;
 }

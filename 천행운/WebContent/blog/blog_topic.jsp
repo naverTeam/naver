@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=EUC-KR"%>
+<%@page import="blog.BlogPostBean"%>
+<%@page import="java.util.Vector"%>
+<jsp:useBean id="blogPostMgr" class="blog.BlogPostMgr"/>
 
 <%
 		request.setCharacterEncoding("EUC-KR");
@@ -36,42 +39,65 @@
 		
 			<div class="conLeft">
 				
-				<div class="blogWrap">
-					<div class="blogCategoryBar">
-						<div class="blogCategory" style="background: #19ce60;">
-							<a href="#" class="fullLink-col">IT</a></div>
+				<div class="blogWrap-topic">
+				
+				<form style="width:100%;">
+				
+					<div class="blogCategoryBar-topic">
 						<div class="blogCategory">
-							<a href="#" class="fullLink-col">일상</a></div>
+							<input type="submit" name="topic" value="IT" class="fullLink-col-bg"></div>
 						<div class="blogCategory">
-							<a href="#" class="fullLink-col">취미</a></div>
+							<input type="submit" name="topic"  value="일상" class="fullLink-col-bg"></div>
 						<div class="blogCategory">
-							<a href="#" class="fullLink-col">요리</a></div>
+							<input type="submit" name="topic"  value="취미" class="fullLink-col-bg"></div>
+						<div class="blogCategory">
+							<input type="submit" name="topic"  value="요리" class="fullLink-col-bg"></div>
 					</div>
-					<div class="blogItems">					
-						<div class="blogLeft">
+					<%
+							String topic = request.getParameter("topic");
+							if(topic==null) topic="IT";
+							BlogPostBean hotBean = blogPostMgr.getHotPost(topic);
+							String hTitle = hotBean.getPostTitle();
+							String hImg = hotBean.getPostImg();
+							String hDesc = hotBean.getPostText();
+					%>
+				</form>
+					<div style="margin-top: 10px; align-self: flex-start;"><strong><%=topic %></strong> 오늘의 글</div>
+					<div class="blogItems-topic">
+						<div class="blogLeft-topic">
 							<a href="#" class="fullLink-col">
 							
-
-
-								<img class="thumb-lg" src="" alt="img">
-								<span class="spanHeader-lg">dd</span>
-								<span class="spanDesc">cc</span>
+								<img class="thumb-lg" src="../blog/data/<%=hImg %>" alt="img">
+								<span class="spanHeader-lg"><%=hTitle %></span>
+								<%-- <span class="spanDesc"><%=hDesc %></span> --%>
 							</a>
 						</div>
-						<div class="blogRight">
-						
-
-
-							<div class="blogRightItem">
-								<a href="#" class="fullLink-row">
-									<img class="thumb-md" src="" alt="img">
-									<span class="spanHeader-md">aaa</span>
+						<div class="blogRight-topic">
+						<%
+								Vector<BlogPostBean> bVlist = new Vector<BlogPostBean>();
+								bVlist = blogPostMgr.getMainList(topic);
+								for(int i=0; i<bVlist.size(); i++){
+									BlogPostBean bean = bVlist.get(i);
+									String bId = bean.getId();
+									int postNo = bean.getPostNo();
+									int cateNum = bean.getPostCNum();
+									String bTitle = bean.getPostTitle();
+									String bImg = bean.getPostImg();
+									String bDesc = bean.getPostText();
+						%>
+							<div class="blogRightItem-topic">
+								<a href="../blog/blog_<%=bId %>.jsp?cateNum=<%=cateNum %>&postNo=<%=postNo %>" class="fullLink-row">
+									<img class="thumb-md" src="../blog/data/<%=bImg %>" alt="img">
+									<span class="spanHeader-md"><%=bTitle %></span>
 								</a>
 							</div>
-						
+						<%	} %>
 						</div>
 					</div>
+					
 				</div>
+				
+				
 			</div>
 			
 			<div class="conRight">

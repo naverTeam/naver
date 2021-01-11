@@ -16,18 +16,39 @@
 		String blogProfileDesc = blogBean.getProfileDesc();
 		String blogProfileImg = blogBean.getProfileImage();
 		String sid = (String) session.getAttribute("id");
-		String strPostNum = request.getParameter("postNum");
-		if(strPostNum==null) strPostNum="0";
-		int postNum = Integer.parseInt(strPostNum);
 		
-		String strCateNum =request.getParameter("cateNum");
-		int cateNum =0;
-		if(strCateNum!=null&&!strCateNum.equals(""))
-			cateNum = UtilMgr.parseInt(request, "cateNum");
+		//아무 값도 전달받지 못하고 넘어온 경우 웰컴페이지(해당id페이지의 최신글)를 띄우기 위해 변수값 설정////////////////////////
+		BlogPostBean wBean = postMgr.getWelcomeSet(id);
+		String wTitle = wBean.getPostTitle();
+		String wText = wBean.getPostText();
+		String wImg = wBean.getPostImg();
+		String wTopic = wBean.getPostTopic();
+		String wDate = wBean.getPostDate();
 		
-%>
-<%
-		request.setCharacterEncoding("EUC-KR");
+		String wCNum = Integer.toString(wBean.getPostCNum());
+		String wLike = Integer.toString(wBean.getPostLike());
+		String wPostNum = Integer.toString(wBean.getPostNo());
+		String wView = Integer.toString(wBean.getPostView());
+		//////////////////////////////////////////////////////////////////////////
+		//쿼리 조건에 넣기 위한 변수 값 전달받거나 웰컴값 강제대입////////////////////////////////////
+		int cateNum;
+		int postNum;
+		//카테고리 번호 cateNum
+		String reqCateNum = request.getParameter("cateNum");
+		if(reqCateNum==null||reqCateNum.equals("")) //전달받지 못해서 null일 경우 위에서 설정한 값으로 강제하기
+			reqCateNum = wCNum;		
+		cateNum = Integer.parseInt(reqCateNum);//전달받았거나 강제로 설정된 reqCateNum을 int 변환
+		//포스트 번호 postNum
+		String reqPostNum = request.getParameter("postNum");
+		if(reqPostNum==null||reqPostNum.equals(""))
+			reqPostNum = wPostNum;
+		postNum = Integer.parseInt(reqPostNum);
+		//카테고리 이름 cateName
+		String cateName = request.getParameter("category");
+		if(cateName==null||cateName.equals(""))
+			cateName = cateMgr.getCateName(id, cateNum);
+		//////////////////////////////////////////////////////////////////////////
+		//페이징 처리를 위한 설정///////////////////////////////////////////////////////////
 		int totalRecord = 0;//총 게시물 수
 		int numPerPage = 5;//페이지당 레코드 개수(5, 10, 15, 30)
 		int pagePerBlock = 15;//블럭당 페이지 개수
@@ -40,12 +61,9 @@
 		if(request.getParameter("numPerPage") != null){
 			numPerPage = UtilMgr.parseInt(request, "numPerPage");
 		}
-		//검색에 필요한 변수
-		if(request.getParameter("cateNum") != null){
-			cateNum = UtilMgr.parseInt(request, "cateNum");
-		}
+		
+		//총 게시물 수
 		totalRecord = postMgr.getTotalCount(cateNum, id);
-		//out.println(totalRecord);
 		
 		if(request.getParameter("nowPage")!=null){
 			nowPage = UtilMgr.parseInt(request, "nowPage");
@@ -88,6 +106,7 @@
 			document.readFrm.action = "blog_<%=id%>.jsp";
 			document.readFrm.submit();
 		}
+		
 	</script>
 
 </head>
@@ -115,7 +134,7 @@
 		</div>
 		<div id="mainImgWrap">
 			<div style="height: 100%;">
-				<img class="bannerImg" src="./resources/img/<%=blogBanner %>">
+				<img class="bannerImg" src="./data/<%=blogBanner %>">
 			</div>
 		</div>
 		
@@ -126,10 +145,10 @@
 				<div class="blog-profileWrap">
 					<div class="blog-profileImg">
 						<div style="width: 100%; height: 100%;">
-							<img src="./resources/img/<%=blogProfileImg %>" style="width: 100%; height: 100%;">
+							<img src="./data/<%=blogProfileImg %>" style="width: 100%; height: 100%;">
 						</div>
 					</div>
-					<div class="blog-profileId">					
+					<div class="blog-profileId">
 						<div><strong><%=id %>님의 블로그</strong></div>
 					</div>
 					<div class="blog-profileDesc">
@@ -147,19 +166,20 @@
 						<div>
 							<div class="pCategory"><strong>카테고리</strong></div>
 							<%
-									
 									Vector<CateBean> cateVlist = new Vector<CateBean>();
 									cateVlist = cateMgr.getBlogCategory(id);
 									for(int i=0; i<cateVlist.size(); i++){
 										cateBean = cateVlist.get(i);
-										String cateName = cateBean.getBlogCateName();
+										String cName = cateBean.getBlogCateName();
+										int cNum = cateBean.getBlogCateNum();
+										int pNum = postMgr.getCateNewPostNum(id, cNum);
 							%>
 							
 							<div class="pCategory">
 							<form class="categoryFrm">
-								<input type="submit" class="textbtn" name="category" value="<%=cateName%>">
-								<input type="hidden" name="cateNum" value="<%=i+1%>">
-								<input type="hidden" name="postNum" value="0">
+								<input type="submit" class="textbtn" name="category" value="<%=cName%>">
+								<input type="hidden" name="cateNum" value="<%=cNum%>">
+								<input type="hidden" name="postNum" value="<%=pNum%>">
 							</form>
 							</div>
 							
@@ -175,7 +195,7 @@
 			<div class="blog-conRight">
 			<%
 					Vector<BlogPostBean> postVlist = new Vector<BlogPostBean>();
-					String cNum = request.getParameter("cateNum");
+					//String cNum = request.getParameter("cateNum");
 					
 					String postTitle="";
 					String postText="";
@@ -183,9 +203,9 @@
 					int postLike=0;
 					int postView=0;
 					
-					if(cNum==null)
+					/*  if(cNum==null)
 						cNum="1";
-					cateNum = Integer.parseInt(cNum);
+					cateNum = Integer.parseInt(cNum); 
 					if(postNum==0){
 						BlogPostBean postBean = postMgr.getCateNewPost(id, cateNum);
 						postTitle = postBean.getPostTitle();
@@ -193,15 +213,19 @@
 						postDate = postBean.getPostDate();
 						postLike = postBean.getPostLike(); 
 						postView = postBean.getPostView();
-					}else{						
-						BlogPostBean postBean = postMgr.getCateInNumPost(id, cateNum, postNum);
-						postTitle = postBean.getPostTitle();
-						postText = postBean.getPostText();
-						postDate = postBean.getPostDate();
-						postLike = postBean.getPostLike(); 
-						postView = postBean.getPostView();
-					}
+					}else{		 */
+						
+					BlogPostBean postBean = postMgr.getCateInNumPost(id, cateNum, postNum);
+					postTitle = postBean.getPostTitle();
+					postText = postBean.getPostText();
+					postDate = postBean.getPostDate();
+					postLike = postBean.getPostLike(); 
+					postView = postBean.getPostView();
+					
 			%>
+			<%if(postTitle==null){%>
+				<div class="non-post"> 포스트가 없습니다.</div>
+			<%}else{%>
 				<div class="postWrap">
 					<div class="postTitle">
 						<span class="postSpan-lg">제목: <%=postTitle %></span>
@@ -225,11 +249,11 @@
 						<span class="postSpan-sm">게시일: <%=postDate %></span>
 					</div>
 				</div>
-				
+				<%} %>
 				<div class="postListWrap">
 					<div class="postListTop">
 						<div>
-							<%String cateName = request.getParameter("category"); %>
+							<% %>
 							<strong><%=cateName %> <%=totalRecord %>개의 글</strong>
 						</div>
 						<form name="npFrm" method="post">
@@ -252,18 +276,17 @@
 							</thead>
 							<tbody>
 							<%
-									int postNo = 0;
 									postVlist = postMgr.getPostList(id, cateNum, start, cnt);
 									for(int i=0; i<postVlist.size(); i++){
 										BlogPostBean bean = postVlist.get(i);
 										String title = bean.getPostTitle();
 										String date = bean.getPostDate();
-										postNo = bean.getPostNo();
+										postNum = bean.getPostNo();
 										int view = bean.getPostView();
-							%>
+							%> 
 								<tr>
 									<td style=" width:80%">
-										<a href="javascript:read('<%=postNo%>')">
+										<a href="javascript:read('<%=postNum%>')">
 										<%=title %>
 										</a>
 									</td>
@@ -308,7 +331,7 @@
 			<input type="hidden" name="numPerPage" value="<%=numPerPage%>">
 			<input type="hidden" name="cateNum" value="<%=cateNum%>">
 			<input type="hidden" name="category" value="<%=cateName%>">
-			<input type="hidden" name="postNum" value="<%=postNum%>">
+			<input type="hidden" name="postNum">
 		</form>
 	</div>
 </body>

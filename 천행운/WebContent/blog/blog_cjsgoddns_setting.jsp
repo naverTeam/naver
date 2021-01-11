@@ -8,6 +8,7 @@
 <jsp:useBean id="cateBean" class="blog.CateBean"/>
 <jsp:useBean id="cateMgr" class="blog.CateMgr"/>
 <jsp:useBean id="postMgr" class="blog.BlogPostMgr"/>
+<jsp:useBean id="blogSetMgr" class="blog.BlogSettingMgr"/>
 <%
 		String id = "cjsgoddns";
 		String sid = (String) session.getAttribute("id");
@@ -27,9 +28,83 @@
 	<meta charset="EUC-KR">
 	<title>blog</title>
 	<link rel="stylesheet" href="./resources/css/blog_style.css">
-	<script type="text/javascript" charset="EUC-KR" src="./resources/js/script.js">
-	
-	</script>
+	<script type="text/javascript" charset="EUC-KR" src="./resources/js/script.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script>
+		function setBanner(event) {
+			 
+			var reader = new FileReader();
+			reader.onload = function(event) {
+				
+				var bannerImg = document.getElementById("banner");
+				bannerImg.setAttribute("style", "background-image: url("+event.target.result+"); background-size: 100% 100%;");
+				//document.querySelector("div#image_container").appendChild(img);
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		}
+		
+		function setProfile(event) {
+			
+			var reader = new FileReader();
+			reader.onload = function(event) {
+				
+				var profileImg = document.getElementById("profile");
+				profileImg.setAttribute("style", "background-image: url("+event.target.result+"); background-size: 100% 100%;");
+					//document.querySelector("div#image_container2").appendChild(img);
+			};
+			reader.readAsDataURL(event.target.files[0]);
+		}
+		 
+		$(document).ready(function(){
+			var fileTarget = $('.bannerChange');
+			var fileTarget2 = $('.profileImgChange');
+			
+			fileTarget.on('change', function(){ // 값이 변경되면
+				if(window.FileReader){ // modern browser
+					var filename = $(this)[0].files[0].name;
+				} else { // old IE
+					var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
+					}
+			
+			var fileType=filename.substring(filename.length-3,filename.length); //파일확장자 추출
+			var ktype2="";
+			if(document.getElementById('disnone2').value!=null){
+				var k2 = document.getElementById('disnone2').value;
+				ktype2=k2.substring(k2.length-3,k2.length);
+			}
+			
+			if(fileType=='jpg'||fileType=='png'){   //파일확장자 검사하여 미리보기 끄고 켜기
+				setBanner(event);
+			}else{
+				alert("이미지를 선택하세요!");
+			}
+			
+			// 추출한 파일명 삽입
+			$(this).siblings('.upload-name').val(filename);
+			});
+			
+			fileTarget2.on('change', function(){ // 값이 변경되면
+				if(window.FileReader){ // modern browser
+					var filename2 = $(this)[0].files[0].name;
+				} else { // old IE
+					var filename2 = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출
+					}
+				var fileType2=filename2.substring(filename2.length-3,filename2.length); //파일확장자 추출
+				var  k = document.getElementById('disnone').value;
+				var ktype=k.substring(k.length-3,k.length);
+				
+				if(fileType2=='jpg'||fileType2=='png'){   //파일확장자 검사하여 미리보기 끄고 켜기
+					setProfile(event);
+				}else{
+					alert("이미지를 선택하세요!");
+				}
+			
+			// 추출한 파일명 삽입
+			$(this).siblings('.upload-name2').val(filename2);
+			});
+			
+			});
+ </script>
 </head>
 <body>
 
@@ -57,7 +132,8 @@
 		
 		<div id="mainImgWrap" style="border: 5px solid yellow;">
 			<div style="height: 100%;">
-				<input type="file" name="bannerImg" class="bannerChange" style="background-image: url('./resources/img/<%=blogBanner %>'); background-size: 100% 100%;">
+				<input type="file" name="bannerImg" id="banner" class="bannerChange" style="background-image: url('./data/<%=blogBanner %>'); background-size: 100% 100%;">
+				<input type="hidden" class="upload-name" id="disnone">
 			</div>
 		</div>
 		
@@ -68,7 +144,8 @@
 				<div class="blog-profileWrap">
 					<div class="blog-profileImg" style="border: 5px solid yellow;">
 						<div style="width: 100%; height: 100%;">
-							<input type="file" name="profileImg" class="profileImgChange" style="background-image: url('./resources/img/<%=blogProfileImg %>'); background-size: 100% 100%;">
+							<input type="file" name="profileImg" id="profile" class="profileImgChange" style="background-image: url('./data/<%=blogProfileImg %>'); background-size: 100% 100%;">
+							<input type="hidden" class="upload-name2" id="disnone2">
 						</div>
 					</div>
 					<div class="blog-profileId">					
@@ -96,7 +173,7 @@
 								
 							</div>
 							<%
-									int count = 0;
+									int count = blogSetMgr.getMaxCateNum(id);
 									Vector<CateBean> cateVlist = new Vector<CateBean>();
 									cateVlist = cateMgr.getBlogCategory(id);
 									for(int i=0; i<cateVlist.size(); i++){
@@ -105,15 +182,15 @@
 										int cateNum = cateBean.getBlogCateNum();
 							%>
 							
-							<div id="pCategory<%=i+1%>">
-								<input type="text" class="cateChange" name="category" placeholder="<%=cateName%>">
-								<input type="button" id="delButton<%=i+1 %>" value="삭제" onclick="delCategory('<%=i+1%>')">
+							<div id="pCategory<%=cateNum%>">
+								<input type="text" class="cateChange" name="category" value="<%=cateName%>">
+								<input type="hidden" id="hideCNum" name="hideCNum" value="<%=cateNum%>">
+								<input type="button" id="delButton<%=cateNum %>" value="삭제" onclick="delCategory('<%=cateNum%>')">
 							</div>
-									<%count = i+1; %>
 							<%	} %>
 							
 							<input type="button" id="addButton<%=count %>" value="추가" onclick="addCategory('<%=count%>')" style="margin-left: 40%; margin-top: 5px;">
-							
+							<div id="delFrm"></div>
 						</div>
 					
 				</div>
@@ -147,6 +224,12 @@ function addCategory(count) {
 	addedInput.setAttribute("name","category");
 	addedInput.setAttribute("placeholder","새 카테고리");
 	
+	addedHide = document.createElement("input");
+	addedHide.setAttribute("type","hidden");
+	addedHide.setAttribute("id","hideCNum");
+	addedHide.setAttribute("name","hideCNum");
+	addedHide.setAttribute("value", count);
+	
 	addedBtn = document.createElement("input");
 	addedBtn.type = "button";
 	addedBtn.setAttribute("onclick","delCategory("+count+")");
@@ -161,6 +244,7 @@ function addCategory(count) {
 	
 	addFrm.appendChild(addedDiv);
 	addedDiv.appendChild(addedInput);
+	addedDiv.appendChild(addedHide);
 	addedDiv.appendChild(addedBtn);
 	
 	addFrm.appendChild(addedAddBtn);
@@ -169,10 +253,20 @@ function addCategory(count) {
 
 function delCategory(count) {
 	//delFrm = document.getElementById("categorys");
-	//alert("pCategory"+count);
+	alert("카테고리 삭제 시 해당 카테고리로 지정된 포스트는 모두 삭제됩니다");
 	delCate = document.getElementById("pCategory"+count);
 	document.getElementById("categorys").removeChild(delCate);
 	
+	addFrm = document.getElementById("delFrm");
+	
+	addedHide1 = document.createElement("input");
+	addedHide1.setAttribute("id","hideDelCNum");
+	addedHide1.setAttribute("type","hidden");
+	addedHide1.setAttribute("name","hideDelCNum");
+	addedHide1.setAttribute("value", count);
+	
+	addFrm.appendChild(addedHide1);
+	document.getElementById("categorys").appendChild(addFrm);
 	//delFrm.removeChild(delCate);
 }
 </script>

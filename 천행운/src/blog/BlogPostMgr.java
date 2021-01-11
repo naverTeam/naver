@@ -158,7 +158,39 @@ public class BlogPostMgr {
 		return bean;
 	}
 	
-	
+	//웰컴페이지
+	public BlogPostBean getWelcomeSet(String id) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		BlogPostBean bean = new BlogPostBean();
+		try {
+			con = pool.getConnection();
+			sql = "SELECT * FROM blog_post WHERE id=? AND postNo=(SELECT MAX(postNo) FROM blog_post WHERE id=?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				bean.setPostNo(rs.getInt("postNo"));
+				bean.setPostTitle(rs.getString("postTitle"));
+				bean.setPostText(rs.getString("postText"));
+				bean.setPostImg(rs.getString("postImg"));
+				bean.setPostCNum(rs.getInt("postCNum"));
+				bean.setPostTopic(rs.getString("postTopic"));
+				bean.setPostLike(rs.getInt("postLike"));
+				bean.setPostView(rs.getInt("postView"));
+				bean.setPostDate(rs.getString("postDate"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return bean;
+	}
+		
 	public BlogPostBean getMaxViewPost(String id) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -290,6 +322,30 @@ public class BlogPostMgr {
 		return vlist;
 	}
 	
+	//넘버만 하나 가져오기
+	public int getCateNewPostNum(String id, int cateNum) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		int pnum = 0;
+		try {
+			con = pool.getConnection();
+			sql = "SELECT MAX(postNo) FROM blog_post WHERE id=? AND postCNum=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, cateNum);	
+			rs = pstmt.executeQuery();
+			if(rs.next())
+				pnum = rs.getInt(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return pnum;
+	}
+	
 	//카테고리의 최근 글 하나 가져오기
 	public BlogPostBean getCateNewPost(String id, int cateNum) {
 		Connection con = null;
@@ -299,10 +355,12 @@ public class BlogPostMgr {
 		BlogPostBean bean = new BlogPostBean();
 		try {
 			con = pool.getConnection();
-			sql = "SELECT * FROM blog_post WHERE id=? AND postCNum=? AND postNo=(SELECT MAX(postNo) FROM blog_post)";
+			sql = "SELECT * FROM blog_post WHERE id=? AND postCNum=? AND postNo=(SELECT MAX(postNo) FROM blog_post WHERE id=? AND postCNum=?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.setInt(2, cateNum);			
+			pstmt.setInt(2, cateNum);
+			pstmt.setString(3, id);
+			pstmt.setInt(4, cateNum);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				bean.setPostNo(rs.getInt("postNo"));
@@ -367,6 +425,8 @@ public class BlogPostMgr {
 		return bean;
 	}
 	//주제별 인기글 가져오기
+	
+	//블로그 카테고리명 수정 시 포스트에 설정된 카테고리번호를 참조하여 포스트테이블 카테고리 **잠시 대기.....
 	
 	//테스트 데이터 집어넣기용
 	public void insertTestData(int cateNum) {

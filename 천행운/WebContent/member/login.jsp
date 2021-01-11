@@ -15,7 +15,9 @@
 		<div id="loginArea">
 			<div class="top">
 				<div class="logo">			
-					<div><img alt="" src="./resources/img/logo-lg.jpg"></div>
+					<div>
+						<a href="../chu/index.jsp"><img alt="" src="./resources/img/logo-lg.png" style="width: 225px; height: 55px;"></a>
+					</div>
 				</div>
 			</div>
 			<div class="middle">

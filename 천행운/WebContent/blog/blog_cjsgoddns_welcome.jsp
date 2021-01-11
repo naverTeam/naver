@@ -50,7 +50,7 @@
 		</div>
 		<div id="mainImgWrap">
 			<div style="height: 100%;">
-				<img class="bannerImg" src="./resources/img/<%=blogBanner %>">
+				<img class="bannerImg" src="./data/<%=blogBanner %>">
 			</div>
 		</div>
 		
@@ -61,7 +61,7 @@
 				<div class="blog-profileWrap">
 					<div class="blog-profileImg">
 						<div style="width: 100%; height: 100%;">
-							<img src="./resources/img/<%=blogProfileImg %>" style="width: 100%; height: 100%;">
+							<img src="./data/<%=blogProfileImg %>" style="width: 100%; height: 100%;">
 						</div>
 					</div>
 					<div class="blog-profileId">					

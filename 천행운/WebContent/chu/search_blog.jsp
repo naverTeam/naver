@@ -63,9 +63,9 @@
 		<div id="categoryWrap">
 			<div id="categoryBar">
 				<div class="category"><a href="search.jsp?keyWord=<%=keyWord%>">통합검색</a></div>
-				<div class="category"><a><font color="#19ce60"><strong>블로그</strong></font></a></div>
-				<div class="category">지식인</div>
-				<div class="category">쇼핑</div>
+				<div class="category"><a href=""><font color="#19ce60"><strong>블로그</strong></font></a></div>
+				<div class="category"><a href="search_in.jsp?keyWord=<%=keyWord%>">지식인</a></div>
+				<div class="category"><a href="">쇼핑</a></div>
 				<div class="category"><a href="search_img.jsp?keyWord=<%=keyWord%>">이미지</a></div>
 			</div>
 		</div>
@@ -76,7 +76,6 @@
 						<span class="wrapTitleSpan">블로그</span>
 					</div>
 					<div class="blogItems-search">
-					
 					<%
 							Vector<BlogPostBean> bVlist = searchBlogMgr.getSearchBlogOnly(keyWord);
 							for(int i=0; i<bVlist.size(); i++){ 

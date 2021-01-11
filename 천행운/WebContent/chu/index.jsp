@@ -45,7 +45,7 @@
 			<div id="categoryBar-main">
 				<div class="category"><a href="../blog/blog_main.jsp">블로그</a></div>
 				<div class="category"><a href="../choi/naverin_main.jsp">지식인</a></div>
-				<div class="category"><a href="../hok/mainTop.jsp">쇼핑</a></div>
+				<div class="category"><a href="../hok/productList.jsp">쇼핑</a></div>
 				<div class="category"><a href="#">여행</a></div>
 			</div>
 		</div>
@@ -71,23 +71,23 @@
 						<div class="blogCategory">
 							<input type="submit" name="topic"  value="요리" class="fullLink-col-bg"></div>
 					</div>
-					
+					<%
+							String topic = request.getParameter("topic");
+							if(topic==null) topic="IT";
+							BlogPostBean hotBean = blogPostMgr.getHotPost(topic);
+							String hTitle = hotBean.getPostTitle();
+							String hImg = hotBean.getPostImg();
+							String hDesc = hotBean.getPostText();
+					%>
 				</form>
-					
-					<div class="blogItems">					
+					<div style="margin-top: 10px; align-self: flex-start;"><strong><%=topic %></strong> 오늘의 글</div>
+					<div class="blogItems">
 						<div class="blogLeft">
 							<a href="#" class="fullLink-col">
-							<%
-									String topic = request.getParameter("topic");
-									if(topic==null) topic="it";
-									BlogPostBean hotBean = blogPostMgr.getHotPost(topic);
-									String hTitle = hotBean.getPostTitle();
-									String hImg = hotBean.getPostImg();
-									String hDesc = hotBean.getPostText();
-							%>
+							
 								<img class="thumb-lg" src="../blog/data/<%=hImg %>" alt="img">
 								<span class="spanHeader-lg"><%=hTitle %></span>
-								<span class="spanDesc"><%=hDesc %></span>
+								<%-- <span class="spanDesc"><%=hDesc %></span> --%>
 							</a>
 						</div>
 						<div class="blogRight">
@@ -133,7 +133,7 @@
 					</div>
 					<div class="loginBoxBottom" style="justify-content: space-around;">
 						<div class="loginBoxBottom-item">My 지식인</div>
-						<div class="loginBoxBottom-item"><a href="../blog/blog_<%=id%>_welcome.jsp">My 블로그</a></div>
+						<div class="loginBoxBottom-item"><a href="../blog/blog_<%=id%>.jsp">My 블로그</a></div>
 						<div class="loginBoxBottom-item">My 쇼핑</div>
 					</div>
 				</div>

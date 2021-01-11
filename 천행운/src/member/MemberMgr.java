@@ -109,6 +109,28 @@ public class MemberMgr {
 			pstmt.setString(2, pwd);
 			int cnt = pstmt.executeUpdate();
 			if(cnt==1)
+				pstmt.close();
+				sql = "DELETE from blog WHERE id=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.executeUpdate();
+				pstmt.close();
+				sql = "DELETE from blog_post WHERE id=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.executeUpdate();
+				pstmt.close();
+				sql = "DELETE from blog_neighbor WHERE logID=? or neighborID=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, id);
+				pstmt.executeUpdate();
+				pstmt.close();
+				sql = "DELETE from post_category WHERE id=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, id);
+				pstmt.setString(2, id);
+				pstmt.executeUpdate();
 				flag=true;
 		} catch (Exception e) {
 			e.printStackTrace();

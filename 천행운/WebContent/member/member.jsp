@@ -15,7 +15,9 @@
 	<div id="root">
 		<form action="memberProc.jsp" name="memberFrm">
 			<div class="container">
-			
+				<div style="margin-bottom: 20px;">
+					<a href="../chu/index.jsp"><img alt="" src="./resources/img/logo-lg.png" style="width: 225px; height: 55px;"></a>
+				</div>
 				<label class="label">¾ÆÀÌµð</label>
 				<div class="birthPart">
 					<input type="text" name="id" class="signInput" style="width: 400px;">

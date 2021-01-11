@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<%@ page import ="joinmember.MemberMgr" %>
+<%@ page import ="member.MemberMgr" %>
 
 <jsp:useBean id="mgr" class="member.MemberMgr"/>
 <jsp:useBean id="bean" class="member.MemberBean"/>

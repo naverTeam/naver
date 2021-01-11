@@ -20,12 +20,12 @@ public class PostingMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
+	
+	//±Û ¾²±â
 	public void insertPost(HttpServletRequest req) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String sql = null;
-		
-		
 		try {
 			MultipartRequest multi = 
 					new MultipartRequest(req, SAVEFOLDER, MAXSIZE, ENCTYPE, new DefaultFileRenamePolicy());	

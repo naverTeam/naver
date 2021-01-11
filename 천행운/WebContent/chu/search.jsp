@@ -1,3 +1,4 @@
+<%@page import="in.QuestionBean"%>
 <%@page import="blog.BlogPostBean"%>
 <%@page import="naver.BlogBean"%>
 <%@page import="java.util.Vector"%>
@@ -6,6 +7,8 @@
 <jsp:useBean id="blogBean" class="blog.BlogPostBean"/>
 <jsp:useBean id="searchBlogMgr" class="chu.SearchBlogMgr"/>		
 <jsp:useBean id="blogMgr" class="blog.BlogMgr"/>		
+<jsp:useBean id="questMgr" class="in.QuestionMgr"/>
+<jsp:useBean id="questBean" class="in.QuestionBean"/>
 <%
 		request.setCharacterEncoding("EUC-KR");
 		String keyWord = request.getParameter("keyWord");
@@ -44,8 +47,10 @@
 		</div>
 		<div id="container">
 			<div class="conLeft">
+			
 				<div class="blogWrap-search">
 					<div class="wrapTitle-search">
+					
 						<span class="wrapTitleSpan">블로그</span>
 					</div>
 					<div class="blogItems-search">
@@ -75,36 +80,33 @@
 				<div class="space"></div>
 				
 				<div class="blogWrap-search">
-					<div class="wrapTitle">
+					<div class="wrapTitle-search">
+					
 						<span class="wrapTitleSpan">지식인</span>
 					</div>
 					<div class="blogItems-search">
+					<%
+							Vector<QuestionBean> qVlist = questMgr.getSearchIn(keyWord);
+							for(int i=0; i<qVlist.size(); i++){ 
+								questBean = qVlist.get(i);
+								String qTitle = questBean.getTitle();
+								String qImg = questBean.getContent();
+								String qDesc = questBean.getFiledata();
+								int qnum = questBean.getQnum();
+					%>
 						<div class="blogItem-search">
-							<img class="thumb-search" alt="img">
-							<div class="blogSpan">
-								<span class="spanHeader-search">제목</span>
-								<span class="spanDesc-search">내용</span>
-								<span class="spanInfo-search">아이디 | 작성시간</span>
-							</div>
+							<a href="../choi/boardRead.jsp?qnum=<%=qnum %>" class="fullLink-row">
+								<img class="thumb-search" src="<%=qImg %>" alt="img">
+								<div class="blogSpan">
+									<span class="spanHeader-search"><%=qTitle %></span>
+									<span class="spanDesc-search"><%=qDesc %></span>
+									<span class="spanInfo-search">아이디 | 작성시간</span>
+								</div>
+							</a>
 						</div>
-						<div class="blogItem-search">
-							<img class="thumb-search"  alt="img">
-							<div class="blogSpan">
-								<span class="spanHeader-search">제목</span>
-								<span class="spanDesc-search">내용</span>
-								<span class="spanInfo-search">아이디 | 작성시간</span>
-							</div>
-						</div>
-						<div class="blogItem-search">
-							<img class="thumb-search"  alt="img">
-							<div class="blogSpan">
-								<span class="spanHeader-search">제목</span>
-								<span class="spanDesc-search">내용</span>
-								<span class="spanInfo-search">아이디 | 작성시간</span>
-							</div>
-						</div>
+					<%} %><%=qVlist.size() %>
+					<button class="moreBtn" onclick="location.href='search_in.jsp?keyWord=<%=keyWord%>'">더보기</button>
 					</div>
-					<button class="moreBtn">더보기</button>
 				</div>
 				
 			</div>
