@@ -13,8 +13,8 @@ public class TagMgr {
 		pool = DBConnectionMgr.getInstance();
 	}
 	
-	//게시물 내용검색
-	public Vector<TagBean> getTag(String searchKey){
+	//태그정보 가져오기
+	public Vector<TagBean> getTag(){
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -22,14 +22,14 @@ public class TagMgr {
 		Vector<TagBean> vlist = new Vector<TagBean>();
 		try {
 			con = pool.getConnection();
-			sql = "SELECT * FROM tagname WHERE  tag like ? ";
+			sql = "SELECT * FROM tagname";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, "%"+searchKey+"%");
 			rs = pstmt.executeQuery();
 		
 			while(rs.next()) {
 				TagBean bean = new TagBean();
 				bean.setTag(rs.getString("tag"));
+				bean.setTagInfo(rs.getString("tagInfo"));
 				vlist.addElement(bean);
 			}
 		} catch (Exception e) {

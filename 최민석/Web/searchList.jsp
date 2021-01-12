@@ -70,6 +70,9 @@
 <title>검색 결과</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
+.tagA{
+background: rgb(119,188,215,0.3);
+}
  #page{
  width: 70px;
  height: 50px;
@@ -232,17 +235,18 @@ function contentSubstring(content,key) {
 <%Vector<QuestionBean> vlist = mgr.getSearchTitleList(searchKey,start,cnt,where);%>
 <table id ="titleTable"> 
 <tr><td colspan="5" height="50px"  style="padding-left: 10px;"><b>제목 검색 (총  <%=mgr.getTitleCount(searchKey) %>건)</b></td></tr>
-
-	
+<%if(mgr.getTitleCount(searchKey)==0){ %>
+ <tr><td>검색내용이 없습니다.</td></tr>
+	<%}else{%>
 <%
 for(int i=0;i<vlist.size();i++){
 	QuestionBean bean = vlist.get(i);
 %> 
 <tr>
 <%if(bean.getFilename()!=null&&!bean.getFilename().equals("")){ %>
-<td rowspan="3" width="100px"><img src="fileupload/<%=bean.getFilename()%>" width="100px" height="100px"></td>
+<td rowspan="4" width="100px"><img src="fileupload/<%=bean.getFilename()%>" width="100px" height="100px"></td>
 <%}else{ %>
-<td rowspan="3" width="100px"><img src="img/noimg.jpg" width="100px" height="100px"></td>
+<td rowspan="4" width="100px"><img src="img/noimg.jpg" width="100px" height="100px"></td>
 
 <%} %>
 <td height="20px;" colspan="4"><a href="boardRead.jsp?qnum=<%=bean.getQnum()%>">
@@ -260,6 +264,14 @@ document.write(textReplace('<%=bean.getTitle()%>','<%=searchKey%>'));
 var cont = `<%=bean.getContent()%>`;
 document.write(contentSubstring(cont)+'...');
 </script>
+</td></tr>
+
+<tr><td colspan="4" height="20px;">
+<%if(bean.getTag()!=null){
+	String[] tagArray = bean.getTag().split("#");
+	for(int j=1;j<tagArray.length;j++){  /*0번배열은 공백이므로 1번부터 시작(split 특성)*/%>
+	        <a class="tagA"><%="#"+tagArray[j]%></a>&nbsp;&nbsp;&nbsp;
+	<%} }%>
 </td></tr>
 
 <tr><td width="80px" class="tdcss">조회수 : <%=bean.getHits() %></td>
@@ -302,10 +314,7 @@ document.write(contentSubstring(cont)+'...');
 			</td>
 </tr>
 
-
-
-
-
+<%} %>
 </table>
 
 
@@ -314,8 +323,9 @@ document.write(contentSubstring(cont)+'...');
 <table id ="contentTable"> 
 <%Vector<QuestionBean> vlist2 = mgr.getSearchContentList(searchKey,start2,cnt2,where);%>
 <tr><td colspan="5" height="50px" style="padding-left: 10px;"><b>내용 검색 (총  <%=mgr.getContentCount(searchKey) %>건)</b></td></tr>
-
-
+<%if(mgr.getContentCount(searchKey)==0){ %>
+<tr><td>검색내용이 없습니다.</td></tr>
+<%}else{ %>
 <%for(int i=0;i<vlist2.size();i++){
 	QuestionBean bean = vlist2.get(i);
 %> 
@@ -341,6 +351,14 @@ var con = `<%=bean.getContent() %>`;
 //본문 내용에서 검색값 부터 시작하도록 자르고 검색값을 bold 처리
 document.write("..."+textReplace(contentSubstring(con,'<%=searchKey%>'),'<%=searchKey%>')+"...");   
 </script></td></tr>
+
+<tr><td colspan="4" height="20px;">
+<%if(bean.getTag()!=null){
+	String[] tagArray = bean.getTag().split("#");
+	for(int j=1;j<tagArray.length;j++){  /*0번배열은 공백이므로 1번부터 시작(split 특성)*/%>
+	        <a class="tagA"><%="#"+tagArray[j]%></a>&nbsp;&nbsp;&nbsp;
+	<%} }%>
+</td></tr>
 
 <tr><td width="80px" class="tdcss">조회수 : <%=bean.getHits() %></td>
  <td width="70px"class="tdcss"> &nbsp답변 : <%=bean.getAnswer_count() %></td>
@@ -379,6 +397,7 @@ document.write("..."+textReplace(contentSubstring(con,'<%=searchKey%>'),'<%=sear
 		<!-- 페이징 및 블럭 End -->
 			</td>
 </tr>
+<%} %>
 </table>
 
 

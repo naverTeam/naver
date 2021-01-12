@@ -1,15 +1,21 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="in.TagBean"%>
+<%@page import="java.util.Vector"%>
 <%@page import="member.MemberBean"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
 <jsp:useBean id="mgr" class="in.QuestionMgr" />
 <jsp:useBean id="bean" class="in.QuestionBean" />
+<jsp:useBean id="tmgr" class="in.TagMgr" />
 <%request.setCharacterEncoding("EUC-KR");
+
 if(session.getAttribute("id")==null){
 	
  response.sendRedirect("../member/login.jsp?returnPage=../in/naver_question.jsp");
 }else{
-
+  
 String id = (String)session.getAttribute("id");
 MemberBean mbean = mgr.memberRead(id);
+Vector<TagBean> tlist = tmgr.getTag();
 %>
 <!DOCTYPE html>
 <html>
@@ -19,10 +25,40 @@ MemberBean mbean = mgr.memberRead(id);
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
 
+.tagBtn{
+cursor:pointer;
+ width :15px;
+height:15px;
+background:url("img/x.png");
+background-size:15px 15px;
+border:0;
+outline:0;
+margin-left: 5px;
+}
+.tagli{
+float: left;
+ margin-left: 20px;
+ margin-top:10px;
+ list-style: none;
+font-size:20px;
+}
+#sharp{
+position: absolute;
+left:14px;
+top:7px;
+font-weight: bold;
+color: #40c700;
+}
+#myInput{
+width: 250px;
+height: 30px;
+padding-left: 30px;
+}
 .autocomplete {
   /*the container must be positioned relative:*/
   position: relative;
   display: inline-block;
+  margin-top: 30px;
 }
 .autocomplete-items {
   position: absolute;
@@ -41,7 +77,8 @@ MemberBean mbean = mgr.memberRead(id);
   border-bottom: 1px solid #d4d4d4;
 }
 .autocomplete-items div:hover {
-  background-color: #e9e9e9;
+  background-color: #40c700;
+  color:white;
 }
 .autocomplete-active {
   background-color: DodgerBlue !important;
@@ -220,6 +257,19 @@ border: 2px solid #777;
  display:none;
 }
 #submit:hover{background-color: aliceblue;}
+#tagaddbtn{
+color:#40c700;
+width: 100px;
+height: 50px;
+background-color:white;
+border: 2px solid #777;
+ border-radius: 7px;
+ display:block;
+ cursor: pointer;
+ margin-left: 370px;
+ margin-top: -40px;
+}
+#tagaddbtn:hover{background-color: aliceblue;}
 #fileup2{display: none;}
 #image_container{display: none;}
 #image_container2{display:none;}
@@ -281,8 +331,56 @@ border: 2px solid #777;
 </style>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
-
-
+function delthis(obj) {
+	$(obj).parent().remove();
+}
+function addTag() {
+	var e = document.getElementById("myInput").value;
+	document.getElementById("myInput").value = "";
+	document.getElementById("myInput").focus();
+	
+	btn=document.createElement("button");
+    btn.setAttribute("type","button");
+    btn.setAttribute("class","tagBtn");
+    btn.setAttribute("onclick","delthis(this);");
+    
+    h= document.createElement("input");
+    h.setAttribute("type","hidden");
+    h.setAttribute("name","tag");
+    h.setAttribute("value", "#"+e);
+    
+     var t = document.getElementById("tag");
+     
+     if(document.getElementById("tagul")==null){     //ul은 한번만 만든다
+     	  var s = document.createElement("ul");
+        	t.appendChild(s);
+     }else{
+   	  var s = document.getElementById("tagul");
+     }
+     
+     if(s.childElementCount<5){   //5개인지 검사후 이하면 생성 
+     var s1 = document.createElement("li");
+     t.style.height="165px";
+     s.id="tagul";
+     s1.setAttribute("class","tagli");
+     
+     var span=document.createElement("span");
+     
+     span.style.backgroundColor="rgb(119,188,215,0.4)";
+     span.style.color="#555";
+     span.id ="spanid";
+     span.innerHTML = "<b>#</b>"+e;
+     
+     
+     s.appendChild(s1);        //ul에 li부착
+     s1.appendChild(span);   //li에 span 부착
+     s1.appendChild(btn);    //li에 btn 부착
+     s1.appendChild(h);
+     }else{
+   	  alert("태그는 5개 까지만 선택가능 합니다.");
+     }
+     
+}
 
  function setThumbnail(event) {
 	 
@@ -585,24 +683,34 @@ margin-left:100px;border-radius: 10px;">
 
 
 <div id="tag">
-<a id="taglabel">태그</a> <input type="text" id="tagtext" onkeypress="tag()">
-<input type="button" value="추가" id="add"">
+<a id="taglabel" style="margin-top: 20px;">태그</a> 
+<form  action="">
+  <div class="autocomplete" style="width:300px;">
+  <span id="sharp">#</span>
+    <input id="myInput" type="text" name="myCountry" placeholder="Tag" autocomplete="off">
+  </div>
+  <button type="button" onclick="addTag()" id="tagaddbtn">태그 추가</button>
+</form>
 </div>
 
-<form autocomplete="off" action="">
-  <div class="autocomplete" style="width:300px;">
-    <input id="myInput" type="text" name="myCountry" placeholder="Country">
-  </div>
-  <input type="submit">
-</form>
+<%
+ArrayList<String> tarr = new ArrayList<String>();
+ArrayList<String> tarri = new ArrayList<String>();
+for(int l =0;l<tlist.size();l++){
+TagBean tbean = tlist.get(l);
+tarr.add("'"+tbean.getTag()+"'");
+tarri.add("'"+tbean.getTagInfo()+"'");
+}%>
 
 <script>
-var countries = ["Afghanistan","Albania"
-,"Algeria","Andorra","Angola",
-"Anguilla","Antigua &amp; Barbuda","Argentina"
-,"Armenia","Aruba"];
-function autocomplete(inp, arr) {
+
+var tarr2 = <%=tarr%>;
+var taginfo = <%=tarri%>;
+
+
+function autocomplete(inp) {
 	  var currentFocus;
+	  
 	  inp.addEventListener("input", function(e) {
 	      var a, b, i, val = this.value;
 	      closeAllLists();
@@ -614,24 +722,75 @@ function autocomplete(inp, arr) {
 	      this.parentNode.appendChild(a);   
 	      
 	      
-	      for (i = 0; i < arr.length; i++) {
-	        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+	      for (i = 0; i <<%=tarr.size()%>; i++) {
+	    	  
+	      
+	    	  if(a.childElementCount<10){   //10개인지 검사후 이하면 생성 
+	        if (tarr2[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
 	          b = document.createElement("DIV");
-	          b.innerHTML = "# <strong>" + arr[i].substr(0, val.length) + "</strong>";
-	          b.innerHTML += arr[i].substr(val.length)
-	          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+	          
+	          b.innerHTML = "# <strong>" + tarr2[i].substr(0, val.length) + "</strong>";
+	          b.innerHTML += tarr2[i].substr(val.length);
+	          b.innerHTML += "<a style='align:right;font-size:3px;color:#777'>__"+taginfo[i]+"</a>"
+	          b.innerHTML += "<input type='hidden' value='" +tarr2[i] + "'>";
+	      
+	          btn=document.createElement("button");
+	          btn.setAttribute("type","button");
+	          btn.setAttribute("class","tagBtn");
+	          btn.setAttribute("onclick","delthis(this);");
+	          
+	       
+	          
 	              b.addEventListener("click", function(e) {
-	              inp.value = this.getElementsByTagName("input")[0].value;
-	              closeAllLists();
-	          });
+
+	            	  inp.value = "";
+	            	  inp.focus();
+		              var t = document.getElementById("tag");
+		              
+		              if(document.getElementById("tagul")==null){     //ul은 한번만 만든다
+		              	  var s = document.createElement("ul");
+		                 	t.appendChild(s);
+		              }else{
+		            	  var s = document.getElementById("tagul");
+		              }
+		              
+		              if(s.childElementCount<5){   //5개인지 검사후 이하면 생성 
+		              var s1 = document.createElement("li");
+		              t.style.height="165px";
+		              s.id="tagul";
+		              s1.setAttribute("class","tagli");
+		              
+		              var span=document.createElement("span");
+		              
+		              span.style.backgroundColor="rgb(119,188,215,0.4)";
+		              span.style.color="#555";
+		              span.id ="spanid";
+		              span.innerHTML = "<b>#</b>"+this.getElementsByTagName("input")[0].value;
+		              
+		              h= document.createElement("input");
+			          h.setAttribute("type","hidden");
+			          h.setAttribute("name","tag");
+			          h.setAttribute("value", "#"+this.getElementsByTagName("input")[0].value);
+		              
+			          
+		              s.appendChild(s1);        //ul에 li부착
+		              s1.appendChild(span);   //li에 span 부착
+		              s1.appendChild(btn);    //li에 btn 부착
+		              s1.appendChild(h);
+		              }else{
+		            	  alert("태그는 5개 까지만 선택가능 합니다.");
+		              }
+		              
+		              closeAllLists();
+		         	  });
+	              
+	              
 	          a.appendChild(b);
-	        }
+	        }}
 	      }
-	      
-	      
 	  });
 	  
-	  
+	
 	  inp.addEventListener("keydown", function(e) {
 	      var x = document.getElementById(this.id + "autocomplete-list"); 
 	      if (x) x = x.getElementsByTagName("div");
@@ -648,6 +807,7 @@ function autocomplete(inp, arr) {
 	        }
 	      }
 	  });
+		
 		
 		
 	  function addActive(x) {
@@ -681,8 +841,8 @@ function autocomplete(inp, arr) {
 	    closeAllLists(e.target);
 	});
 	}
-	
-autocomplete(document.getElementById("myInput"), countries);
+
+autocomplete(document.getElementById("myInput"));
 </script>
   
 <div id="directory">
@@ -740,7 +900,7 @@ autocomplete(document.getElementById("myInput"), countries);
 
 
 <div id="point">
-<a id="pointlabel">추가내공</a> <input type="text" id="pointtext" name="point" autocomplete="off" placeholder="현재 보유내공 : <%=mbean.getInPoint()%>">
+<a id="pointlabel">추가내공</a> <input type="text" onblur="pointcheck()"  id="pointtext" name="point" autocomplete="off" placeholder="현재 보유내공 : <%=mbean.getInPoint()%>">
 <input type="button" value="추가" id="addpoint" onclick="pointcheck()">
 </div>
 <input type="submit" id="submit" value="질문하기">

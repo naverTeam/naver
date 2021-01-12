@@ -25,6 +25,15 @@
 <title>게시글</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
+.tagA{
+text-decoration: none;
+}
+.tagA:visited{
+color:blue;
+}
+.tagA:hover{
+background-color: rgb(119,188,215,0.3);
+}
  #nlogin{
 border:0;
 outline:0;
@@ -163,6 +172,9 @@ cursor: pointer;
 
 <script>
 
+function tagSearch(key) {
+	location.href="searchList.jsp?searchKey="+key;
+}
 function doImgPop(img){
 	 img1= new Image();
 	 img1.src=(img);
@@ -334,10 +346,17 @@ function colordown() {
 	<% }}%>
 	</tr>
 	
-	<tr><td colspan="4" style="padding-top: 50px;padding-bottom: 30px;border-bottom: 2px solid #40c700;"><pre>
+	<tr><td colspan="4" style="padding-top: 50px;padding-bottom: 30px;"><pre>
 	<%=bean.getContent() %>
 	</pre></td></tr>
+	<tr><td colspan="4" style="padding-bottom: 20px;border-bottom: 2px solid #40c700;">&nbsp;&nbsp;&nbsp;
+	<%if(bean.getTag()!=null){
+	String[] tagArray = bean.getTag().split("#");
+	for(int i=1;i<tagArray.length;i++){  /*0번배열은 공백이므로 1번부터 시작(split 특성)*/%>
+	        <a href="searchList.jsp?searchKey=<%=tagArray[i] %>" class="tagA"><%="#"+tagArray[i]%></a>&nbsp;&nbsp;
+	<%}}%>
 	
+	</td></tr>
 <tr>
 	<td width="100px" style="padding-bottom: 50px; font-weight: bold;" >
 		<%=bean.getId() %>

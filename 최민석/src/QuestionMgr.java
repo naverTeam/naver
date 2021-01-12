@@ -66,8 +66,8 @@ public class QuestionMgr {
 				/////////////////////////////////////
 				con = pool.getConnection();
 				sql = "insert in_question(id,title,content,directory,";
-				sql += "point,date,filename,filedata,filesize,filename2,filedata2,filesize2)";
-				sql += "values(?, ?, ?, ?, ?, now(),?,?,?,?,?,?)";
+				sql += "point,date,filename,filedata,filesize,filename2,filedata2,filesize2,tag)";
+				sql += "values(?, ?, ?, ?, ?, now(),?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1,multi.getParameter("id"));
 				pstmt.setString(2, multi.getParameter("title"));
@@ -80,6 +80,13 @@ public class QuestionMgr {
 				pstmt.setString(9, filename2);
 				pstmt.setString(10, multi.getParameter("filedata2"));
 				pstmt.setInt(11, filesize2);
+				
+				String tag[] = multi.getParameterValues("tag");
+				String taglist="";
+				for (int i = 0; i < tag.length; i++) {
+				taglist += tag[i];
+				}
+				pstmt.setString(12, taglist);
 				pstmt.executeUpdate();
 				pstmt.close();
 				
@@ -136,6 +143,7 @@ public class QuestionMgr {
 					bean.setDate(rs.getString("date"));
 					bean.setPoint(rs.getInt("point"));
 					bean.setFilename(rs.getString("filename"));
+					bean.setTag(rs.getString("tag"));
 					vlist.addElement(bean);
 				}
 			} catch (Exception e) {
@@ -204,6 +212,7 @@ public class QuestionMgr {
 							bean.setDate(rs.getString("date"));
 							bean.setPoint(rs.getInt("point"));
 							bean.setFilename(rs.getString("filename"));
+							bean.setTag(rs.getString("tag"));
 							vlist.addElement(bean);
 						}
 					} catch (Exception e) {
@@ -234,7 +243,7 @@ public class QuestionMgr {
 					}
 					return totalCount;
 				}
-		// 게시물 가져오기
+		// 게시물 리스트 가져오기
 	public Vector<QuestionBean> getQuestionList(int start,int end,String dir,int where){
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -349,6 +358,7 @@ public class QuestionMgr {
 				bean.setFilename2(rs.getString("filename2"));
 				bean.setFiledata2(rs.getString("filedata2"));
 				bean.setFilesize2(rs.getInt("filesize2"));
+				bean.setTag(rs.getString("tag"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
