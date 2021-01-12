@@ -756,7 +756,7 @@ function autocomplete(inp) {
 		              
 		              if(s.childElementCount<5){   //5개인지 검사후 이하면 생성 
 		              var s1 = document.createElement("li");
-		              t.style.height="165px";
+		              t.style.height="175px";
 		              s.id="tagul";
 		              s1.setAttribute("class","tagli");
 		              

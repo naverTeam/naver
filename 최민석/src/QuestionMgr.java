@@ -520,7 +520,7 @@ public class QuestionMgr {
 						}
 					}
 					int filesize = (int)multi.getFile("filename1").length();
-					sql = "update in_question set title=?, content=?, directory=?, filename=?,filedata=?, filesize=?,filedata2=? where qnum=?";
+					sql = "update in_question set title=?, content=?, directory=?, filename=?,filedata=?, filesize=?,filedata2=?,tag=? where qnum=?";
 					pstmt = con.prepareStatement(sql);
 					pstmt.setString(1, title);
 					pstmt.setString(2, content);
@@ -529,7 +529,13 @@ public class QuestionMgr {
 					pstmt.setString(5, filedata);
 					pstmt.setInt(6, filesize);
 					pstmt.setString(7, ofiledata2);
-					pstmt.setInt(8,qnum);
+					String tag[] = multi.getParameterValues("tag");
+					String taglist="";
+					for (int i = 0; i < tag.length; i++) {
+					taglist += tag[i];
+					}
+					pstmt.setString(8, taglist);
+					pstmt.setInt(9,qnum);
 					System.out.println("1수정2수정아님");
 					
 					}else if(filename2!=null&&!filename.equals("")) { //파일 2도 수정할때 
@@ -552,7 +558,7 @@ public class QuestionMgr {
 						}
 						int filesize = (int)multi.getFile("filename1").length();
 						int filesize2 = (int)multi.getFile("filename2").length();
-						sql = "update in_question set title=?, content=?, directory=?, filename=?,filedata=?, filesize=?, filename2=?,filedata2=?, filesize2=?  where qnum=?";
+						sql = "update in_question set title=?, content=?, directory=?, filename=?,filedata=?, filesize=?, filename2=?,filedata2=?, filesize2=?,tag=?  where qnum=?";
 						pstmt = con.prepareStatement(sql);
 						pstmt.setString(1, title);
 						pstmt.setString(2, content);
@@ -563,7 +569,13 @@ public class QuestionMgr {
 						pstmt.setString(7, filename2);
 						pstmt.setString(8, filedata2);
 						pstmt.setInt(9, filesize2);
-						pstmt.setInt(10,qnum);
+						String tag[] = multi.getParameterValues("tag");
+						String taglist="";
+						for (int i = 0; i < tag.length; i++) {
+						taglist += tag[i];
+						}
+						pstmt.setString(10, taglist);
+						pstmt.setInt(11,qnum);
 						System.out.println("1수정2수정");
 					}
 				}else if(filename==null||filename.equals("")) {   //파일 1는 수정 하지않을때 
@@ -579,7 +591,7 @@ public class QuestionMgr {
 							}
 						}
 							int filesize2 = (int)multi.getFile("filename2").length();
-							sql = "update in_question set title=?, content=?, directory=?,filedata=?, filename2=?,filedata2=?, filesize2=?  where qnum=?";
+							sql = "update in_question set title=?, content=?, directory=?,filedata=?, filename2=?,filedata2=?, filesize2=?,tag=?  where qnum=?";
 							pstmt = con.prepareStatement(sql);
 							pstmt.setString(1, title);
 							pstmt.setString(2, content);
@@ -588,17 +600,29 @@ public class QuestionMgr {
 							pstmt.setString(5, filename2);
 							pstmt.setString(6, filedata2);
 							pstmt.setInt(7, filesize2);
-							pstmt.setInt(8,qnum);
+							String tag[] = multi.getParameterValues("tag");
+							String taglist="";
+							for (int i = 0; i < tag.length; i++) {
+							taglist += tag[i];
+							}
+							pstmt.setString(8, taglist);
+							pstmt.setInt(9,qnum);
 							System.out.println("1수정아님2수정");
 					 }else {  //파일 1, 2 모두 수정하지 않을때 
-							sql = "update in_question set title=?, content=?, directory=?,filedata=?,filedata2=? where qnum=?";
+							sql = "update in_question set title=?, content=?, directory=?,filedata=?,filedata2=?,tag=? where qnum=?";
 							pstmt = con.prepareStatement(sql);
 							pstmt.setString(1, title);
 							pstmt.setString(2, content);
 							pstmt.setString(3, directory);
 							pstmt.setString(4, ofiledata);
 							pstmt.setString(5, ofiledata2);
-							pstmt.setInt(6, qnum);
+							String tag[] = multi.getParameterValues("tag");
+							String taglist="";
+							for (int i = 0; i < tag.length; i++) {
+							taglist += tag[i];
+							}
+							pstmt.setString(6, taglist);
+							pstmt.setInt(7, qnum);
 							System.out.println("1수정아님2수정아님");
 						}
 				}

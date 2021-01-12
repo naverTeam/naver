@@ -60,6 +60,24 @@
 <title>네이버 지식iN</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
+
+.tagA{
+text-decoration: none;
+color:#555;
+}
+.tagA:visited{
+color:white;
+}
+
+.tagul{
+margin-left: 0px;
+}
+.taglim{
+float: left;
+margin-left: 20px;
+margin-top: 20px;
+background-color: rgb(119,188,215,0.3);
+}
 .test{
 border:0;
 outline:0;
@@ -533,17 +551,21 @@ function sysdate() {
 </div>
 <hr style="margin-top:0px;">
 <%} %>
-<div style="padding-top: 20px;padding-left: 20px;padding-right: 20px;">
+<div style="padding-top: 20px;padding-left: 20px;padding-right: 20px;height: 230px;width: 300px;">
 <p style="font-weight: bold">지식iN 인기태그</p>
-<p><span class="tag">#사업자등록증</span>
-<span class="tag">#수입</span>
-<span class="tag">#수능</span></p>
-<p><a class="tag">#트위치</a>
-<a class="tag">#청년대출</a>
-<a class="tag">#유투브</a></p>
-<p><a class="tag">#코로나</a>
-<a class="tag">#봉사활동</a>
-<a class="tag">#자기소개서</a></p>
+<div style="margin-left: -60px;margin-top: -10px;">
+<ul style="list-style: none;" class="ultag">
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=사업자등록증"><b>#</b>사업자등록증</a></li>
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=수입"><b>#</b>수입</a></li>
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=수능"><b>#</b>수능</a></li>
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=트위치"><b>#</b>트위치</a></li>
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=청년대출"><b>#</b>청년대출</a></li>
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=유투브"><b>#</b>유투브</a></li>
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=코로나"><b>#</b>코로나</a></li>
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=봉사활동"><b>#</b>봉사활동</a></li>
+<li class="taglim"><a class = "tagA" href="searchList.jsp?searchKey=자기소개서"><b>#</b>자기소개서</a></li>
+</ul>
+</div>
 </div>
 <hr>
 <div style="padding-left: 30px;">

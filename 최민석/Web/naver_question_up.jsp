@@ -21,7 +21,19 @@
 <title>수정하기</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
-
+#tagaddbtn{
+color:#40c700;
+width: 100px;
+height: 50px;
+background-color:white;
+border: 2px solid #777;
+ border-radius: 7px;
+ display:block;
+ cursor: pointer;
+ margin-left: 370px;
+ margin-top: -40px;
+}
+#tagaddbtn:hover{background-color: aliceblue;}
 .tagBtn{
 cursor:pointer;
  width :15px;
@@ -350,6 +362,59 @@ cursor: pointer;
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script>
+
+function delthis(obj) {
+	$(obj).parent().remove();
+}
+function addTag() {
+	var e = document.getElementById("myInput").value;
+	document.getElementById("myInput").value = "";
+	document.getElementById("myInput").focus();
+	
+	btn=document.createElement("button");
+    btn.setAttribute("type","button");
+    btn.setAttribute("class","tagBtn");
+    btn.setAttribute("onclick","delthis(this);");
+    
+    h= document.createElement("input");
+    h.setAttribute("type","hidden");
+    h.setAttribute("name","tag");
+    h.setAttribute("value", "#"+e);
+    
+     var t = document.getElementById("tag");
+     
+     if(document.getElementById("tagul")==null){     //ul은 한번만 만든다
+     	  var s = document.createElement("ul");
+        	t.appendChild(s);
+     }else{
+   	  var s = document.getElementById("tagul");
+     }
+     
+     if(s.childElementCount<5){   //5개인지 검사후 이하면 생성 
+     var s1 = document.createElement("li");
+     t.style.height="165px";
+     s.id="tagul";
+     s1.setAttribute("class","tagli");
+     
+     var span=document.createElement("span");
+     
+     span.style.backgroundColor="rgb(119,188,215,0.4)";
+     span.style.color="#555";
+     span.id ="spanid";
+     span.innerHTML = "<b>#</b>"+e;
+     
+     
+     s.appendChild(s1);        //ul에 li부착
+     s1.appendChild(span);   //li에 span 부착
+     s1.appendChild(btn);    //li에 btn 부착
+     s1.appendChild(h);
+     }else{
+   	  alert("태그는 5개 까지만 선택가능 합니다.");
+     }
+     
+}
+
+
 function td1c() {
 	var e3 =document.getElementById("tdd1");
 	e3.style.color="red";
@@ -675,6 +740,58 @@ margin-left:100px;border-radius: 10px;">
     <input id="myInput" type="text" name="myCountry" placeholder="Tag" autocomplete="off">
   </div>
   <button type="button" onclick="addTag()" id="tagaddbtn">태그 추가</button>
+  <%if(bean.getTag()!=null){ 
+	  ArrayList<String> tar = new ArrayList<String>();
+	  String[] tar2 = bean.getTag().split("#");
+	  for(int q =1;q<tar2.length;q++){
+  	tar.add("'"+tar2[q]+"'");
+  	}%>
+	       
+	
+  <script>
+  var tarry = <%=tar%>;
+	for(var i=0;i<tarry.length;i++) { 
+  var t = document.getElementById("tag");
+  t.style.height="165px";
+  
+  btn=document.createElement("button");
+  btn.setAttribute("type","button");
+  btn.setAttribute("class","tagBtn");
+  btn.setAttribute("onclick","delthis(this);");
+  if(document.getElementById("tagul")==null){
+  var s = document.createElement("ul");
+  t.appendChild(s);
+  }else{
+	  var s = document.getElementById("tagul");
+  }
+          var s1 = document.createElement("li");
+          t.style.height="175px";
+          s.id="tagul";
+          s1.setAttribute("class","tagli");
+          
+          var span=document.createElement("span");
+          
+          span.style.backgroundColor="rgb(119,188,215,0.4)";
+          span.style.color="#555";
+          span.id ="spanid";
+          span.innerHTML = "<b>#</b>"+tarry[i];
+          
+          h= document.createElement("input");
+          h.setAttribute("type","hidden");
+          h.setAttribute("name","tag");
+          h.setAttribute("value", "#"+tarry[i]);
+          
+          
+          s.appendChild(s1);        //ul에 li부착
+          s1.appendChild(span);   //li에 span 부착
+          s1.appendChild(btn);    //li에 btn 부착
+          s1.appendChild(h);
+          
+	  }
+	
+  </script>
+  
+  <%}%>
 </form>
 </div>
 
@@ -741,7 +858,7 @@ function autocomplete(inp) {
 		              
 		              if(s.childElementCount<5){   //5개인지 검사후 이하면 생성 
 		              var s1 = document.createElement("li");
-		              t.style.height="165px";
+		              t.style.height="175px";
 		              s.id="tagul";
 		              s1.setAttribute("class","tagli");
 		              

@@ -322,7 +322,7 @@ function colordown() {
 	<tr><td width="400px">
 	<span>
 	<img class="fileimg" src="fileupload/<%=bean.getFilename()%>"
-	 onclick="doImgPop('fileupload/<%=bean.getFilename()%>')" title="확대"><br>
+	 onclick="doImgPop('fileupload/<%=bean.getFilename()%>')" title="원본"><br>
 	 <%if(bean.getFiledata()!=null&&!bean.getFiledata().equals("")&&!bean.getFiledata().equals("null")){ %>
 	<label style="color: #888;">*<%=bean.getFiledata()%></label>
 	<%} %>
