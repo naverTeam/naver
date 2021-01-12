@@ -22,6 +22,11 @@
 		String delCateNum[] = multi.getParameterValues("hideDelCNum");
 		String cateName[] = multi.getParameterValues("category");
 		
+		setMgr.updateBannerImg(id, bannerImg);
+		setMgr.updateProfileDesc(id, profileDesc);
+		setMgr.updateProfileImg(id, profileImg);
+		
+		
 		/*카테고리 업데이트는 3가지가 있다. 수정, 추가 삭제
 		*카테고리 테이블에 아이디로 카테고리넘버를 모두 가져와서
 		*리퀘스트 값과 비교해서 수정 추가 삭제를 수행하도록 함 */

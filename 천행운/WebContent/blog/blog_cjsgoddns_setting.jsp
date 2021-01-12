@@ -19,7 +19,7 @@
 		//현재 로그인한 세션 아이디와 블로그소유주 아이디가 동일하지 않으면
 		//이 블로그의 웰컴 페이지로 넘김 (비정상적 접근)
 		if(id!=sid&&!id.equals(sid))
-			response.sendRedirect("blog_"+id+"_welcome.jsp");
+			response.sendRedirect("blog_"+id+".jsp");
 %>
 
 <!DOCTYPE html>

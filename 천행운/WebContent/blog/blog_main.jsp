@@ -65,6 +65,7 @@
 												
 												postBean = postMgr.getNewPost(nid);//nid를 넣어 새글 가져오기
 												String postHead = postBean.getPostTitle();
+												String postThumb = postBean.getPostImg();
 												String postText = postBean.getPostText();
 												int postNum = postBean.getPostNo();
 												int cateNum = postBean.getPostCNum();
@@ -72,7 +73,8 @@
 									%>
 										<div class="blogLeftItem" style="margin-top: 5px; margin-bottom: 5px;">
 											<a href="blog_<%=nid %>.jsp?cateNum=<%=cateNum %>&postNum=<%=postNum %>" class="fullLink-col">
-												<img class="thumb-lg-blog" src="" alt="img">
+												<%-- <img class="thumb-lg-blog" src="./data/<%=nid %>/<%=postThumb %>" alt="img"> --%>
+												<img class="thumb-lg-blog" src="./data/<%=postThumb %>" alt="img">
 												<span class="spanHeader-lg-blog"><%=postHead %></span>
 												<%-- <span class="spanDesc"><%=postText %></span> --%>
 											</a>
@@ -117,9 +119,8 @@
 						%>
 							<div class="blogLeftItem">
 								<a href="#" class="fullLink-col">
-									<img class="thumb-lg-blog" src="" alt="img">
+									<img class="thumb-lg-blog" src="./data/<%=popImg %>" alt="img">
 									<span class="spanHeader-lg-blog"><%=popHead %></span>
-									<span class="spanDesc"><%=popDesc %></span>
 								</a>
 							</div>
 							<%	} %>
@@ -151,7 +152,7 @@
 				<%} else { %>
 				<div class="loginBox">
 					<div class="loginBoxTop">
-						<input class="loginButton" onclick="location.href='../member/login.jsp'" type="button" value="로그인">
+						<input class="loginButton" onclick="location.href='../member/login.jsp?returnPage=../blog/blog_main.jsp'" type="button" value="로그인">
 					</div>
 					<div class="loginBoxBottom">
 						<div class="loginBoxBottomLeft">
@@ -165,7 +166,8 @@
 				<%} %>
 				
 				<div class="weatherBox">날씨</div>
-				<div class="shopBox">
+				
+				<!-- <div class="shopBox">
 				
 
 
@@ -176,7 +178,7 @@
 							</a>
 					</div>					
 				
-				</div>
+				</div> -->
 			</div>
 			
 		</div>

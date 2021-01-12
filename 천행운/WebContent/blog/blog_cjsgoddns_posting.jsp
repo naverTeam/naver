@@ -18,7 +18,7 @@
 		//현재 로그인한 세션 아이디와 블로그소유주 아이디가 동일하지 않으면
 		//이 블로그의 웰컴 페이지로 넘김 (비정상적 접근)
 		if(id!=sid&&!id.equals(sid))
-			response.sendRedirect("blog_"+id+"_welcome.jsp");
+			response.sendRedirect("blog_"+id+".jsp");
 %>
 
 <!DOCTYPE html>
@@ -94,12 +94,13 @@
 										cateBean = cateVlist.get(i);
 										String cateName = cateBean.getBlogCateName();
 										int cateNum = cateBean.getBlogCateNum();
+										int pNum = postMgr.getCateNewPostNum(id, cateNum);
 							%>
 							
 							<div class="pCategory">
 								<input type="submit" class="textbtn" name="category" value="<%=cateName%>"></div>
-								<input type="hidden" name="cateNum" value="<%=i+1%>">
-								<input type="hidden" name="postNum" value="0">
+								<input type="hidden" name="cateNum" value="<%=cateNum%>">
+								<input type="hidden" name="postNum" value="<%=pNum%>">
 							<%	} %>
 								
 						</div>
@@ -116,12 +117,20 @@
 									placeholder="제목을 입력하세요">
 						<div style="display: flex; justify-content: flex-end;">
 							<select name="category">
-								<option>카테고리
-								<option value="1">취미
-								<option value="2">일상
+							<%
+									Vector<CateBean> cateVlist2 = new Vector<CateBean>();
+									cateVlist2 = cateMgr.getBlogCategory(id);
+									for(int i=0; i<cateVlist2.size(); i++){
+										cateBean = cateVlist2.get(i);
+										String cateName = cateBean.getBlogCateName();
+										int cateNum = cateBean.getBlogCateNum();
+										int pNum = postMgr.getCateNewPostNum(id, cateNum);
+							%>
+								<option value="<%=cateNum%>"><%=cateName %>
+								
+							<%} %>
 							</select>
 							<select name="topic">
-								<option>주제
 								<option value="1">IT
 								<option value="2">요리
 								<option value="3">여행

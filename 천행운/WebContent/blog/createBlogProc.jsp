@@ -15,7 +15,7 @@
 		BlogTemplate btemp = new BlogTemplate();
 		
 		String blogTemplate = btemp.blogTemplate(id);
-		String welcomeTemplate = btemp.blogWelcomeTemplate(id);
+		String modifyTemplate = btemp.blogModifyTemplate(id);
 		String settingTemplate = btemp.blogSettingTemplate(id);
 		String postingTemplate = btemp.blogPostingTemplate(id);
 		
@@ -25,11 +25,11 @@
 			createBlog.write(blogTemplate);
 			createBlog.close();
 			
-		BufferedWriter createBlogWelcome = new BufferedWriter(
+		BufferedWriter createBlogModify = new BufferedWriter(
 				new OutputStreamWriter(
-						new FileOutputStream("C:/Jsp/naver/WebContent/blog/blog_"+id+"_welcome.jsp"), "euc-kr"));
-			createBlogWelcome.write(welcomeTemplate);
-			createBlogWelcome.close();
+						new FileOutputStream("C:/Jsp/naver/WebContent/blog/blog_"+id+"_modify.jsp"), "euc-kr"));
+			createBlogModify.write(modifyTemplate);
+			createBlogModify.close();
 
 		BufferedWriter createBlogSetting = new BufferedWriter(
 				new OutputStreamWriter(
@@ -44,11 +44,11 @@
 			createBlogPosting.close();
 		///////////////////////////////////////////////////////////////////////////////////////////////
 		//블로그 생성이 됐으니 blog 테이블과 category 테이블 업데이트
-		boolean flag = blogMgr.insertBlog(id);
+		boolean flag = blogMgr.insertBlog(id);//블로그 테이블에 인서트
 		
 		if(flag=true){
-			cateMgr.insertBaseCategory(id);
+			cateMgr.insertBaseCategory(id);//카테고리 테이블에 인서트
 		}
 			
-		response.sendRedirect("blog_"+id+"_welcome.jsp");
+		response.sendRedirect("blog_"+id+".jsp");
 %>

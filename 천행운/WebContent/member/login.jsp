@@ -2,6 +2,7 @@
 
 <%
 		request.setCharacterEncoding("EUC-KR");
+		String returnPage = request.getParameter("returnPage");
 %>
 
 <!DOCTYPE html>
@@ -21,7 +22,7 @@
 				</div>
 			</div>
 			<div class="middle">
-				<form action="loginProc.jsp">
+				<form action="loginProc.jsp" method="post"><!-- 작업 다되면 포스트방식으로 바꾸시오 -->
 					<div class="loginBox">
 						<input type="text" name="id" placeholder="아이디" class="logInput">
 					</div>
@@ -29,6 +30,7 @@
 						<input type="text" name="pwd" placeholder="비밀번호" class="logInput">
 					</div>
 					<div class="loginBox">
+						<input type="hidden" name="returnPage" value="<%=returnPage %>">
 						<input type="submit" value="로그인" class="logInBtn">
 					</div>
 				</form>

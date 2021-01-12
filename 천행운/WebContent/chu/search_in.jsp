@@ -1,3 +1,4 @@
+<%@page import="in.QuestionBean"%>
 <%@page import="chu.UtilMgr"%>
 <%@page import="blog.BlogPostBean"%>
 <%@page import="naver.BlogBean"%>
@@ -6,7 +7,7 @@
 				pageEncoding="EUC-KR"%>
 <% request.setCharacterEncoding("EUC-KR"); %>
 <jsp:useBean id="blogBean" class="blog.BlogPostBean"/>
-<jsp:useBean id="searchBlogMgr" class="chu.SearchBlogMgr"/>		
+<jsp:useBean id="searchInMgr" class="in.QuestionMgr"/>		
 <jsp:useBean id="blogMgr" class="blog.BlogMgr"/>	
 <%
 		String keyWord = request.getParameter("keyWord");
@@ -25,7 +26,7 @@
 		if(request.getParameter("keyWord") != null){}
 		
 		if(request.getParameter("reload") != null && request.getParameter("reload").equals("true")){}
-		totalRecord = searchBlogMgr.getTotalCount(keyWord);		
+		totalRecord = searchInMgr.getTotalCountSearch(keyWord);		
 		if(request.getParameter("nowPage") != null){
 			nowPage = UtilMgr.parseInt(request, "nowPage");
 		}
@@ -78,12 +79,12 @@
 					<div class="blogItems-search">
 					
 					<%
-							Vector<BlogPostBean> bVlist = searchBlogMgr.getSearchBlogOnly(keyWord);
+							Vector<QuestionBean> bVlist = searchInMgr.getSearchInOnly(keyWord);
 							for(int i=0; i<bVlist.size(); i++){ 
-								blogBean = bVlist.get(i);
-								String bTitle = blogBean.getPostTitle();
-								String bImg = blogBean.getPostImg();
-								String bDesc = blogBean.getPostText();
+								QuestionBean qBean = bVlist.get(i);
+								String bTitle = qBean.getTitle();
+								String bImg = qBean.getFilename();
+								String bDesc = qBean.getContent();
 					%>
 						<div class="blogItem-search">
 							<a href="#" class="fullLink-row">
@@ -136,11 +137,11 @@
 				<div class="loginBox">
 					<div class="loginBoxTop" style="flex-direction: column;">
 						<div><strong><%=id %></strong>님 환영합니다.</div>
-						<div><a href="../joon/logout.jsp">로그아웃</a></div>
+						<div><a href="../member/logout.jsp">로그아웃</a></div>
 					</div>
 					<div class="loginBoxBottom" style="justify-content: space-around;">
 						<div class="loginBoxBottom-item">My 지식인</div>
-						<div class="loginBoxBottom-item"><a href="../blog/blog_<%=id%>_welcome.jsp">My 블로그</a></div>
+						<div class="loginBoxBottom-item"><a href="../blog/blog_<%=id%>.jsp">My 블로그</a></div>
 						<div class="loginBoxBottom-item">My 쇼핑</div>
 					</div>
 				</div>
@@ -148,12 +149,12 @@
 					<div class="loginBox">
 					<div class="loginBoxTop" style="flex-direction: column; height: 30%;">
 						<div><strong><%=id %></strong>님 환영합니다.</div>
-						<div><a href="../joon/logout.jsp">로그아웃</a></div>
+						<div><a href="../member/logout.jsp">로그아웃</a></div>
 					</div>
 					<div><strong>나만의 블로그를 만들어보세요!</strong></div>
 					<div class="loginBoxBottom" style="justify-content: space-around;">
 						<div class="loginBoxBottom-item">My 지식인</div>
-						<div class="loginBoxBottom-item" style="background: #c9ffd1;"><a href="../blog/createBlogProc_____.jsp">블로그 생성</a></div>
+						<div class="loginBoxBottom-item" style="background: #c9ffd1;"><a href="../blog/createBlogProc.jsp">블로그 생성</a></div>
 						<div class="loginBoxBottom-item">My 쇼핑</div>
 					</div>
 				</div>
@@ -162,14 +163,14 @@
 				<%} else {//로그인 하지 않은 경우 %>
 				<div class="loginBox">
 					<div class="loginBoxTop">
-						<input class="loginButton" onclick="location.href='../joon/login.jsp'" type="button" value="로그인">
+						<input class="loginButton" onclick="location.href='../member/login.jsp?returnPage=../chu/search_in.jsp'" type="button" value="로그인">
 					</div>
 					<div class="loginBoxBottom">
 						<div class="loginBoxBottomLeft">
-							<span style="margin-left: 10px;"><a href="../joon/member.jsp">회원가입</a></span>
+							<span style="margin-left: 10px;"><a href="../member/member.jsp">회원가입</a></span>
 						</div>
 						<div class="loginBoxBottomRight">
-							<span style="margin-right: 10px;"><a href="#">ID 찾기</a></span>
+							<span style="margin-right: 10px;"><a href="../member/find_id.jsp">ID/PWD 찾기</a></span>
 						</div>
 					</div>
 				</div>

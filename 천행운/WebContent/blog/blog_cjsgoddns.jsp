@@ -127,14 +127,14 @@
 					<div><a href="blog_<%=sid%>.jsp">내 블로그</a></div>
 						<%} %>
 					<%}else{ %> 
-					<div><a href="../member/login.jsp">로그인</a></div>
+					<div><a href="../member/login.jsp?returnPage=../blog/blog_<%=id%>.jsp">로그인</a></div>
 					<%} %>
 				</div>
 			</div>
 		</div>
 		<div id="mainImgWrap">
 			<div style="height: 100%;">
-				<img class="bannerImg" src="./data/<%=blogBanner %>">
+				<img class="bannerImg" src="./data/<%=id %>/<%=blogBanner %>">
 			</div>
 		</div>
 		
@@ -145,7 +145,7 @@
 				<div class="blog-profileWrap">
 					<div class="blog-profileImg">
 						<div style="width: 100%; height: 100%;">
-							<img src="./data/<%=blogProfileImg %>" style="width: 100%; height: 100%;">
+							<img src="./data/<%=id %>/<%=blogProfileImg %>" style="width: 100%; height: 100%;">
 						</div>
 					</div>
 					<div class="blog-profileId">
@@ -182,9 +182,7 @@
 								<input type="hidden" name="postNum" value="<%=pNum%>">
 							</form>
 							</div>
-							
 							<%	} %>
-								
 						</div>
 					
 				</div>
@@ -202,6 +200,7 @@
 					String postDate="";
 					int postLike=0;
 					int postView=0;
+					String postImg="";
 					
 					/*  if(cNum==null)
 						cNum="1";
@@ -221,6 +220,9 @@
 					postDate = postBean.getPostDate();
 					postLike = postBean.getPostLike(); 
 					postView = postBean.getPostView();
+					postImg = postBean.getPostImg();
+					int modiCNum = postBean.getPostCNum();
+					int modiPNum = postBean.getPostNo();
 					
 			%>
 			<%if(postTitle==null){%>
@@ -234,12 +236,13 @@
 					<div style="display: flex; flex-direction: row; justify-content: flex-end; align-items: self-end;">
 					<form action="blog_<%=id %>_modify.jsp" method="post">
 						<input type="submit" value="수정하기">
-						<input type="hidden" name="postTitle" value="<%=postTitle %>">
-						<input type="hidden" name="postText" value="<%=postText %>">
+						<input type="hidden" name="modiPNum" value="<%=modiPNum %>">
+						<input type="hidden" name="modiCNum" value="<%=modiCNum %>">
 					</form>
 					</div>
 					<%} %>
 					<div class="postContents">
+						<img src="./data/<%=id%>/<%=postImg %>" style="max-width: 100%;">
 						<%=postText %>
 					</div>
 					<div class="postLike">

@@ -16,13 +16,23 @@
 		String blogProfileImg = blogBean.getProfileImage();
 		String sid = (String) session.getAttribute("id");
 		
-		String postTitle = request.getParameter("postTitle");
-		String postText = request.getParameter("postText");
+		String cNum = request.getParameter("modiCNum");
+		int modiCNum = Integer.parseInt(cNum);
+		String pNum = request.getParameter("modiPNum");
+		int modiPNum = Integer.parseInt(pNum);
+		
+		BlogPostBean postBean = postMgr.getCateInNumPost(id, modiCNum, modiPNum);
+		String modiTitle = postBean.getPostTitle();
+		String modiText = postBean.getPostText();
+		String modiDate = postBean.getPostDate();
+		int modiLike = postBean.getPostLike(); 
+		int modiView = postBean.getPostView();
+		String modiImg = postBean.getPostImg();
 		
 		//현재 로그인한 세션 아이디와 블로그소유주 아이디가 동일하지 않으면
 		//이 블로그의 웰컴 페이지로 넘김 (비정상적 접근)
 		if(id!=sid&&!id.equals(sid))
-			response.sendRedirect("blog_"+id+"_welcome.jsp");
+			response.sendRedirect("blog_"+id+".jsp");
 %>
 
 <!DOCTYPE html>
@@ -102,7 +112,7 @@
 							
 							<div class="pCategory">
 								<input type="submit" class="textbtn" name="category" value="<%=cateName%>"></div>
-								<input type="hidden" name="cateNum" value="<%=i+1%>">
+								<input type="hidden" name="cateNum" value="<%=cateNum%>">
 								<input type="hidden" name="postNum" value="0">
 							<%	} %>
 								
@@ -115,17 +125,24 @@
 			<div class="blog-conRight">
 			
 				<div class="postWrap">
-					<form name="postFrm" method="post" action="postingProc.jsp" enctype="multipart/form-data">
+					<form name="postFrm" method="post" action="modifyingProc.jsp" enctype="multipart/form-data">
 						<input type="text" name="title" style="font-size: 20px; width: 99%; height: 40px;"
-									value="<%=postTitle%>">
+									value="<%=modiTitle%>">
 						<div style="display: flex; justify-content: flex-end;">
 							<select name="category">
-								<option>카테고리
-								<option value="1">취미
-								<option value="2">일상
+							<%
+									Vector<CateBean> cateVlist2 = new Vector<CateBean>();
+									cateVlist2 = cateMgr.getBlogCategory(id);
+									for(int i=0; i<cateVlist2.size(); i++){
+										cateBean = cateVlist2.get(i);
+										String cateName = cateBean.getBlogCateName();
+										int cateNum = cateBean.getBlogCateNum();
+							%>
+								<option value="<%=cateNum%>"><%=cateName %>
+								
+							<%} %>
 							</select>
 							<select name="topic">
-								<option>주제
 								<option value="1">IT
 								<option value="2">요리
 								<option value="3">여행
@@ -134,8 +151,9 @@
 							</select>
 						</div>
   						<textarea id="summernote" name="text"></textarea>
-  						<input multiple="multiple" type="file" name="filename[]">
+  						<input type="file" name="filename">
   						<input type="hidden" name="hiddenid" value="<%=id%>">
+  						<input type="hidden" name="hiddenPNum" value="<%=pNum%>">
   						<input type="submit" value="저장">
 					</form>
 				</div>
@@ -159,6 +177,6 @@ $('#summernote').summernote({
       ['view', ['fullscreen', 'codeview', 'help']]
     ]
   });
-$('#summernote').summernote('editor.insertText', '<%=postText%>');      
+$('#summernote').summernote('editor.insertText', '<%=modiText%>');      
 </script>  
 </html>

@@ -27,17 +27,17 @@
 			<div style="border-right: 1px solid #e4e8eb; height: 23px; padding-right: 5px; margin-right: 5px;"></div>
 			<form class="searchFrm" name="searchFrm" action="search.jsp">
 				<input type="text" name="keyWord" value="<%=keyWord %>" style="width: 533px; height: 40px; border: none;">
-				<input type="button" onclick="javascript:check()" style="width: 60px; height: 60px; border: 0;">			 
+				<input type="button" onclick="javascript:check()" style="width: 60px; height: 60px; border: 0;">
 			</form>
 			
 			
 			<%if(id!=null&&!id.equals("")){ %>
 			
-			<div style="margin-left: 350px;"><a href="../joon/logout.jsp">로그아웃</a></div>
+			<div style="margin-left: 250px;"><a href="../member/logout.jsp">로그아웃</a></div>
 			
 			<%} else { %>
 			
-			<div style="margin-left: 350px;"><a href="../joon/login.jsp">로그인</a></div>
+			<div style="margin-left: 250px;"><a href="../member/login.jsp?returnPage=../chu/search_img.jsp">로그인</a></div>
 			
 			<%} %>
 		</div>

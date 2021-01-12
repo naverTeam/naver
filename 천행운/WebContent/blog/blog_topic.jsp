@@ -57,6 +57,9 @@
 							String topic = request.getParameter("topic");
 							if(topic==null) topic="IT";
 							BlogPostBean hotBean = blogPostMgr.getHotPost(topic);
+							String hId = hotBean.getId();
+							int hCate = hotBean.getPostCNum();
+							int hNum = hotBean.getPostNo();
 							String hTitle = hotBean.getPostTitle();
 							String hImg = hotBean.getPostImg();
 							String hDesc = hotBean.getPostText();
@@ -65,7 +68,7 @@
 					<div style="margin-top: 10px; align-self: flex-start;"><strong><%=topic %></strong> 오늘의 글</div>
 					<div class="blogItems-topic">
 						<div class="blogLeft-topic">
-							<a href="#" class="fullLink-col">
+							<a href="../blog/blog_<%=hId %>.jsp?cateNum=<%=hCate %>&postNum=<%=hNum %>" class="fullLink-col">
 							
 								<img class="thumb-lg" src="../blog/data/<%=hImg %>" alt="img">
 								<span class="spanHeader-lg"><%=hTitle %></span>
@@ -86,7 +89,7 @@
 									String bDesc = bean.getPostText();
 						%>
 							<div class="blogRightItem-topic">
-								<a href="../blog/blog_<%=bId %>.jsp?cateNum=<%=cateNum %>&postNo=<%=postNo %>" class="fullLink-row">
+								<a href="../blog/blog_<%=bId %>.jsp?cateNum=<%=cateNum %>&postNum=<%=postNo %>" class="fullLink-row">
 									<img class="thumb-md" src="../blog/data/<%=bImg %>" alt="img">
 									<span class="spanHeader-md"><%=bTitle %></span>
 								</a>
@@ -117,7 +120,7 @@
 				<%} else { %>
 				<div class="loginBox">
 					<div class="loginBoxTop">
-						<input class="loginButton" onclick="location.href='../member/login.jsp'" type="button" value="로그인">
+						<input class="loginButton" onclick="location.href='../member/login.jsp?returnPage=../blog/blog_topic.jsp'" type="button" value="로그인">
 					</div>
 					<div class="loginBoxBottom">
 						<div class="loginBoxBottomLeft">

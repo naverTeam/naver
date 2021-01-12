@@ -30,6 +30,7 @@ public class BlogPostMgr {
 				if(rs.next()) {
 					bean.setId(rs.getString("id"));
 					bean.setPostNo(rs.getInt("postNo"));
+					bean.setPostCNum(rs.getInt("postCNum"));
 					bean.setPostTitle(rs.getString("postTitle"));
 					bean.setPostImg(rs.getString("postImg"));
 					bean.setPostText(rs.getString("postText"));
@@ -50,7 +51,7 @@ public class BlogPostMgr {
 		String sql = null;
 		try {
 			con = pool.getConnection();
-			sql = "select * from blog_post where postTopic=? limit 0,3";
+			sql = "select * from blog_post where postTopic=? ORDER BY postLike desc LIMIT 1,3;";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, topic);
 			rs = pstmt.executeQuery();
