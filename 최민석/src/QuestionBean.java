@@ -18,7 +18,14 @@ public class QuestionBean {
 		private String filedata2;
 		private int filesize2;
 		private String tag;
+		private String choice;
 		
+		public String getChoice() {
+			return choice;
+		}
+		public void setChoice(String choice) {
+			this.choice = choice;
+		}
 		public String getTag() {
 			return tag;
 		}

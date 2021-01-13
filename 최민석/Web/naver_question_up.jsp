@@ -605,7 +605,7 @@ function titleCheck() {
 }
 function dir(id) {
 	var e = document.getElementById(id);
-	e.style.color = '#40c700';
+	e.style.color = '#40c700'; 
 }
 function checkAll() {
 	if(!checkTitle(Frm.title.value)){  //제목 검사

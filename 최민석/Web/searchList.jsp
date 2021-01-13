@@ -8,7 +8,7 @@
       
       int totalTitleCount = 0;//총게시물수
       int totalContentCount= 0;//총게시물수
-      
+       
   	int numPerPage = 5;//페이지당 레코드 개수
   	int pagePerBlock = 10;//블럭당 페이지 개수
   	
@@ -331,9 +331,9 @@ document.write(contentSubstring(cont)+'...');
 %> 
 <tr>
 <%if(bean.getFilename()!=null&&!bean.getFilename().equals("")){ %>
-<td rowspan="3" width="100px" ><img src="fileupload/<%=bean.getFilename()%>" width="100px" height="100px"></td>
+<td rowspan="4" width="100px" ><img src="fileupload/<%=bean.getFilename()%>" width="100px" height="100px"></td>
 <%}else{ %>
-<td rowspan="3" width="100px"><img src="img/noimg.jpg" width="100px" height="100px"></td>
+<td rowspan="4" width="100px"><img src="img/noimg.jpg" width="100px" height="100px"></td>
 
 <%} %>
 <td height="30px;" colspan="4">
