@@ -263,6 +263,13 @@ font-weight: bold;
 
 </style>
 <script type="text/javascript">
+function titleSub(con) {
+	if(con.length>17){
+		return con.substring(0,17)+"...";
+	}else{
+		return con;
+	}
+}
 function sysdate() {
 	 let today = new Date(); 
 	 let year = today.getFullYear(); // 현재년도
@@ -441,9 +448,8 @@ function sysdate() {
    				<script>document.npFrm.numPerPage.value=<%=numPerPage%></script>
    			</li>
    			<form name = "whereFrm" method="post">
-	<li id="9"  style="margin-left: 240px" onclick="boardlist(9)">최신순</li>
+	<li id="9"  style="margin-left: 320px" onclick="boardlist(9)">최신순</li>
 	<li id="7" onclick="boardlist(7)">답변적은순</li>
-	<li id="first" onclick="boardlist('first')">첫질문</li>
 	<li id="6" onclick="boardlist(6)">내공높은순</li>
 	</form>
 		<script>
@@ -460,7 +466,8 @@ function sysdate() {
 		QuestionBean bean = vlist.get(i);
 	%>
 	<tr id="questionBoard" onclick="boardRead('<%=bean.getQnum()%>')">
-		<td style="font-weight:bold;font-size: 18px;"width="330px"><%=bean.getTitle() %> 
+		<td style="font-weight:bold;font-size: 18px;"width="330px">
+		<script>document.write(titleSub('<%=bean.getTitle() %>'));</script>
 		<%if(bean.getPoint()!=0){ %>
 		<span style="color:#40c700;font-weight: bold;"> [<%=bean.getPoint() %>]</span>
 		<%} %> 
@@ -617,9 +624,11 @@ function sysdate() {
 			<td>책</td>
 			<td>스포츠</td>
 		</tr>
+		<%if(id!=null){ %>
 		<tr>
 		<td colspan="4" align="center" style="border-top: 1px solid #888;" onclick="location.href='logout.jsp'">로그아웃</td>
 		</tr>
+		<%} %>
 	</table>
 </span>
 

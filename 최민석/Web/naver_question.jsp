@@ -532,7 +532,21 @@ function titleCheck() {
 function pointcheck() {
 	
 	var e = document.getElementById("pointtext");
-	if(e.value<=<%=mbean.getInPoint()%>){
+	var pc = /^[0-9]{0,10}$/;  
+	
+	if(!pc.test(e.value)){
+		if(document.getElementById("pointcheck")==null){
+			var text = document.createElement("p");
+				text.id = "pointcheck";
+				text.style.marginLeft="100px";
+			}else{
+				var text = document.getElementById("pointcheck");
+			}
+		text.style.color="red";
+		text.innerHTML="숫자만 입력 가능합니다";
+		document.querySelector("div#point").appendChild(text);
+		
+	}else if(e.value<=<%=mbean.getInPoint()%>){
 		if(document.getElementById("pointcheck")==null){
 		var text = document.createElement("p");
 			text.id = "pointcheck";
@@ -589,6 +603,10 @@ function checkTitle(title) {
 		alert("제목이 너무 짧습니다.");
 		return false;
 		}
+		if(title.length>40){
+			alert("제목이 너무 깁니다.");
+			return false;
+		}
 	return true;
 }
 function checkContent(con) {
@@ -612,6 +630,11 @@ function checkDirectory(dir) {
 }
 ///////////////////////////////////////////////////////////////////////////
 function checkPoint(p) {
+	var pc = /^[0-9]{0,10}$/;
+	if(!pc.test(p)){
+		alert("내공은 숫자만 입력가능합니다.");
+		return false;
+	}
 	if(p<0){
 		alert("내공이 음수입니다.");
 		return false;
@@ -641,7 +664,7 @@ function checkPoint(p) {
 <img  src="img/question.png" style="width: 40px;height: 40px;margin-top: 70px;
 margin-left:100px;border-radius: 10px;">
 <a style="font-size: 23px;color:#40c700;font-weight: 900;">질문</a>
-<input type="text" name="title" id="titletext" onblur="titleCheck()" maxlength="20" autocomplete="off">
+<input type="text" name="title" id="titletext" onblur="titleCheck()" maxlength="40" autocomplete="off">
 </div>
 
 <div id="textarea">
@@ -945,9 +968,11 @@ autocomplete(document.getElementById("myInput"));
 			<td>책</td>
 			<td>스포츠</td>
 		</tr>
+		<%if(id!=null){ %>
 			<tr>
 		<td colspan="4" align="center" style="border-top: 1px solid #888;" onclick="location.href='logout.jsp'">로그아웃</td>
 		</tr>
+		<%} %>
 	</table>
 </span>
 <%@ include file="footer.jsp" %>

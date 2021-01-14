@@ -3,7 +3,7 @@
 <%@ page  contentType="text/html; charset=EUC-KR"%>
 <%
 		request.setCharacterEncoding("EUC-KR");
-		
+String id = (String)session.getAttribute("id");
 %>
 <jsp:useBean id="amgr" class="in.AnswerMgr" />
 <!DOCTYPE html>
@@ -327,9 +327,11 @@ var set = setInterval(time,10);
 			<td>Ã¥</td>
 			<td>½ºÆ÷Ã÷</td>
 		</tr>
+		<%if(id!=null){ %>
 		<tr>
 		<td colspan="4" align="center" style="border-top: 1px solid #888;" onclick="location.href='logout.jsp'">·Î±×¾Æ¿ô</td>
 		</tr>
+		<%} %>
 	</table>
 </span>
 

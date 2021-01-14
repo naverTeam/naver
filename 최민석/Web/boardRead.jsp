@@ -28,9 +28,6 @@
 #def{
 width: 70px;
 height: 70px;
-position: absolute;
-top: 590px;
-left:740px;
 }
 .okbtn{
 width: 100px;
@@ -501,8 +498,8 @@ function colorup2() {
 
 <%}else if(id.equals(bean.getId())&&bean.getAnswer_count()==0){ %>
 <div class="answer3" id="an3" onmouseover="colorup()">
-<p id="qap2" style="color:#999;margin: 50px auto;font-weight: bold;font-size:30px;"align="center">
-<img id="def" src="img/def.png" style=" transform: rotate(30deg);">답변을 기다리는 중</p>
+<p id="qap2" style="color:#999;margin: 40px auto;font-weight: bold;font-size:30px;"align="center">
+<img id="def" src="img/def.png" style=" transform: rotate(30deg);display: flex;">답변을 기다리는 중</p>
 </div>
 
 
@@ -591,7 +588,7 @@ padding-top: 50px;padding-bottom: 50px;border-bottom: 2px solid #40c700;"><pre><
  
  
 <tr><td  align="right" style="padding-bottom:50px;">
-<%if(id.equals(abean.getId())){ %> <!-- 자신이 쓴댓글은 수정 삭제 -->
+<%if(id.equals(abean.getId())){ %> <!-- 자신이 쓴답글은 수정 삭제 -->
 	<a id="tag" href="javascript:update(<%=aid%>)">[수정]</a>
 	<a id="tag" href="delete_a.jsp?anum=<%=abean.getAnum()%>&qnum=<%=qnum%>">[삭제]</a>
 	<%} %>
@@ -639,9 +636,11 @@ padding-top: 50px;padding-bottom: 50px;border-bottom: 2px solid #40c700;"><pre><
 			<td>책</td>
 			<td>스포츠</td>
 		</tr>
+		<%if(id!=null){ %>
 			<tr>
 		<td colspan="4" align="center" style="border-top: 1px solid #888;" onclick="location.href='logout.jsp'">로그아웃</td>
 		</tr>
+		<%} %>
 	</table>
 </span>
 <%@ include file="footer.jsp" %>
