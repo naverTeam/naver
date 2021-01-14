@@ -546,7 +546,7 @@ function sysdate() {
 <tr><td colspan="2">나의 질문 :  <%=mbean.getQuestionCnt()%> 건</td></tr>
 <tr><td colspan="2">나의 답변 : <%=mbean.getAnswerCnt() %> 건</td></tr>
 <tr><td colspan="2">나의 내공 : <%=mbean.getInPoint() %> 점</td></tr>
-<tr><td colspan="2">나의 랭킹 : </td></tr>
+<tr><td colspan="2">나의 랭킹 : <%=mbean.getGender() %> 위 </td></tr>
 </table>
 </div>
 <hr style="margin-top:0px;">

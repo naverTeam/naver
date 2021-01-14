@@ -667,7 +667,10 @@ public class QuestionMgr {
 			MemberBean bean = new MemberBean();
 			try {
 				con = pool.getConnection();
-				sql = "select * from navermember where id = ?";
+				sql = "SELECT questionCnt,answerCnt,inPoint,RANK FROM(SELECT *,( @rank := @rank + 1 ) AS RANK "
+						+ "FROM navermember AS a,( SELECT @rank := 0 ) AS b "
+						+ "oRder BY a.inPoint DESC) AS r "
+						+ "WHERE r.id=?;";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1,id);
 				rs = pstmt.executeQuery();
@@ -675,6 +678,7 @@ public class QuestionMgr {
 					bean.setQuestionCnt(rs.getInt("questionCnt"));
 					bean.setAnswerCnt(rs.getInt("answerCnt"));
 					bean.setInPoint(rs.getInt("inPoint"));
+					bean.setGender(rs.getString("rank"));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -25,6 +25,13 @@
 <title>게시글</title>
 <link href="header.css" rel="stylesheet" type="text/css">
 <style>
+#def{
+width: 70px;
+height: 70px;
+position: absolute;
+top: 590px;
+left:740px;
+}
 .okbtn{
 width: 100px;
 height: 50px;
@@ -59,6 +66,22 @@ background-size:270px 60px;
     margin-left: 310px;
     margin-bottom: 50px;
 }
+#aq{
+border:0;
+outline:0;
+width:200px;height:60px;
+background:white;
+border:5px solid #40c700;
+border-radius:10px;
+background-size:270px 60px;
+font-size: 25px;
+color:#40c700;
+margin-left: 350px;
+cursor: pointer;
+}
+#aq:hover{
+background: aliceblue;
+}
 #body{
 background-color: #eee;
 padding-bottom: 30px;
@@ -89,6 +112,13 @@ margin: 20px auto;
 border: 1px solid #ddd;
 }
 #answer2{
+width: 900px;
+height: 220px;
+background: linear-gradient(to right, white, rgba(255,255,255,0.5)); 
+margin: 20px auto;
+border: 1px solid #ddd;
+}
+.answer3{
 width: 900px;
 height: 220px;
 background: linear-gradient(to right, white, rgba(255,255,255,0.5)); 
@@ -187,6 +217,20 @@ cursor: pointer;
 </style>
 
 <script>
+var dnum=0;
+
+window.onload=function(){
+	if(document.getElementById("def")!=null){
+		setInterval(deff,10);
+		}
+}
+function deff() {
+	dnum++;
+	var dfff = document.getElementById("def");
+	dfff.style.transform="rotate("+dnum+"deg)";
+	
+}
+
 
 function tagSearch(key) {
 	location.href="searchList.jsp?searchKey="+key;
@@ -296,28 +340,47 @@ function Cal(boardDate) {
 }*/
 
 var cn = 0;
+var interv;
 function colorup() {
-	var e = document.getElementById("answer2");
-    colorup2();
+   interv= setInterval(colorup2,3);
 }
 function colorup2() {
 	cn++;
+	if(cn<256){
 	var a=255-cn;
 	var b=255-cn;
 	var c=100+cn;
 	
+	if(document.getElementById("an3")!=null)
+	var e = document.getElementById("an3");
+	
+	if(document.getElementById("an4")!=null)
+	var e = document.getElementById("an4");
+	
+	if(document.getElementById("an5")!=null)
+	var e = document.getElementById("an5");
+	
+	if(document.getElementById("answer2")!=null)
 	var e = document.getElementById("answer2");
-	var e2 = document.getElementById("qap");
+	
+	if(document.getElementById("qap1")!=null)
+	var e2 = document.getElementById("qap1");
+	if(document.getElementById("qap2")!=null)
+		var e2 = document.getElementById("qap2");
+	if(document.getElementById("qap3")!=null)
+		var e2 = document.getElementById("qap3");
+	if(document.getElementById("qap4")!=null)
+		var e2 = document.getElementById("qap4");
+	
+	
 	e2.style.color="rgb("+c+","+c+","+c+")";
 	e.style.background="linear-gradient(to right, white, rgba("+a+",255,"+b+",0.6))";
+   }
+	if(cn==255){
+		clearInterval(interv);
+	}
 }
-function colordown() {
-	cn=0;
-	var e = document.getElementById("answer2");
-	var e2 = document.getElementById("qap");
-	e2.style.color="rgb(100,100,100)";
-	e.style.background=" linear-gradient(to right, white, rgba(255,255,255,0.5))";
-}
+
 </script> 
 </head>
 <body>
@@ -416,11 +479,34 @@ function colordown() {
 </table>
 </div>
 <%if(id==null||id.equals("")){ %>
-<div id="answer2" onmousemove="colorup()" onmouseleave="colordown()">
-<p id="qap" style="color:rgb(100,100,100);margin: 50px auto;font-weight: bold;font-size:30px;"align="center">질문과 답변을 하고싶다면,</p>
+<div id="answer2" onmouseover="colorup()">
+<p id="qap1" style="color:rgb(100,100,100);margin: 50px auto;font-weight: bold;font-size:30px;"align="center">질문과 답변을 하고싶다면,</p>
 <button id="nlogin" type="button" onclick="location.href='../member/login.jsp?returnPage=../in/boardRead.jsp?qnum=<%=qnum%>' "/><br><br><br><br><br>
-
 </div>
+
+
+<%}else if(id.equals(bean.getId())&&bean.getAnswer_count()==0){ %>
+<div class="answer3" id="an3" onmouseover="colorup()">
+<p id="qap2" style="color:#999;margin: 50px auto;font-weight: bold;font-size:30px;"align="center">
+<img id="def" src="img/def.png" style=" transform: rotate(30deg);">답변을 기다리는 중</p>
+</div>
+
+
+
+<%}else if(id.equals(bean.getId())&&bean.getAnswer_count()>0&&bean.getChoice()==null){ %>
+<div class="answer3" id="an4" onmouseover="colorup()">
+<p id="qap3" style="color:#999;margin: 50px auto;font-weight: bold;font-size:30px;"align="center">도움되는 답변을<br><br>채택하세요</p>
+</div>
+
+
+
+<%}else if(id.equals(bean.getId())&&bean.getAnswer_count()>0&&bean.getChoice()!=null){ %>
+<div class="answer3" id="an5" onmouseover="colorup()">
+<p id="qap4" style="color:#999;margin: 50px auto;font-weight: bold;font-size:30px;"align="center">채택 되었습니다</p>
+<button type="button" id="aq" onclick="location.href='naver_question.jsp' ">질문 하기</button>
+</div>
+
+
 <%}else{ %>
 <div id="answer">
 <form method="post" name="aFrm" action="answerProc.jsp">
