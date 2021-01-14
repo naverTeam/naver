@@ -571,6 +571,7 @@ function checkAll() {
 	}
 	return true;
 }
+
 //데이터가 공백인자 검사
 function checkExistData(value,dataname) {
 	if(value==""){
@@ -609,6 +610,7 @@ function checkDirectory(dir) {
 	alert("카테고리를 선택 해주세요.");
 	return false;
 }
+///////////////////////////////////////////////////////////////////////////
 function checkPoint(p) {
 	if(p<0){
 		alert("내공이 음수입니다.");

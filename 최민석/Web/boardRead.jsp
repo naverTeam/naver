@@ -45,6 +45,20 @@ font-weight: bold;
 border-radius: 10px;
 margin-left: 0px;
 }
+.okbtn2{
+width: 100px;
+height: 50px;
+background-color: white;
+border: 5px solid brown;
+color:brown;
+outline: none;
+cursor: pointer;
+font-size: 20px;
+font-weight: bold;
+border-radius: 10px;
+margin-left: 0px;
+transform:rotate(-30deg);
+}
 .tagA{
 text-decoration: none;
 color:#555;
@@ -502,7 +516,7 @@ function colorup2() {
 
 <%}else if(id.equals(bean.getId())&&bean.getAnswer_count()>0&&bean.getChoice()!=null){ %>
 <div class="answer3" id="an5" onmouseover="colorup()">
-<p id="qap4" style="color:#999;margin: 50px auto;font-weight: bold;font-size:30px;"align="center">채택 되었습니다</p>
+<p id="qap4" style="color:#999;margin: 50px auto;font-weight: bold;font-size:30px;"align="center">답변을 채택 하였습니다.</p>
 <button type="button" id="aq" onclick="location.href='naver_question.jsp' ">질문 하기</button>
 </div>
 
@@ -543,6 +557,9 @@ function colorup2() {
 <%if(abean.getAnum()==cho){ %>
  style="border: 5px solid #FFE146;"
 <%} %>>
+<%if(abean.getAnum()==cho){%>
+<button type="button" class="okbtn2">채택  &nbsp;  !</button>
+<%} %>
 <table id="aTable">
 <tr><td>
 <%if(abean.getAnum()==cho){ %>
@@ -553,7 +570,7 @@ function colorup2() {
 	<a style="font-size: 25px;font-weight: bold;color:#444;"><%=abean.getId()%>님 답변</a>
 	<%if(id.equals(bean.getId())&&bean.getChoice()==null){ %> <!-- 채택 안했다면 채택버튼 -->
 <button type="button" class="okbtn" onclick="location.href='choice.jsp?anum=<%=abean.getAnum()%>&qnum=<%=qnum%>'">채택하기!</button>
-<%} %>
+<%}%>
 	<a style="margin-left: 300px;">[<%=abean.getGrade() %> 등급]</a></td></tr>
 <tr><td id="<%=aid%>" width="800px"style="display:block;
 padding-top: 50px;padding-bottom: 50px;border-bottom: 2px solid #40c700;"><pre><%=abean.getContent() %></pre></td></tr>
