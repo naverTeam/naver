@@ -48,7 +48,7 @@ function dismenu() {
 		<td class="td" align="center" width="50px">베스트</td>
 		<td class="td" align="center" width="90px" onclick="location.href='bestMember.jsp'">명예의 전당</td>
 		<td style="border-left: 1px solid #cccccc;"></td>
-		<td class="td" align="center" width="50px">프로필</td>
+		<td class="td" align="center" width="50px" onclick="location.href='profile.jsp'">프로필</td>
 		<td width="500px"></td>
 		<td id="tdbtn" align="right" width="100px" style="padding-right:30px;
 		background-color:#40c700;color:white;cursor:pointer;"

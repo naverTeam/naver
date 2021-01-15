@@ -32,7 +32,9 @@ public class QuestionMgr {
 			Connection con = null;
 			PreparedStatement pstmt = null;
 			String sql = null;
+			
 			try {
+				
 				/////파일업로드//////////////////////////
 				File dir = new File(SAVEFOLDER);
 				if(!dir.exists())//폴더가 없다면 
@@ -70,10 +72,10 @@ public class QuestionMgr {
 				sql += "values(?, ?, ?, ?, ?, now(),?,?,?,?,?,?,?)";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setString(1,multi.getParameter("id"));
-				pstmt.setString(2, multi.getParameter("title"));
+				pstmt.setString(2, multi.getParameter("title"));/////
 				pstmt.setString(3, content);
 				pstmt.setString(4, multi.getParameter("directory"));
-				pstmt.setInt(5, point);
+				pstmt.setInt(5, point);//////
 				pstmt.setString(6, filename1);
 				pstmt.setString(7, multi.getParameter("filedata"));
 				pstmt.setInt(8, filesize);
@@ -93,12 +95,13 @@ public class QuestionMgr {
 				}
 				
 				pstmt.executeUpdate();
+			
 				pstmt.close();
 				
 				//질문수 +1
 				sql = "update navermember set questionCnt = questionCnt+1,inPoint = inPoint-? where id = ?";
 				pstmt=con.prepareStatement(sql);
-				pstmt.setInt(1, point);
+				pstmt.setInt(1, 10);
 				pstmt.setString(2, multi.getParameter("id"));
 				pstmt.executeUpdate();
 				pstmt.close();
@@ -109,6 +112,7 @@ public class QuestionMgr {
 			} finally {
 				pool.freeConnection(con, pstmt);
 			}
+		
 		}
 		
 		//게시물 제목검색
@@ -747,6 +751,161 @@ public class QuestionMgr {
 					}
 					return vlist;
 				}
-		
+				
+				//나의 질문 가져오기
+				public Vector<QuestionBean> getMyList(int start,int end,String id){
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					Vector<QuestionBean> vlist = new Vector<QuestionBean>();
+					try {
+						con = pool.getConnection();
+						
+							sql = "select * from in_question where id=? order by date desc limit ?,?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1,id);
+							pstmt.setInt(2, start);
+							pstmt.setInt(3, end);
+				
+						rs = pstmt.executeQuery();
+						while(rs.next()) {
+							QuestionBean bean = new QuestionBean();
+							bean.setQnum(rs.getInt("qnum"));
+							bean.setId(rs.getString("id"));
+							bean.setTitle(rs.getString("title"));
+							bean.setAnswer_count(rs.getInt("answer_count"));
+							bean.setDirectory(rs.getString("directory"));
+							bean.setDate(rs.getString("date"));
+							bean.setPoint(rs.getInt("point"));
+							bean.setFilename(rs.getString("filename"));
+							bean.setFilesize(rs.getInt("filesize"));
+							bean.setChoice(rs.getString("choice"));
+							vlist.addElement(bean);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return vlist;
+				}
+				//나의 답변 가져오기
+				public Vector<AnswerBean> getMyList2(int start,int end,String id){
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					Vector<AnswerBean> vlist = new Vector<AnswerBean>();
+					try {
+						con = pool.getConnection();
+						
+							sql = "select * from in_answer where id=? order by date desc  limit ?,?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1,id);
+							pstmt.setInt(2, start);
+							pstmt.setInt(3, end);
+						rs = pstmt.executeQuery();
+						while(rs.next()) {
+							AnswerBean bean = new AnswerBean();
+							bean.setQnum(rs.getInt("qnum"));
+							bean.setContent(rs.getString("content"));
+							bean.setChoice(rs.getInt("choice"));
+							bean.setDate(rs.getString("date"));
+							vlist.addElement(bean);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return vlist;
+				}
+				//나의 질문 갯수 가져오기 
+				public int getIdCount(String id) {
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					int totalCount = 0;
+					try {
+						con = pool.getConnection();
+							sql = "select count(*) from in_question where id= ?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, id);
+						rs = pstmt.executeQuery();
+						if(rs.next()) totalCount = rs.getInt(1);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return totalCount;
+				}
+				//나의 답변 갯수 가져오기 
+				public int getId2Count(String id) {
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					int totalCount = 0;
+					try {
+						con = pool.getConnection();
+							sql = "select count(*) from in_answer where id= ?";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, id);
+						rs = pstmt.executeQuery();
+						if(rs.next()) totalCount = rs.getInt(1);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return totalCount;
+				}
+				
+				//나의 답변채택 갯수 가져오기 
+				public int getIdChoiceCount(String id) {
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					int totalCount = 0;
+					try {
+						con = pool.getConnection();
+							sql = "select count(*) from in_answer where id= ? and choice=1";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, id);
+						rs = pstmt.executeQuery();
+						if(rs.next()) totalCount = rs.getInt(1);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return totalCount;
+				}
+				
+				//나의 채택하지 않은 질문 갯수 가져오기 
+				public int getIdUnChoiceQ(String id) {
+					Connection con = null;
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					String sql = null;
+					int totalCount = 0;
+					try {
+						con = pool.getConnection();
+							sql = "select count(*) from in_question where id=? and choice is not NULL";
+							pstmt = con.prepareStatement(sql);
+							pstmt.setString(1, id);
+						rs = pstmt.executeQuery();
+						if(rs.next()) totalCount = rs.getInt(1);
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally {
+						pool.freeConnection(con, pstmt, rs);
+					}
+					return totalCount;
+				}
 }
 

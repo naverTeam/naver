@@ -7,7 +7,14 @@ public class AnswerBean {
 	private String grade;
 	private String content;
 	private String date;
+	private int choice;
 	
+	public int getChoice() {
+		return choice;
+	}
+	public void setChoice(int choice) {
+		this.choice = choice;
+	}
 	public int getAnum() {
 		return anum;
 	}

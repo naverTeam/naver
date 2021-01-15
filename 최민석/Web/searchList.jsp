@@ -18,8 +18,8 @@
   	int totalBlock =0;//총 블럭 개수
   	int totalBlock2 =0;//총 블럭 개수
   	
-  	int nowPage = 1;//현재 페이지 
-  	int nowPage2 = 1;//현재 페이지 
+  	int nowPage11 = 1;//현재 페이지 
+  	int nowPage22 = 1;//현재 페이지 
   	
   	int nowBlock = 1;//현재 블럭
   	int nowBlock2 = 1;//현재 블럭
@@ -34,17 +34,17 @@
 	totalContentCount = mgr.getContentCount(searchKey);
 	
 	//요청된 페이지 받기
-	if(request.getParameter("nowPage")!=null){
-		nowPage = UtilMgr.parseInt(request, "nowPage");
+	if(request.getParameter("nowPage11")!=null){
+		nowPage11 = UtilMgr.parseInt(request, "nowPage11");
 	}
-	if(request.getParameter("nowPage2")!=null){
-		nowPage2 = UtilMgr.parseInt(request, "nowPage2");
+	if(request.getParameter("nowPage22")!=null){
+		nowPage22 = UtilMgr.parseInt(request, "nowPage22");
 	}
 	
 	//sql문에 들어갈 limit값 설정 
-	int start =  (nowPage*numPerPage)-numPerPage;
+	int start =  (nowPage11*numPerPage)-numPerPage;
 	int cnt = numPerPage;
-	int start2 =  (nowPage2*numPerPage)-numPerPage;
+	int start2 =  (nowPage22*numPerPage)-numPerPage;
 	int cnt2 = numPerPage;
 	
 	
@@ -53,13 +53,13 @@
 	//전체블럭 개수
 	 totalBlock = (int)Math.ceil((double)totalPage/pagePerBlock);
 	//현재블럭
-	nowBlock = (int)Math.ceil((double)nowPage/pagePerBlock);
+	nowBlock = (int)Math.ceil((double)nowPage11/pagePerBlock);
 	//전체페이지 개수2
 	totalPage2 = (int)Math.ceil((double)totalContentCount/numPerPage);
 	//전체블럭 개수2
 	 totalBlock2 = (int)Math.ceil((double)totalPage2/pagePerBlock);
 	//현재블럭2
-	nowBlock2 = (int)Math.ceil((double)nowPage2/pagePerBlock);
+	nowBlock2 = (int)Math.ceil((double)nowPage22/pagePerBlock);
 	
 	
 %>
@@ -124,29 +124,29 @@ li:hover{
 </style> 
 <script>
 function boardlist(where) {
-	document.readFrm.where.value = where;
-	document.readFrm.submit();
+	document.readFrm15.where.value = where;
+	document.readFrm15.submit();
 }
 function pageing(page) {
-	document.readFrm.nowPage.value=page;
-	document.readFrm.searchKey.value=<%=searchKey%>;
-	document.readFrm.submit();
+	document.readFrm15.nowPage11.value=page;
+	document.readFrm15.searchKey.value="<%=searchKey%>";
+	document.readFrm15.submit();
 }
 function block(block) {
-	document.readFrm.nowPage.value=<%=pagePerBlock%>*(block-1)+1;
-	document.readFrm.searchKey.value=<%=searchKey%>;
-	document.readFrm.submit();
+	document.readFrm15.nowPage11.value=<%=pagePerBlock%>*(block-1)+1;
+	document.readFrm15.searchKey.value="<%=searchKey%>";
+	document.readFrm15.submit();
 }
 
 function pageing2(page) {
-	document.readFrm.nowPage2.value=page;
-	document.readFrm.searchKey.value=<%=searchKey%>;
-	document.readFrm.submit();
+	document.readFrm15.nowPage22.value=page;
+	document.readFrm15.searchKey.value="<%=searchKey%>";
+	document.readFrm15.submit();
 }
 function block2(block) {
-	document.readFrm.nowPage2.value=<%=pagePerBlock%>*(block-1)+1;
-	document.readFrm.searchKey.value=<%=searchKey%>;
-	document.readFrm.submit();
+	document.readFrm15.nowPage22.value=<%=pagePerBlock%>*(block-1)+1;
+	document.readFrm15.searchKey.value="<%=searchKey%>";
+	document.readFrm15.submit();
 }
 
 function Cal(boardDate) {
@@ -299,9 +299,9 @@ document.write(contentSubstring(cont)+'...');
 		%>
 		
 		<a id="page" href="javascript:pageing('<%=pageStart%>')">
-			<%if(nowPage==pageStart){%><font color="blue"><%}%>
+			<%if(nowPage11==pageStart){%><font color="blue"><%}%>
 				<%=pageStart%>
-			<%if(nowPage==pageStart){%></font><%}%>
+			<%if(nowPage11==pageStart){%></font><%}%>
 		</a>
 		
 		<%}//--for%>
@@ -383,9 +383,9 @@ document.write("..."+textReplace(contentSubstring(con,'<%=searchKey%>'),'<%=sear
 		%>
 		
 		<a id="page" href="javascript:pageing2('<%=pageStart2%>')">
-			<%if(nowPage2==pageStart2){%><font color="blue"><%}%>
+			<%if(nowPage22==pageStart2){%><font color="blue"><%}%>
 				<%=pageStart2%>
-			<%if(nowPage2==pageStart2){%></font><%}%>
+			<%if(nowPage22==pageStart2){%></font><%}%>
 		</a>
 		
 		<%}//--for%>
@@ -442,9 +442,9 @@ document.write("..."+textReplace(contentSubstring(con,'<%=searchKey%>'),'<%=sear
 </span>
 
 
-<form name="readFrm">
-	<input type="hidden" name="nowPage" value="<%=nowPage%>">
-	<input type="hidden" name="nowPage2" value="<%=nowPage2%>">
+<form name="readFrm15">
+	<input type="hidden" name="nowPage11" value="<%=nowPage11%>">
+	<input type="hidden" name="nowPage22" value="<%=nowPage22%>">
 	<input type="hidden" name="where" value="<%=where%>"> 
 	<input type="hidden" name="searchKey" value="<%=searchKey%>">
 </form>
