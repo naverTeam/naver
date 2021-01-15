@@ -9,7 +9,7 @@
 	request.setCharacterEncoding("EUC-KR");
 	
 	int totalRecord = 0;//총게시물수
-	int numPerPage = 10;//페이지당 레코드 개수
+	int numPerPage = 3;//페이지당 레코드 개수
 	int pagePerBlock = 15;//블럭당 페이지 개수
 	int totalPage = 0;//총 페이지 개수
 	int totalBlock =0;//총 블럭 개수

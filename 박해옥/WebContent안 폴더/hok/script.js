@@ -86,6 +86,12 @@ function win_close(){
 		document.detail.proNum.value=proNum;
 		document.detail.submit();
 	}
+	
+//문의하기		
+	function ques(){
+		document.question.submit();
+	}
+
 
 //saller
 	function sallerInfo(){
@@ -136,5 +142,7 @@ function execPostcode() {
 		}
 	}).open();
 }
+
+
 
 

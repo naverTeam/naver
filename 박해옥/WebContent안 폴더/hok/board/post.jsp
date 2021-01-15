@@ -1,4 +1,9 @@
+<%@page import="hok.UtilMgr"%>
 <%@ page  contentType="text/html; charset=EUC-KR"%>
+<%
+		request.setCharacterEncoding("EUC-KR");
+		int proNum=UtilMgr.parseInt(request, "proNum");
+%>
 <html>
 <head>
 <title>NaverMall Board</title>
@@ -68,7 +73,7 @@
 		</tr>
 	</table>
 	<input type="hidden" name="ip" value="<%=request.getRemoteAddr()%>">
-	<input type="hidden" name="proNum" value="1">
+	<input type="hidden" name="proNum" value="<%=proNum%>">
 	</form>
 </td>
 </tr>

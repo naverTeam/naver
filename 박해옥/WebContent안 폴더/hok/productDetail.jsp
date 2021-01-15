@@ -12,6 +12,7 @@
 <head>
 <title>NaverMall ProDetail</title>
 <script src="script.js"></script>
+
 </head>
 <body bgcolor="#ECF6CE" topmargin="100">
 <%@include file="top.jsp"%>
@@ -36,7 +37,7 @@
 <input type="hidden"  name="flag" value="insert">
 </form>
 <tr><td> <br><br> <input type="button" value="구매후기" style="background-color:#E0F2F7"> &nbsp; &nbsp;
- <input type="button" value="문의하기" style="background-color:#E0F2F7"> &nbsp;&nbsp;
+ <input type="button" value="문의하기"  onclick="ques()" style="background-color:#E0F2F7"> &nbsp;&nbsp;
  <input type="button" value="판매자정보" onclick="sallerInfo()" style="background-color:#E0F2F7"></td></tr>
  </table>
 </td>
@@ -45,7 +46,9 @@
  <%=pbean.getProDetail() %></td></tr>
 
 </table>
-
+<form name="question" method="post" action="board/list.jsp">
+<input type="hidden" name="proNum" value="<%=pbean.getProNum()%>">
+</form>
 <form name=frmsaller action="sallerInfo.jsp">
  <input type="hidden" name="saller" value = "<%=pbean.getName() %>">
  <input type="hidden" name="address" value="<%=pbean.getProAddress() %>">
