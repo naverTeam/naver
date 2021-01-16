@@ -20,6 +20,7 @@
 		String regdate = bean.getRegdate();
 		String content=bean.getContent();
 		String filename = bean.getFilename();
+		int proNum=bean.getPronum();
 		int filesize = bean.getFilesize();
 		String ip = bean.getIp();
 		int count = bean.getCount();
@@ -110,6 +111,7 @@
 	</form>	
 	
 	<form name="listFrm">
+		<input type="hidden" name="proNum" value="<%=proNum%>">
 		<input type="hidden" name="nowPage" value="<%=nowPage%>">
 		<input type="hidden" name="numPerPage" value="<%=numPerPage%>">
 		<%if(!(keyWord==null||keyWord.equals(""))){ %>

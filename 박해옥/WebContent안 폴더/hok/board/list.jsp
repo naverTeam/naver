@@ -238,6 +238,7 @@
 	<form name="listFrm" method="post">
 		<input type="hidden" name="reload" value="true">
 		<input type="hidden" name="nowPage" value="1">
+		<input type="hidden" name="proNum" value="<%=proNum%>">
 	</form>
 	
 	<form name="readFrm">
